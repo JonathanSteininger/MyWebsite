@@ -18,7 +18,19 @@ namespace MyActualWebsite.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Contacts()
+        {
+            return View();
+        }
+        public IActionResult Experience()
+        {
+            return View();
+        }
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+        public IActionResult Portfolio()
         {
             return View();
         }
