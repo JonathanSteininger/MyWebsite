@@ -2,9 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-}
-@{
-    if (User.IsInRole("admin"))
+    if (User.IsInRole("Admin"))
     {
 
         <li class="nav-item">
@@ -19,6 +17,12 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="Projects" asp-action="Index">Projects</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="FAQs" asp-action="Index">FAQs</a>
+        </li>
+    }else
+    {
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="" asp-controller="FAQs" asp-action="Index">FAQs</a>
         </li>

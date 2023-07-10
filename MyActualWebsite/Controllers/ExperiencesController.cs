@@ -11,7 +11,7 @@ using MyActualWebsite.Models;
 
 namespace MyActualWebsite.Controllers
 {
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     public class ExperiencesController : Controller
     {
         private readonly ApplicationDbContext _context;
