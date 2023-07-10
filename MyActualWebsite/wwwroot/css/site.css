@@ -1,6 +1,12 @@
 html {
   font-size: 14px;
 }
+:root {
+    --MyAccent: #00adb5;
+    --primary-background: #1A1A1B;
+    --secondary-background: #333F44;
+    --globalRadius: 10px;
+}
 
 @media (min-width: 768px) {
   html {
@@ -15,4 +21,65 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+.border-primary {
+    border-color: var(--MyAccent) !important;
+}
+.btn-primary{
+    border-color: var(--MyAccent) !important;
+    background-color: var(--MyAccent) !important;
+}
+.navbar-toggler {
+    color: blue;
+
+}
+.navbar-brand img {
+    height: 8vh;
+    min-height: 80px;
+}
+.navbar-brand {
+    margin: -20px 0;
+}
+.navbar-toggler {
+    height: 4vh;
+    min-height: 40px;
+    border-radius: var(--globalRadius);
+    padding: 4px 7px;
+}
+.navbar-toggler-img{
+    height: 100%;
+    width: auto;
+}
+form label {
+    color: white;
+}
+
+
+
+@media (max-width: 576px) {
+    .nav-item{
+        transition: background-color 0.2s;
+        padding-left: 20px;
+    }
+    .nav-item:hover{
+        background-color: var(--secondary-background);
+        transition: background-color 0.07s;
+    }
+
+}
+@media (min-width: 576px) {
+    .nav-item {
+        transition: transform 0.3s;
+    }
+
+    .nav-item:hover {
+        transform: scale(1.2);
+        transition: transform 0.1s;
+    }
+}
+.bg-primary {
+    background-color: var(--primary-background) !important;
+}
+.bg-secondary {
+    background-color: var(--secondary-background) !important;
 }

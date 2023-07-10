@@ -7,20 +7,21 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyActualWebsite.styles.css" asp-append-version="true" />
+    <link rel="icon" href="~/content/images/logo.png" />
 </head>
-<body class="bg-black">
+<body class="bg-primary">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-bottom border-1 mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-primary border-bottom border-2 mb-3 ">
             <div class="container-fluid">
-                <a class="navbar-brand" style="margin: -20px 0;" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/Content/Images/logo.png" style="height: 8vh; min-height: 80px;"/>
+                <a class="navbar-brand"  asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/Content/Images/logo.png" />
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="border-white navbar-toggler border-0 " type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <img src="~/Content/Images/ham.png" class="navbar-toggler-img"/>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 ">
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -48,9 +49,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top border-primary footer text-muted">
         <div class="container">
-            &copy; 2023 - MyActualWebsite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            Jonathan Steininger &copy; 2023 - Jonathan-Steininger - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -59,3 +60,7 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<style type="text/css">
+    
+    
+</style>
