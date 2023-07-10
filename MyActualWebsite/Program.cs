@@ -43,12 +43,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+/*
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/Identity/Account/Register", context => Task.Factory.StartNew(() => context.Response.Redirect("/Identity/Account/Login", true, true)));
     endpoints.MapPost("/Identity/Account/Register", context => Task.Factory.StartNew(() => context.Response.Redirect("/Identity/Account/Login", true, true)));
 });
-
+*/
 
 app.MapControllerRoute(
     name: "default",
