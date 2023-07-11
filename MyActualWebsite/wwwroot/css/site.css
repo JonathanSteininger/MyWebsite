@@ -21,7 +21,7 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  margin-bottom: 128px;
 }
 .border-primary {
     border-color: var(--MyAccent) !important;
@@ -73,7 +73,6 @@ body {
 .footer-copyright{
     line-height: 20px;
     margin-bottom: 10px;
-    text-align: center;
 }
 .border-splitter{
     border-color: gray !important;
