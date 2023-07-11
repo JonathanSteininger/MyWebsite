@@ -5,6 +5,7 @@ html {
     --MyAccent: #00adb5;
     --primary-background: #1A1A1B;
     --secondary-background: #333F44;
+    --secondary-border-darker: #404040;
     --globalRadius: 10px;
 }
 
@@ -53,7 +54,33 @@ body {
 .labels-light label {
     color: white;
 }
-
+.footer-nav-box{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.footer-nav-link{
+    color: gray;
+    text-decoration: none;
+}
+.footer-nav{
+    line-height: 32px;
+    list-style: none;
+    padding: 0px 32px;
+    margin-top: 16px;
+    min-width: 212px;
+}
+.footer-copyright{
+    line-height: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.border-splitter{
+    border-color: gray !important;
+}
+.border-secondary-darker {
+    border-color: var(--secondary-border-darker) !important;
+}
 
 
 @media (max-width: 576px) {

@@ -49,8 +49,37 @@
         </main>
     </div>
 
-    <footer class="border-top border-primary border-2 footer text-muted">
-        <div class="container">
+    <footer class="border-top border-primary border-2 footer text-muted bg-primary">
+        <div class="footer-nav-box">
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Portfolio">Portfolio</a>
+                </li>
+            </ul>
+            
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Experience">Experience</a>
+                </li>
+
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
+                </li>
+            </ul>
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <partial name="_loginFooterPartial" />
+
+            </ul>
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="FAQ">FAQs</a>
+                </li>
+            </ul>
+        </div>
+        <div class="container footer-copyright">
             Jonathan Steininger &copy; 2023 - Jonathan-Steininger
         </div>
     </footer>
