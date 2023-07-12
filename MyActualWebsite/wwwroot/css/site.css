@@ -7,6 +7,8 @@ html {
     --secondary-background: #333F44;
     --secondary-border-darker: #404040;
     --globalRadius: 10px;
+    --textColor: rgb(137, 156, 168);
+    --headingColor: rgb(187, 206, 218);
 }
 
 @media (min-width: 768px) {
@@ -14,6 +16,7 @@ html {
     font-size: 16px;
   }
 }
+
 
 html {
   position: relative;
@@ -74,11 +77,38 @@ body {
     line-height: 20px;
     margin-bottom: 10px;
 }
+.border-radius-primary{
+    border-radius: var(--globalRadius) !important;
+}
+
+.text-color-heading{
+    color: var(--headingColor) !important;
+}
+.text-color-info{
+    color: var(--textColor) !important;
+}
+
 .border-splitter{
     border-color: gray !important;
 }
 .border-secondary-darker {
     border-color: var(--secondary-border-darker) !important;
+}
+.line-height-heading{
+    line-height: 48px;
+    margin-bottom: 16px;
+}
+
+
+.line-height-info {
+    line-height: 32px;
+}
+.line-height-info-small{
+    line-height: 32px;
+
+}
+.line-height-info-large {
+
 }
 
 
