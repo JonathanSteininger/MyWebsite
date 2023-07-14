@@ -15,6 +15,7 @@ var PastHeight;
 function PageLoaded() {
     GetFooter();
     window.addEventListener("resize", ResizeEvent);
+    FooterResizeCheck();
 }
 
 /**
