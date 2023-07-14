@@ -13,10 +13,19 @@ var PastHeight;
  * etc
  */
 function PageLoaded() {
+    SetupFooter();
+}
+
+/**
+ * sets up the footers size checks.
+ */
+function SetupFooter() {
     GetFooter();
     window.addEventListener("resize", ResizeEvent);
     FooterResizeCheck();
+
 }
+
 
 /**
  * runs when the page resizes.
