@@ -9,12 +9,25 @@ html {
     --globalRadius: 10px;
     --textColor: rgb(137, 156, 168);
     --headingColor: rgb(187, 206, 218);
+    --margin-primary: 124px;
 }
 
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
+}
+.mt-primary {
+    margin-top: var(--margin-primary);
+}
+.mb-primary {
+    margin-top: var(--margin-primary);
+}
+.ms-primary {
+    margin-top: var(--margin-primary);
+}
+.me-primary {
+    margin-top: var(--margin-primary);
 }
 
 .start-33{
