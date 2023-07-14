@@ -3,6 +3,7 @@ html {
 }
 :root {
     --MyAccent: #00adb5;
+    --MyAccent-Tame: #3798A3;
     --primary-background: #1A1A1B;
     --secondary-background: #333F44;
     --secondary-border-darker: #404040;
@@ -10,6 +11,39 @@ html {
     --textColor: rgb(137, 156, 168);
     --headingColor: rgb(187, 206, 218);
     --margin-primary: 124px;
+}
+
+.bg-border-primary{
+    background-color: var(--MyAccent) !important;
+}
+.bg-border-secondary {
+    background-color: var(--MyAccent-Tame) !important;
+}
+.border-secondary{
+    border-color: var(--MyAccent-Tame) !important;
+}
+
+.border-radius-primary-half{
+    border-radius: calc(var(--globalRadius)/2);
+}
+
+.border-radius-100{
+    border-radius: 100px;
+}
+.border-radius-50 {
+    border-radius: 50px;
+}
+.border-radius-25 {
+    border-radius: 25px;
+}
+.border-radius-10 {
+    border-radius: 10px;
+}
+.w-min-content{
+    width:min-content;
+}
+.h-min-content{
+    height:min-content;
 }
 
 @media (min-width: 768px) {
@@ -52,6 +86,12 @@ html {
     .center-visually {
         transform: translate(0, 0);
     }
+    .start-50{
+        left:0 !important;
+    }
+}
+.start-50 {
+    left: 50%;
 }
 
 html {

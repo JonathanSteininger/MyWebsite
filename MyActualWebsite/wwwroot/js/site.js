@@ -14,7 +14,27 @@ var PastHeight;
  */
 function PageLoaded() {
     SetupFooter();
+    //SetUpStatBars();
 }
+
+/*
+
+var statBarList;
+function SetUpStatBars() {
+    statBarList = document.getElementsByClassName("statBar");
+
+}
+
+function DrawBars() {
+    statBarList.forEach(bar => DrawBar(bar));
+}
+
+function DrawBar(bar) {
+    var barCanvas = bar.children[0];
+    var percentage = bar.
+
+}
+*/
 
 /**
  * sets up the footers size checks.

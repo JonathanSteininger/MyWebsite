@@ -1,0 +1,10 @@
+﻿@model MyActualWebsite.Models.StatBar;
+
+<div class="statBar border-radius-primary border border-0 border-primary bg-primary my-5">
+    <div class="statBar-bar bg-border-secondary border-radius-primary position-relative start-50 center-visually" style="width:@Model.Precentage%;">
+        <div class="position-relative start-50 center-visually bg-primary d-flex align-content-center px-3 border-radius-primary border-3 border-secondary border" style="width: 140px;">
+            <img src="~/Content/Images/icons/@Model.IconPath" height="45px" class="m-1"/>
+            <p class="text-light m-auto" id="text">@Model.Precentage %</p>
+        </div>
+    </div>
+</div>
