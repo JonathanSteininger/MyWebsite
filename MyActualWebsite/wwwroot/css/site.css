@@ -17,6 +17,29 @@ html {
   }
 }
 
+.start-33{
+    left: 33%;
+}
+.start-66{
+    left: 66%;
+}
+.center-visually{
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 992px){
+    .start-33 {
+        left: 0;
+    }
+
+    .start-66 {
+        left: 0;
+    }
+
+    .center-visually {
+        transform: translate(0, 0);
+    }
+}
 
 html {
   position: relative;
