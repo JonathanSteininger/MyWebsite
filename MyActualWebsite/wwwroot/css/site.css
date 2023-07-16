@@ -11,6 +11,7 @@ html {
     --textColor: rgb(137, 156, 168);
     --headingColor: rgb(187, 206, 218);
     --margin-primary: 124px;
+    --margin-secondary: calc(var(--margin-primary) / 2);
 }
 
 .bg-border-primary{
@@ -26,6 +27,31 @@ html {
 .border-radius-primary-half{
     border-radius: calc(var(--globalRadius)/2);
 }
+.hover-invert:hover{
+    filter: invert(100%);
+}
+.hover-transform-scale-120:hover{
+    transform:scale(120%);
+}
+.hover-bg-secondary:hover{
+    background-color: var(--secondary-background) !important;
+
+}
+.hover-bg-primary:hover {
+    background-color: var(--primary-background) !important;
+}
+.hover-bg-border-primary:hover {
+    background-color: var(--MyAccent);
+}
+.tr-bg-1{
+    transition: background-color 0.1s;
+}
+.tr-tr-1{
+    transition: transform 0.1s;
+}
+
+
+
 
 .border-radius-100{
     border-radius: 100px;
@@ -51,17 +77,32 @@ html {
     font-size: 16px;
   }
 }
+.mt-secondary{
+    margin-top: var(--margin-secondary);
+}
+.mb-secondary {
+    margin-bottom: var(--margin-secondary);
+}
+
+.ms-secondary {
+    margin-left: var(--margin-secondary);
+}
+
+.me-secondary {
+    margin-right: var(--margin-secondary);
+}
+
 .mt-primary {
     margin-top: var(--margin-primary);
 }
 .mb-primary {
-    margin-top: var(--margin-primary);
+    margin-bottom: var(--margin-primary);
 }
 .ms-primary {
-    margin-top: var(--margin-primary);
+    margin-left: var(--margin-primary);
 }
 .me-primary {
-    margin-top: var(--margin-primary);
+    margin-right: var(--margin-primary);
 }
 
 .start-33{
@@ -209,6 +250,8 @@ body {
         transition: transform 0.1s;
     }
 }
+
+
 .bg-primary {
     background-color: var(--primary-background) !important;
 }

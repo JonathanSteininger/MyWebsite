@@ -27,6 +27,29 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.VideoFilePath)
+            @if (!string.IsNullOrEmpty(@Model.VideoFilePath))
+            {
+                <br />
+                <video src="~/Content/Videos/Projects/@Model.VideoFilePath" width="150px" controls muted />
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageFileName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ImageFileName)
+
+            @if (!string.IsNullOrEmpty(@Model.ImageFileName))
+            {
+                <br />
+                <img src="~/Content/Images/Projects/@Model.ImageFileName" width="100px" />
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ResipitoryUrl)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ResipitoryUrl)
         </dd>
     </dl>
 </div>

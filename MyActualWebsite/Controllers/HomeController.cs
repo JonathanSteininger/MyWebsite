@@ -62,7 +62,12 @@ namespace MyActualWebsite.Controllers
         }
         public IActionResult Portfolio()
         {
-            return View();
+            List<Project> projects = new List<Project>();
+            if (_context != null && _context.Project != null)
+            {
+                projects = _context.Project.ToList();
+            }
+            return View(projects);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

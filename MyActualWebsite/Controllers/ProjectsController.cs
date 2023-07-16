@@ -58,7 +58,7 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjectKey,Title,Body,VideoFilePath")] Project project)
+        public async Task<IActionResult> Create([Bind("ProjectKey,Title,Body,VideoFilePath,ResipitoryUrl,ImageFileName")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectKey,Title,Body,VideoFilePath")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("ProjectKey,Title,Body,VideoFilePath,ResipitoryUrl,ImageFileName")] Project project)
         {
             if (id != project.ProjectKey)
             {

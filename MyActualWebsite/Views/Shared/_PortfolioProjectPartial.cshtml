@@ -1,0 +1,27 @@
+﻿@model MyActualWebsite.Models.Project;
+
+
+<div class="col-lg-10 bg-secondary border border-2 border-primary border-radius-primary p-3 start-50 center-visually mb-primary position-relative">
+    <h3 class="text-color-heading line-height-heading">
+        @Model.Title
+    </h3>
+    <p class="text-color-info line-height-info-small">
+        @await Html.PartialAsync("_TextWithBreaks", Model.Body)
+    </p>
+    <div class="d-flex flex-wrap justify-content-start w-100">
+
+        @if (!string.IsNullOrEmpty(Model.ImageFileName))
+        {
+            <img src="~/Content/Images/Projects/@Model.ImageFileName" style="max-width:100%; width:500px;" class="my-auto" />
+        }
+        @if (!string.IsNullOrEmpty(Model.VideoFilePath))
+        {
+            <video src="~/Content/Videos/Projects/@Model.VideoFilePath" style=" max-width:100%; width:500px; " class="my-auto" controls muted>
+            </video>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(Model.ResipitoryUrl))
+    {
+        <a class="h2 d-block py-2 px-5 border-radius-100 my-3 mx-auto bg-secondary text-light hover-transform-scale-120 tr-bg-1 tr-tr-1 hover-bg-primary" style="width:fit-content"  href="@Model.ResipitoryUrl" target="_blank">GitHub Resipitory</a>
+    }
+</div>

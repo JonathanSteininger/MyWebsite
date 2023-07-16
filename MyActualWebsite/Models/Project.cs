@@ -20,11 +20,18 @@ namespace MyActualWebsite.Models
         [Display(Name = "Body Text")]
         public string Body { get; set; }
 
+        [DataType(DataType.Text)]
+        [Display(Name = "Image FileName")]
+        public string? ImageFileName { get; set; }
 
-		[IllegalCharecters(ErrorMessage = "Illegal Charecters Detected")]
 		[DataType(DataType.Text)]
         [Display(Name = "Video File Path")]
         public string? VideoFilePath { get; set; }
-	}
+
+		[DataType(DataType.Text)]
+		[Display(Name = "GitHub Resipitory")]
+		public string? ResipitoryUrl { get; set;}
+
+    }
 }
 

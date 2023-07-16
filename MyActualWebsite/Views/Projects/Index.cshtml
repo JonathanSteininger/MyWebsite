@@ -21,6 +21,13 @@
             <th>
                 @Html.DisplayNameFor(model => model.VideoFilePath)
             </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ImageFileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ResipitoryUrl)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -35,6 +42,22 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VideoFilePath)
+                @if (!string.IsNullOrEmpty(item.VideoFilePath))
+                    {
+                        <br />
+                    <video src="~/Content/Videos/Projects/@item.VideoFilePath" controls muted width="150px"/>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageFileName)
+                @if (!string.IsNullOrEmpty(item.ImageFileName))
+                {
+                    <br />
+                    <img src="~/Content/Images/Projects/@item.ImageFileName" width="100px" />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResipitoryUrl)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProjectKey">Edit</a> |
