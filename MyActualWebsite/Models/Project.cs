@@ -28,6 +28,9 @@ namespace MyActualWebsite.Models
         [DataType(DataType.Text), Display(Name = "Source Code URL")]
         public string? RepositoryURL { get; set; }
 
+		[Display(Name = "Featured Project")]
+		public bool Featured { get; set; } = false;
+
 
         [DataType(DataType.Date), Display(Name = "Start Date")]
 		public DateTime? StartDate { get; set; }

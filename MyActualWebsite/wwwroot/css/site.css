@@ -13,6 +13,10 @@ html {
     --margin-primary: 124px;
 }
 
+
+
+
+
 .bg-border-primary{
     background-color: var(--MyAccent) !important;
 }

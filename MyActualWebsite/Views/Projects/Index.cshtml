@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Featured)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
@@ -39,7 +42,12 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr>
+                <td>
+                    @{
+                        Output.WriteLine(item.Featured ? "Featured" : "none");
+                    }
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
