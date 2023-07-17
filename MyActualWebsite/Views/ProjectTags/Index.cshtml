@@ -22,20 +22,66 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Project.Body)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tag.TagName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @{
+            List<ProjectTag> tags = new List<ProjectTag>();
+
+            List<ProjectTag> all = new List<ProjectTag>(Model);
+            int past = -1;
+            ProjectTag pastItem = null;
+
+            for (int i = 0; i < Model.Count(); i++)
+            {
+                
+                @if (past == -1)
+                {
+                        past = (int)all[i].ProjectKey;
+                }
+                @if (past != all[i].ProjectKey)
+                {
+                    past = (int)all[i].ProjectKey;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => pastItem.Project.Title)
+                        </td>
+
+                        <td>
+                            <ul>
+                                @foreach (var pastTag in tags)
+                                {
+                                    <li>
+                                        @Html.DisplayFor(modelItem => pastTag.Tag.TagName)
+                                        @Html.ActionLink("Delete", "Delete", new { key1=pastTag.ProjectKey, key2=pastTag.TagID })
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                    tags.Clear();
+                        
+                }
+                tags.Add(all[i]);
+                pastItem = all[i];
+                @if (i == Model.Count() - 1)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => pastItem.Project.Title)
+                        </td>
+
+                        <td>
+                            <ul>
+                                @foreach (var pastTag in tags)
+                                {
+                                    <li>
+                                        @Html.DisplayFor(modelItem => pastTag.Tag.TagName)
+                                        @Html.ActionLink("Delete", "Delete", new { key1=pastTag.ProjectKey, key2=pastTag.TagID })
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            }
+        }
     </tbody>
 </table>

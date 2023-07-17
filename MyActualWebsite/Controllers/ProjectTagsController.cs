@@ -26,30 +26,10 @@ namespace MyActualWebsite.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: ProjectTags/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.ProjectTag == null)
-            {
-                return NotFound();
-            }
-
-            var projectTag = await _context.ProjectTag
-                .Include(p => p.Project)
-                .Include(p => p.Tag)
-                .FirstOrDefaultAsync(m => m.ProjectKey == id);
-            if (projectTag == null)
-            {
-                return NotFound();
-            }
-
-            return View(projectTag);
-        }
-
         // GET: ProjectTags/Create
         public IActionResult Create()
         {
-            ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Body");
+            ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Title");
             ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName");
             return View();
         }
@@ -61,76 +41,21 @@ namespace MyActualWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProjectKey,TagID")] ProjectTag projectTag)
         {
-            if (ModelState.IsValid)
+            bool exists = await _context.ProjectTag.ContainsAsync(projectTag);
+            if (ModelState.IsValid && !exists)
             {
                 _context.Add(projectTag);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Body", projectTag.ProjectKey);
+            ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Title", projectTag.ProjectKey);
             ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName", projectTag.TagID);
             return View(projectTag);
         }
-
-        // GET: ProjectTags/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.ProjectTag == null)
-            {
-                return NotFound();
-            }
-
-            var projectTag = await _context.ProjectTag.FindAsync(id);
-            if (projectTag == null)
-            {
-                return NotFound();
-            }
-            ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Body", projectTag.ProjectKey);
-            ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName", projectTag.TagID);
-            return View(projectTag);
-        }
-
-        // POST: ProjectTags/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, [Bind("ProjectKey,TagID")] ProjectTag projectTag)
-        {
-            if (id != projectTag.ProjectKey)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(projectTag);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProjectTagExists(projectTag.ProjectKey))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Body", projectTag.ProjectKey);
-            ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName", projectTag.TagID);
-            return View(projectTag);
-        }
-
         // GET: ProjectTags/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? key1, int? key2)
         {
-            if (id == null || _context.ProjectTag == null)
+            if (key1 == null || key2 == null || _context.ProjectTag == null)
             {
                 return NotFound();
             }
@@ -138,7 +63,8 @@ namespace MyActualWebsite.Controllers
             var projectTag = await _context.ProjectTag
                 .Include(p => p.Project)
                 .Include(p => p.Tag)
-                .FirstOrDefaultAsync(m => m.ProjectKey == id);
+                .Where(m => m.ProjectKey == key1 && m.TagID == key2)
+                .FirstOrDefaultAsync();
             if (projectTag == null)
             {
                 return NotFound();
@@ -150,13 +76,22 @@ namespace MyActualWebsite.Controllers
         // POST: ProjectTags/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int? ProjectKey, int? TagID)
         {
+            if(ProjectKey == null || TagID == null)
+            {
+                return Problem("One of the keys were null.");
+            }
             if (_context.ProjectTag == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.ProjectTag'  is null.");
             }
-            var projectTag = await _context.ProjectTag.FindAsync(id);
+            //var projectTag = await _context.ProjectTag
+            //  .FirstOrDefaultAsync(m => m.ProjectKey == ProjectKey && m.TagID == TagID);
+
+            var projectTag = await _context.ProjectTag
+                .Where(k => k.ProjectKey == ProjectKey && k.TagID  == TagID)
+                .FirstOrDefaultAsync();
             if (projectTag != null)
             {
                 _context.ProjectTag.Remove(projectTag);
