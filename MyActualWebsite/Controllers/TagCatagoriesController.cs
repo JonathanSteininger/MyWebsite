@@ -10,87 +10,87 @@ using MyActualWebsite.Models;
 
 namespace MyActualWebsite.Controllers
 {
-    public class ProjectsController : Controller
+    public class TagCatagoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProjectsController(ApplicationDbContext context)
+        public TagCatagoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Projects
+        // GET: TagCatagories
         public async Task<IActionResult> Index()
         {
-              return _context.Project != null ? 
-                          View(await _context.Project.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Project'  is null.");
+              return _context.TagCatagory != null ? 
+                          View(await _context.TagCatagory.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.TagCatagory'  is null.");
         }
 
-        // GET: Projects/Details/5
+        // GET: TagCatagories/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Project == null)
+            if (id == null || _context.TagCatagory == null)
             {
                 return NotFound();
             }
 
-            var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.ProjectKey == id);
-            if (project == null)
+            var tagCatagory = await _context.TagCatagory
+                .FirstOrDefaultAsync(m => m.CatagoryId == id);
+            if (tagCatagory == null)
             {
                 return NotFound();
             }
 
-            return View(project);
+            return View(tagCatagory);
         }
 
-        // GET: Projects/Create
+        // GET: TagCatagories/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Projects/Create
+        // POST: TagCatagories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProjectKey,Title,Body,VideoFilePath,ImageFileName,RepositoryURL,StartDate,EndDate")] Project project)
+        public async Task<IActionResult> Create([Bind("CatagoryId,CatagoryName")] TagCatagory tagCatagory)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(project);
+                _context.Add(tagCatagory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(project);
+            return View(tagCatagory);
         }
 
-        // GET: Projects/Edit/5
+        // GET: TagCatagories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Project == null)
+            if (id == null || _context.TagCatagory == null)
             {
                 return NotFound();
             }
 
-            var project = await _context.Project.FindAsync(id);
-            if (project == null)
+            var tagCatagory = await _context.TagCatagory.FindAsync(id);
+            if (tagCatagory == null)
             {
                 return NotFound();
             }
-            return View(project);
+            return View(tagCatagory);
         }
 
-        // POST: Projects/Edit/5
+        // POST: TagCatagories/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProjectKey,Title,Body,VideoFilePath,ImageFileName,RepositoryURL,StartDate,EndDate")] Project project)
+        public async Task<IActionResult> Edit(int id, [Bind("CatagoryId,CatagoryName")] TagCatagory tagCatagory)
         {
-            if (id != project.ProjectKey)
+            if (id != tagCatagory.CatagoryId)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace MyActualWebsite.Controllers
             {
                 try
                 {
-                    _context.Update(project);
+                    _context.Update(tagCatagory);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectExists(project.ProjectKey))
+                    if (!TagCatagoryExists(tagCatagory.CatagoryId))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace MyActualWebsite.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(project);
+            return View(tagCatagory);
         }
 
-        // GET: Projects/Delete/5
+        // GET: TagCatagories/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Project == null)
+            if (id == null || _context.TagCatagory == null)
             {
                 return NotFound();
             }
 
-            var project = await _context.Project
-                .FirstOrDefaultAsync(m => m.ProjectKey == id);
-            if (project == null)
+            var tagCatagory = await _context.TagCatagory
+                .FirstOrDefaultAsync(m => m.CatagoryId == id);
+            if (tagCatagory == null)
             {
                 return NotFound();
             }
 
-            return View(project);
+            return View(tagCatagory);
         }
 
-        // POST: Projects/Delete/5
+        // POST: TagCatagories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Project == null)
+            if (_context.TagCatagory == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Project'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.TagCatagory'  is null.");
             }
-            var project = await _context.Project.FindAsync(id);
-            if (project != null)
+            var tagCatagory = await _context.TagCatagory.FindAsync(id);
+            if (tagCatagory != null)
             {
-                _context.Project.Remove(project);
+                _context.TagCatagory.Remove(tagCatagory);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProjectExists(int id)
+        private bool TagCatagoryExists(int id)
         {
-          return (_context.Project?.Any(e => e.ProjectKey == id)).GetValueOrDefault();
+          return (_context.TagCatagory?.Any(e => e.CatagoryId == id)).GetValueOrDefault();
         }
     }
 }

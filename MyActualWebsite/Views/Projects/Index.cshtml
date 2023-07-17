@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 class="text-light">Index</h1>
+<h1>Index</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table text-light">
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -20,6 +20,19 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.VideoFilePath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageFileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.RepositoryURL)
             </th>
             <th></th>
         </tr>
@@ -35,6 +48,19 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VideoFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageFileName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.RepositoryURL)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProjectKey">Edit</a> |
