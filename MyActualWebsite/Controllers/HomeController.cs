@@ -27,15 +27,20 @@ namespace MyActualWebsite.Controllers
 
         public IActionResult Index()
         {
-            List<Models.StatBar> bars = new List<StatBar>();
-            if(_context != null && _context.StatBar != null)
+            List<StatBar> bars = new List<StatBar>();
+            List<Project> featuredProjects = new List<Project>();
+            if(_context != null && _context.StatBar != null && _context.Project != null)
             {
                 bars = _context.StatBar.ToList();
+                featuredProjects = _context.Project.Where(w => w.Featured)
+                    .Include(w => w.Tags)
+                    .ThenInclude(w => w.TagCatagory)
+                    .ToList();
             }
             if(bars == null) bars = new List<Models.StatBar>();
             bars.Sort((b,a) => a.Precentage.CompareTo(b.Precentage));
             CheckPaths(bars);
-            return View(bars);
+            return View(new HomeIndexTransferModel(bars, featuredProjects));
         }
 
         private void CheckPaths(List<StatBar> bars)

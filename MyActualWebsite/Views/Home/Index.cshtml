@@ -1,4 +1,4 @@
-﻿@model List<MyActualWebsite.Models.StatBar>;
+﻿@model MyActualWebsite.Models.HomeIndexTransferModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -16,10 +16,16 @@
 
     <div class="col-lg-9 statbar-box shadow-lg border-2 border-primary border start-50 center-visually position-relative px-4 border-radius-primary bg-secondary mt-primary">
         <h3 class="text-color-heading line-height-heading text-center">Confidence In Different Languages</h3>
-        @foreach (MyActualWebsite.Models.StatBar bar in Model)
+        @foreach (MyActualWebsite.Models.StatBar bar in Model.StatBars)
         {
             @await Html.PartialAsync("_StatBarPartial", bar);
         }
     </div>
+
+    <h2 class="text-color-heading text-center mt-primary">Featured Projects</h2>
+    @foreach(MyActualWebsite.Models.Project proj in Model.Projects)
+    {
+        @await Html.PartialAsync("_PortfolioProjectPartial", proj)
+    }
 
 }
