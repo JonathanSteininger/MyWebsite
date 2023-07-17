@@ -41,13 +41,23 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.MapControllers();
+
 app.UseRouting();
+
+app.MapControllerRoute(
+    name: "portfolio",
+    pattern: "Home/Portfolio/{tags?}",
+    defaults: new { controller = "Blog", action = "Portfolio"}
+    );
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 /*
 app.UseEndpoints(endpoints =>
