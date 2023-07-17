@@ -13,11 +13,13 @@ html {
     --margin-primary: 124px;
 }
 
+.h-100-last:last-of-type{
+    height:
+}
 
 
 
-
-.bg-border-primary{
+.bg-border-primary {
     background-color: var(--MyAccent) !important;
 }
 .bg-border-secondary {
