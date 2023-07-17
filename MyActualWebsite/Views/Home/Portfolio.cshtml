@@ -1,3 +1,10 @@
-﻿@{
+﻿@model List<MyActualWebsite.Models.Project>
+@{
     ViewData["Title"] = "Portfolio";
+}
+
+<h1 class="text-color-heading text-center">PortFolio</h1>
+
+@foreach(MyActualWebsite.Models.Project project in Model){
+    @await Html.PartialAsync("_PortfolioProjectPartial", project)
 }

@@ -1,0 +1,11 @@
+﻿@model string;
+
+@{
+    string[] paragraphs = Model.Split("\n");
+    foreach(string p in paragraphs)
+    {
+        @p;
+        <br />
+    }
+}
+
