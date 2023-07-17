@@ -8,23 +8,33 @@ namespace MyActualWebsite.Models
 		public int ProjectKey { get; set; }
 
 
-		[DataType(DataType.Text)]
-		[Required]
-		[StringLength(100, ErrorMessage = "must be less than 100 charecters")]
-        [Display(Name = "Title")]
+		[Required, DataType(DataType.Text), StringLength(100, ErrorMessage = "must be less than 100 charecters"), Display(Name = "Title")]
         public string Title { get; set; }
 
-
-		[Required]
-		[DataType(DataType.MultilineText)]
-        [Display(Name = "Body Text")]
+        [Required, DataType(DataType.MultilineText), Display(Name = "Body Text")]
         public string Body { get; set; }
 
 
-		[IllegalCharecters(ErrorMessage = "Illegal Charecters Detected")]
-		[DataType(DataType.Text)]
-        [Display(Name = "Video File Path")]
+        [DataType(DataType.Text), Display(Name = "Video File Name")]
         public string? VideoFilePath { get; set; }
+
+
+		[DataType(DataType.Text), Display(Name = "Image File Name")]
+		public string? ImageFileName { get; set; }
+
+		public List<Tag> Tags { get; } = new();
+		public List<ProjectTag> ProjectTags { get; } = new();
+
+        [DataType(DataType.Text), Display(Name = "Source Code URL")]
+        public string? RepositoryURL { get; set; }
+
+
+        [DataType(DataType.Date), Display(Name = "Start Date")]
+		public DateTime? StartDate { get; set; }
+
+		[DataType(DataType.Date), Display(Name = "End Date")]
+		public DateTime? EndDate { get; set;}
+
 	}
 }
 

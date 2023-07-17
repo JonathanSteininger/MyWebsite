@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyActualWebsite.Data;
 
@@ -11,9 +12,10 @@ using MyActualWebsite.Data;
 namespace MyActualWebsite.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717060534_tags")]
+    partial class tags
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -328,9 +330,6 @@ namespace MyActualWebsite.Data.Migrations
                     b.Property<string>("ImageFileName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RepositoryURL")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -349,10 +348,10 @@ namespace MyActualWebsite.Data.Migrations
 
             modelBuilder.Entity("MyActualWebsite.Models.ProjectTag", b =>
                 {
-                    b.Property<int?>("ProjectKey")
+                    b.Property<int>("ProjectKey")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TagID")
+                    b.Property<int>("TagID")
                         .HasColumnType("int");
 
                     b.HasKey("ProjectKey", "TagID");
