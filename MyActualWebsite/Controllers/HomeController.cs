@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyActualWebsite.Data;
+using MyActualWebsite.Data.Migrations;
 using MyActualWebsite.Models;
 using NuGet.Protocol;
 using System.Diagnostics;
@@ -69,115 +70,80 @@ namespace MyActualWebsite.Controllers
         }
         [Route("Home/Portfolio")]
         [Route("Home/Portfolio/{tags?}")]
-        public IActionResult Portfolio(List<Tag>? tags)
+        public async Task<IActionResult> Portfolio(HomePortfolioTransferModel? tags)
         {
-            if (tags == null || tags.Count == 0)
+            if (tags == null) tags = new HomePortfolioTransferModel();
+            Tag[] tempAllTags = await _context.Tag.Include(w => w.TagCatagory).ToArrayAsync();
+
+            Dictionary<int, TagCheckBoxStorage> allTags = new Dictionary<int, TagCheckBoxStorage>();
+            foreach (Tag tag in tempAllTags)
             {
-                return View(_context.Project.Include(x => x.Tags)
+                allTags.Add(tag.TagID, new TagCheckBoxStorage() { Tag = tag, IsChecked = false });
+            }
+
+            if (tags == null || tags.TagsSelection.Count == 0)
+            {
+                List<Project> temp = _context.Project.Include(x => x.Tags)
                     .ThenInclude(x => x.TagCatagory)
                     .ToList()
-                    .FindAll(item => CheckProjectTags(item, tags))
-                    );
+                    .FindAll(item => CheckProjectTags(item, tags.TagsSelection));
+
+                return View(new HomePortfolioTransferModel() { Projects = temp, TagsSelection = allTags });
             }
+
+
+            foreach (KeyValuePair<int, TagCheckBoxStorage> tag in tags.TagsSelection)
+            {
+                if (allTags.ContainsKey(tag.Key))
+                {
+                    allTags[tag.Key].IsChecked = tag.Value.IsChecked;
+                }
+            }
+
+
+
             List<Project> projects = new List<Project>();
-            if(_context != null && _context.Project != null)
+            if (_context != null && _context.Project != null)
             {
                 projects = _context.Project.Include(x => x.Tags)
                     .ThenInclude(x => x.TagCatagory)
                     .ToList()
-                    .FindAll(item => CheckProjectTags(item, tags));
+                    .FindAll(item => CheckProjectTags(item, allTags));
             }
-            projects.Sort((a,b) => {
-                if (a.EndDate == null) return -1;
-                if (b.EndDate == null) return 1;
-                return a.EndDate.Value.CompareTo(b.EndDate.Value);
-                });
-            return View(projects);
-        }
-        /*
-        
-        [Route("Home/Portfolio")]
-        [Route("Home/Portfolio/{tags?}")]
-        public IActionResult Portfolio(string? tags)
-        {
-            List<Project> projects = new List<Project>();
-            if (_context != null && _context.Project != null)
-            {
-
-                projects = _context.Project.Include(x => x.Tags).ThenInclude(x => x.TagCatagory).ToList();
-            }
-            if (string.IsNullOrEmpty(tags))
-            {
-                return View(projects);
-            }
-            string[] TagsArray = tags.ToUpper().Split(',');
-
-            projects = projects.FindAll(item => filterProject(item, TagsArray));
-
             projects.Sort((a, b) => {
                 if (a.EndDate == null) return -1;
                 if (b.EndDate == null) return 1;
                 return a.EndDate.Value.CompareTo(b.EndDate.Value);
             });
-            return View(projects);
+
+            return View(new HomePortfolioTransferModel() { Projects = projects, TagsSelection = allTags });
         }
-        */
-        /*
-        public IActionResult Portfolio(params string[] tags)
-        {
-            List<Project> projects = new List<Project>();
-            if (_context != null && _context.Project != null)
-            {
-                projects = _context.Project.ToList();
-            }
-            if (tags == null || tags.Length == 0)
-            {
-                return View(projects);
-            }
-            NormalizeArray(ref tags);
-
-            projects = projects.FindAll(item => filterProject(item, tags));
-
-            projects.Sort((a, b) => {
-                if (a.EndDate == null) return -1;
-                if (b.EndDate == null) return 1;
-                return a.EndDate.Value.CompareTo(b.EndDate.Value);
-            });
-            return View(projects);
-        }
-
-        private void NormalizeArray(ref string[] tags)
-        {
-            for(int i = 0; i < tags.Length; i++)
-            {
-                tags[i] = tags[i].ToUpper();
-            }
-        }
-        */
-
-        private bool filterProject(Project item, string[] tags)
-        {
-            string[] tagsCache = item.Tags.ConvertAll(item => item.TagName.ToUpper()).ToArray();
-            foreach (string tag in tags)
-            {
-                if (tag.Length > 0 && tag[0] == '-')
-                {
-                    string newTag = tag.Substring(1);
-                    if (tagsCache.Contains(newTag)) return false;
-                } 
-                if (!tagsCache.Contains(tag)) return false;
-
-            }
-            return true;
-        }
-
-        
-        private bool CheckProjectTags(Project project, List<Tag> tags)
+        /// <summary>
+        /// Runs return true if all the tags that are true are stored inside the project.
+        /// 
+        /// if a single true tag is missing, it will return false.
+        /// </summary>
+        /// <param name="project">the project being checked</param>
+        /// <param name="tags">all tags, the value isChecked needs to be true if you want to check if its in the project tags</param>
+        /// <returns>if the chosen tags are stored inside the project's tags</returns>
+        private bool CheckProjectTags(Project project, Dictionary<int,TagCheckBoxStorage> tags)
         {
             if (tags == null) return true;
-            foreach (Tag tag in tags)
+            foreach (KeyValuePair<int, TagCheckBoxStorage> tag in tags)
             {
-                if(!project.Tags.Contains(tag)) return false;
+                if (tag.Value.IsChecked)
+                {
+                    bool ContainsTag = false;
+                    foreach(Tag t in project.Tags)
+                    {
+                        if(t.TagID == tag.Value.Tag.TagID)
+                        {
+                            ContainsTag = true;
+                            break;
+                        }
+                    }
+                    if (!ContainsTag) return false;
+                }
             }
             return true;
         }

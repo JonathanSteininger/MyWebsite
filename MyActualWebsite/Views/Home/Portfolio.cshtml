@@ -1,10 +1,96 @@
-﻿@model List<MyActualWebsite.Models.Project>
+﻿@model MyActualWebsite.Models.HomePortfolioTransferModel
 @{
     ViewData["Title"] = "Portfolio";
 }
 
-<h1 class="text-color-heading text-center">PortFolio</h1>
+<h1 class="text-color-heading text-center my-5">PortFolio</h1>
 
-@foreach(MyActualWebsite.Models.Project project in Model){
+<div class="FiltersContainer col-11 mx-auto">
+    <button onclick="ToggleClosed('tags-form-portfolio')" class="me-2 mb-2 p-2 px-4 bg-secondary border-2 border-solid border-primary border-radius-primary text-light hover-scale-110" style="min-width: 150px;">
+        Filters >>>
+    </button>
+    <input form="tagsForm" type="submit" value="Save Filters" class="me-2 mb-2 p-2 px-4 bg-secondary border-2 border-solid border-primary border-radius-primary text-light hover-scale-110" style="min-width: 150px;" />
+    <a asp-area="" asp-controller="Home" asp-action="Portfolio" class="text-decoration-none text-light me-2 mb-2 p-2 px-4 bg-secondary border border-solid border-2 border-primary border-radius-primary hover-scale-110 w-fit-content d-inline-block text-center" style="min-width: 150px;">Clear Filters</a>
+
+    <form asp-action="Portfolio" id="tagsForm" class="text-light tags-form-portfolio overflow-hidden h-0">
+        @if (Model.ContainsLanguageTags)
+        {
+            <hr />
+            <h5 class="text-light">Languages</h5>
+            <div class="d-flex flex-wrap">
+                    @foreach(KeyValuePair<int, TagCheckBoxStorage> tag in Model.LanguageTags)
+                    {
+                        <label class="test_containter border border-2 border-radius-primary border-primary position-relative py-2 px-3 me-2 mb-2 overflow-hidden text-center" style="flex-basis: 100px;">
+                            @tag.Value.Tag.TagName
+                            <input class="test_checkbox" id="TagsSelection_@{<text>@tag.Key</text>}__isChecked" name="TagsSelection[@{<text>@tag.Key</text>}].isChecked" type="checkbox" value="true" @{if(@tag.Value.IsChecked) {<text>checked</text>}} />
+                            <span class="test_checkmark"></span>
+                        </label>
+                    }
+            </div>
+        }
+        @if (Model.ContainsPlatformTags)
+        {
+            <hr />
+            <h5 class="text-light">Platforms</h5>
+            <div class="d-flex flex-wrap">
+                @foreach (KeyValuePair<int, TagCheckBoxStorage> tag in Model.PlatformTags)
+                {
+                    <label class="test_containter border border-2 border-radius-primary border-primary position-relative py-2 px-3 me-2 mb-2 overflow-hidden text-center" style="flex-basis: 100px;">
+                        @tag.Value.Tag.TagName
+                        <input class="test_checkbox" id="TagsSelection_@{<text>@tag.Key</text>}__isChecked" name="TagsSelection[@{<text>@tag.Key</text>}].isChecked" type="checkbox" value="true" @{
+                            if (@tag.Value.IsChecked)
+                            {
+                                <text>checked</text>
+                            }
+                        } />
+                        <span class="test_checkmark"></span>
+                    </label>
+                }
+        </div>
+        }
+        @if (Model.ContainsFrameWorkTags)
+        {
+            <hr />
+            <h5 class="text-light">FrameWorks</h5>
+            <div class="d-flex flex-wrap">
+                @foreach (KeyValuePair<int, TagCheckBoxStorage> tag in Model.FrmaeworkTags)
+                {
+                    <label class="test_containter border border-2 border-radius-primary border-primary position-relative py-2 px-3 me-2 mb-2 overflow-hidden text-center" style="flex-basis: 100px;">
+                        @tag.Value.Tag.TagName
+                        <input class="test_checkbox" id="TagsSelection_@{<text>@tag.Key</text>}__isChecked" name="TagsSelection[@{<text>@tag.Key</text>}].isChecked" type="checkbox" value="true" @{
+                            if(@tag.Value.IsChecked) {
+                                <text>checked</text>
+                            }
+                        } />
+                        <span class="test_checkmark"></span>
+                    </label>
+                }
+            </div>
+        }
+        @if (Model.ContainsOtherTags)
+        {
+            <hr />
+            <h5 class="text-light">Other</h5>
+            <div class="d-flex flex-wrap">
+                @foreach (KeyValuePair<int, TagCheckBoxStorage> tag in Model.OtherTags)
+                {
+                    <label class="test_containter border border-2 border-radius-primary border-primary position-relative py-2 px-3 me-2 mb-2 overflow-hidden text-center" style="flex-basis: 100px;">
+                        @tag.Value.Tag.TagName
+                        <input class="test_checkbox" id="TagsSelection_@{<text>@tag.Key</text>}__isChecked" name="TagsSelection[@{<text>@tag.Key</text>}].isChecked" type="checkbox" value="true" @{
+                            if(@tag.Value.IsChecked) {
+                                <text>checked</text>
+                            }
+                        } />
+                        <span class="test_checkmark"></span>
+                    </label>
+                }
+            </div>
+        }
+        <hr/>
+        <input type="submit" value="Save Filters" class="me-2 mb-5 mt-3 p-2 px-4 bg-secondary border-2 border-solid border-primary border-radius-primary text-light hover-pos-right" style="min-width: 160px;" />
+    </form>
+
+</div>
+@foreach(MyActualWebsite.Models.Project project in Model.Projects){
     @await Html.PartialAsync("_PortfolioProjectPartial", project)
 }
