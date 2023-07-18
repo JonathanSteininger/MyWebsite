@@ -1,4 +1,34 @@
 ﻿
+class Toggelable {
+    constructor(classString) {
+        this.closed = true;
+        if (classString == "none") {
+            this.classElement = null;
+        } else {
+            this.classElement = document.getElementsByClassName(classString)[0];
+        }
+        this.className = classString;
+    }
+
+    toggle() {
+        if (this.classElement == null) return;
+        if (this.closed) {
+            this.Open();
+        } else {
+            this.Close();
+        }
+    }
+    Open() {
+        this.closed = false;
+        this.classElement.style.height = "auto";
+
+    }
+    Close() {
+        this.closed = true;
+        this.classElement.style.height = "0px";
+    }
+}
+
 
 window.onload = PageLoaded;
 
@@ -52,7 +82,6 @@ function SetupFooter() {
  * @param {any} evtArgs used the pass data about the resize event.
  */
 function ResizeEvent(evtArgs) {
-    console.log(evtArgs);
     FooterResizeCheck();
 }
 /**
@@ -101,3 +130,39 @@ function GetFooter() {
     footer = list[0];
     return footer;
 }
+
+
+
+
+var toggelablesArray = [new Toggelable("none")];
+function ToggleClosed(className) {
+    if (ContainsClass(className)) {
+        GetElement(className).toggle();
+    } else {
+        addToggelable(className).toggle();
+    }
+}
+function addToggelable(className) {
+    var temp = new Toggelable(className);
+    toggelablesArray.push(temp);
+    return temp;
+}
+
+function GetElement(className) {
+    for (let i = 0; i < toggelablesArray.length; i++) {
+        if (toggelablesArray[i].className == className) {
+            return toggelablesArray[i];
+        }
+    }
+    return null;
+}
+
+function ContainsClass(className) {
+    for (let i = 0; i < toggelablesArray.length; i++) {
+        if (toggelablesArray[i].className == className) {
+            return true;
+        }
+    }
+    return false;
+}
+
