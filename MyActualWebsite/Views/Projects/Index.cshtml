@@ -19,6 +19,9 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Summary)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Body)
             </th>
             <th>
@@ -52,7 +55,26 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Body)
+                    @if (item.Summary.Length < 150)
+                    {
+                        <text>@item.Summary</text>
+                    }
+                    else
+                    {
+                        @item.Summary.Substring(0,150)
+
+                        <text>...</text>
+                    }
+            </td>
+            <td>
+                    @if(item.Body.Length < 255)
+                    {
+                        <text>@item.Body</text>
+                    }
+                    else
+                    {
+                        @item.Body.Substring(0,255)<text>...</text>
+                    }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VideoFilePath)
