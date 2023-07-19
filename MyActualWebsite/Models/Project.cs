@@ -11,8 +11,14 @@ namespace MyActualWebsite.Models
 		[Required, DataType(DataType.Text), StringLength(100, ErrorMessage = "must be less than 100 charecters"), Display(Name = "Title")]
         public string Title { get; set; }
 
+        [Required, DataType(DataType.MultilineText), Display(Name = "Summary Text")]
+        public string Summary { get; set; }
+
         [Required, DataType(DataType.MultilineText), Display(Name = "Body Text")]
         public string Body { get; set; }
+
+
+		public int BodyLength => Body?.Length ?? 0;
 
 
         [DataType(DataType.Text), Display(Name = "Video File Name")]
