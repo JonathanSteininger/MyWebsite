@@ -7,12 +7,17 @@
 <h1 class="text-light">Edit</h1>
 
 <h4 class="text-light">Project</h4>
-<hr class="bg-light"/>
+<hr class="bg-light" />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" class="labels-light">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ProjectKey" />
+            <div class="form-group">
+                <label asp-for="Featured" class="control-label"></label><br />
+                @Html.CheckBox("Featured", Model.Featured)
+                <span asp-validation-for="Featured" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -27,6 +32,27 @@
                 <label asp-for="VideoFilePath" class="control-label"></label>
                 <input asp-for="VideoFilePath" class="form-control" />
                 <span asp-validation-for="VideoFilePath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFileName" class="control-label"></label>
+                <input asp-for="ImageFileName" class="form-control" />
+                <span asp-validation-for="ImageFileName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RepositoryURL" class="control-label"></label>
+                <input asp-for="RepositoryURL" class="form-control" />
+                <span asp-validation-for="RepositoryURL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

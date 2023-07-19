@@ -13,7 +13,123 @@ html {
     --margin-primary: 124px;
 }
 
-.bg-border-primary{
+.h-100-last:last-of-type{
+    height:
+}
+
+.border-solid{
+    border-style: solid;
+}
+
+.test_containter{
+
+}
+.test_checkbox{
+
+}
+.test_checkmark{
+
+}
+
+/* Customize the label (the container) */
+.test_containter {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.test_containter input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    z-index: 10;
+}
+
+
+/* Create a custom checkbox */
+.test_checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: none;
+    z-index: -1;
+}
+
+/* On mouse-over, add a grey background color */
+.test_containter:hover input ~ .test_checkmark {
+}
+
+/* When the checkbox is checked, add a blue background */
+.test_containter input:checked ~ .test_checkmark {
+    background-color: var(--secondary-background);
+}
+/* When the chexkbox is checked and its hovered */
+.test_containter input:checked:hover ~ .test_checkmark {
+}
+
+.tags-form-portfolio{
+    transition: transform 0.2s;
+}
+
+.test_containter:hover {
+    animation: filterButtons 0.4s;
+}
+@keyframes filterButtons{
+    0%{ 
+        transform: translate(0,0)
+
+    }
+    50% {
+        transform: translate(0,-5px)
+    }
+    100% {
+        transform: translate(0,0)
+    }
+}
+
+
+
+
+
+.hover-scale-110:hover {
+    transform: scale(1.1,1.1);
+}
+.hover-scale-120:hover {
+    transform: scale(1.2,1.2);
+}
+.hover-scale-130:hover {
+    transform: scale(1.3,1.3);
+}
+.hover-scale-90:hover {
+    transform: scale(0.9,0.9);
+}
+
+.hover-pos-right:hover {
+    transform: translateX(10px) scale(1.1);
+}
+
+
+
+.h-0{
+    height: 0px;
+}
+.w-fit-content{
+    width: fit-content;
+}
+
+
+
+
+
+
+.bg-border-primary {
     background-color: var(--MyAccent) !important;
 }
 .bg-border-secondary {
@@ -55,13 +171,13 @@ html {
     margin-top: var(--margin-primary);
 }
 .mb-primary {
-    margin-top: var(--margin-primary);
+    margin-bottom: var(--margin-primary);
 }
 .ms-primary {
-    margin-top: var(--margin-primary);
+    margin-left: var(--margin-primary);
 }
 .me-primary {
-    margin-top: var(--margin-primary);
+    margin-right: var(--margin-primary);
 }
 
 .start-33{
