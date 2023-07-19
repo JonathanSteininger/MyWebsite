@@ -1,0 +1,19 @@
+﻿@model MyActualWebsite.Models.Project
+
+<button onclick="history.back()">Back</button>
+<div class="col-11 mx-auto mb-primary p-4">
+    @{
+        if(Model.BodyLength < 1500)
+        {
+            @await Html.PartialAsync("_ProjectPartials/_ProjectPartialSmall", Model)
+            ;
+        }else if (Model.BodyLength < 2500)
+        {
+            @await Html.PartialAsync("_ProjectPartials/_ProjectPartialMedium", Model);
+        }
+        else
+        {
+            @await Html.PartialAsync("_ProjectPartials/_ProjectPartialLarge", Model);
+        }
+    }
+</div>
