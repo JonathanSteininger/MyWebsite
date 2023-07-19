@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,15 +23,29 @@ namespace MyActualWebsite.Controllers
         // GET: ProjectTags
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ProjectTag.Include(p => p.Project).Include(p => p.Tag);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.ProjectTag.Include(p => p.Project).Include(p => p.Tag).ThenInclude(p => p.TagCatagory);
+            List<ProjectTag> temp = await applicationDbContext.ToListAsync();
+            temp.Sort((a, b) => a.Project.ProjectKey.CompareTo(b.ProjectKey));
+            return View(temp);
         }
 
         // GET: ProjectTags/Create
+        [HttpGet]
+        [Route("ProjectTag/Create")]
         public IActionResult Create()
         {
             ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Title");
-            ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName");
+            //ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName");
+            ViewData["Tags"] = _context.Tag.Include(w => w.TagCatagory).ToArray();
+            return View();
+        }
+        [HttpGet]
+        [Route("ProjectTag/Create/{id}")]
+        public IActionResult Create(int id)
+        {
+            ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Title", id);
+            //ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName");
+            ViewData["Tags"] = _context.Tag.Include(w => w.TagCatagory).ToArray();
             return View();
         }
 
@@ -39,6 +54,8 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Route("ProjectTag/Create")]
+        [Route("ProjectTag/Create/{id}")]
         public async Task<IActionResult> Create([Bind("ProjectKey,TagID")] ProjectTag projectTag)
         {
             bool exists = await _context.ProjectTag.ContainsAsync(projectTag);
@@ -49,7 +66,8 @@ namespace MyActualWebsite.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ProjectKey"] = new SelectList(_context.Project, "ProjectKey", "Title", projectTag.ProjectKey);
-            ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName", projectTag.TagID);
+            //ViewData["TagID"] = new SelectList(_context.Tag, "TagID", "TagName", projectTag.TagID);
+            ViewData["Tags"] = _context.Tag.Include(w => w.TagCatagory).ToArray();
             return View(projectTag);
         }
         // GET: ProjectTags/Delete/5

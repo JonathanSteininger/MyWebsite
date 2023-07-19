@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Tag)
             </th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -45,14 +48,36 @@
 
                         <td>
                             <ul>
+                                @{
+                                    tags.Sort((a, b) =>
+                                    {
+                                        int temp = a.Tag.TagCatagoryID.CompareTo(b.Tag.TagCatagoryID);
+                                        if (temp == 0)
+                                        {
+                                            return a.Tag.TagID.CompareTo(b.Tag.TagID);
+                                        }
+                                        return temp;
+                                    });
+
+                                    int pastID = -1;
+                                }
                                 @foreach (var pastTag in tags)
                                 {
+                                    if (pastID != pastTag.Tag.TagCatagoryID)
+                                    {
+                                        pastID = (int)pastTag.Tag.TagCatagoryID;
+                                        <h5 style="text-indent:-20px;" class="m-auto mt-3"> @{<text>@{<text>@pastTag.Tag.TagCatagory.CatagoryName</text>}s</text>}</h5>
+                                    }
                                     <li>
                                         @Html.DisplayFor(modelItem => pastTag.Tag.TagName)
                                         @Html.ActionLink("Delete", "Delete", new { key1=pastTag.ProjectKey, key2=pastTag.TagID })
                                     </li>
                                 }
                             </ul>
+                        </td>
+
+                        <td>
+                            <a asp-action="Create" asp-route-id="@pastItem.Project.ProjectKey">Add Tag</a>
                         </td>
                     </tr>
                     tags.Clear();
@@ -69,14 +94,35 @@
 
                         <td>
                             <ul>
+                                @{
+                                    tags.Sort((a, b) =>
+                                    {
+                                        int temp = a.Tag.TagCatagoryID.CompareTo(b.Tag.TagCatagoryID);
+                                        if (temp == 0)
+                                        {
+                                            return a.Tag.TagID.CompareTo(b.Tag.TagID);
+                                        }
+                                        return temp;
+                                    });
+
+                                    int pastID = -1;
+                                }
                                 @foreach (var pastTag in tags)
                                 {
+                                    if (pastID != pastTag.Tag.TagCatagoryID)
+                                    {
+                                        pastID = (int)pastTag.Tag.TagCatagoryID;
+                                        <h5 style="text-indent:-20px;" class="m-auto mt-3"> @{<text>@{<text>@pastTag.Tag.TagCatagory.CatagoryName</text>}s</text>}</h5>
+                                    }
                                     <li>
                                         @Html.DisplayFor(modelItem => pastTag.Tag.TagName)
                                         @Html.ActionLink("Delete", "Delete", new { key1=pastTag.ProjectKey, key2=pastTag.TagID })
                                     </li>
                                 }
                             </ul>
+                        </td>
+                        <td>
+                            <a asp-action="Create" asp-route-id="@pastItem.Project.ProjectKey">Add Tag</a>
                         </td>
                     </tr>
                 }
