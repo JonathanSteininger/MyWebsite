@@ -56,6 +56,20 @@ namespace MyActualWebsite.Controllers
             }
         }
 
+        public async Task<IActionResult> Project(int? id)
+        {
+            if (id == null || _context == null || _context.Project == null)
+            {
+                return Redirect("Home/index");
+            }
+            Project project = await _context.Project.Include(w => w.Tags).ThenInclude(w => w.TagCatagory).FirstOrDefaultAsync(w => w.ProjectKey == id);
+            if (project == null || project == default)
+            {
+                return Redirect("Home/index");
+            }
+            return View(project);
+        }
+
         public IActionResult Contacts()
         {
             return View();
@@ -68,6 +82,7 @@ namespace MyActualWebsite.Controllers
         {
             return View();
         }
+        [HttpGet]
         [Route("Home/Portfolio")]
         [Route("Home/Portfolio/{tags?}")]
         public async Task<IActionResult> Portfolio(HomePortfolioTransferModel? tags)
