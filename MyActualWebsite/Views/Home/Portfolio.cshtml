@@ -91,10 +91,22 @@
     </form>
 
 </div>
+<!--
+
 <div class="col-lg-12 d-grid" style="grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 2rem;">
 
     @foreach(MyActualWebsite.Models.Project project in Model.Projects){
         <div class="" style="height:100%">
+            @await Html.PartialAsync("_projectPartials/_ProjectPartialSummary", project)
+        </div>
+    }
+</div>
+-->
+<div class="col-lg-12 d-flex flex-wrap gap-4 align-items-stretch" >
+
+    @foreach (MyActualWebsite.Models.Project project in Model.Projects)
+    {
+        <div style="flex-basis:330px;" class="flex-grow-1">
             @await Html.PartialAsync("_projectPartials/_ProjectPartialSummary", project)
         </div>
     }

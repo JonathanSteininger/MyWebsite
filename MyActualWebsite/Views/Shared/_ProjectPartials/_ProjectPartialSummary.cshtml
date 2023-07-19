@@ -5,12 +5,12 @@
     List<MyActualWebsite.Models.Tag> FrameWorks = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("FRAMEWORK"));
 }
 
-<div class="bg-secondary  border-radius-primary border-2 border-primary p-4 d-grid" style="height:100%">
+<div class="bg-secondary border-radius-primary p-4 h-100 d-grid" style=" grid-template-rows: min-content min-content auto min-content;">
     <h2 class="line-height-heading text-color-heading text-center">@Model.Title</h2>
     
     <div class="d-flex gap-2 flex-wrap align-items-stretch mb-2">
-        <div class=" bg-primary mt-1 border-radius-primary flex-grow-1 overflow-hidden" style="flex-basis: 450px;">
-            <img src="~/Content/Images/Projects/@Model.ImageFileName" width="100%" height="auto" class="d-block" style="flex-basis: 55%;" />
+        <div class=" bg-primary mt-1 border-radius-primary flex-grow-1 overflow-hidden" style="flex-basis: 700px;">
+            <img src="~/Content/Images/Projects/@Model.ImageFileName" width="100%" height="auto" class="d-block"/>
         </div>
         <div class="d-flex flex-column w-100 flex-grow-1 position-relative" style="flex-basis: 30%; min-width: 200px;">
             @{
