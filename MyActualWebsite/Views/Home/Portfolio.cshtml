@@ -5,14 +5,14 @@
 
 <h1 class="text-color-heading text-center my-5">PortFolio</h1>
 
-<div class="FiltersContainer col-11 mx-auto">
-    <button onclick="ToggleClosed('tags-form-portfolio')" class="me-2 mb-2 p-2 px-4 bg-secondary border-2 border-solid border-primary border-radius-primary text-light hover-scale-110" style="min-width: 150px;">
+<div class="FiltersContainer col-lg-12 mx-auto">
+    <button onclick="ToggleClosed('tags-form-portfolio')" class="me-2 mb-2 p-2 px-4 bg-secondary border-0 border-primary border-radius-primary text-light hover-scale-110" style="min-width: 150px;">
         Filters >>>
     </button>
-    <input form="tagsForm" type="submit" value="Save Filters" class="me-2 mb-2 p-2 px-4 bg-secondary border-2 border-solid border-primary border-radius-primary text-light hover-scale-110" style="min-width: 150px;" />
-    <a asp-area="" asp-controller="Home" asp-action="Portfolio" class="text-decoration-none text-light me-2 mb-2 p-2 px-4 bg-secondary border border-solid border-2 border-primary border-radius-primary hover-scale-110 w-fit-content d-inline-block text-center" style="min-width: 150px;">Clear Filters</a>
+    <input form="tagsForm" type="submit" value="Save Filters" class="me-2 mb-2 p-2 px-4 bg-secondary border-0 border-primary border-radius-primary text-light hover-scale-110" style="min-width: 150px;" />
+    <a asp-area="" asp-controller="Home" asp-action="Portfolio" class="text-decoration-none text-light me-2 mb-2 p-2 px-4 bg-secondary  border-0 border-primary border-radius-primary hover-scale-110 w-fit-content d-inline-block text-center" style="min-width: 150px;">Clear Filters</a>
 
-    <form asp-action="Portfolio" id="tagsForm" class="text-light tags-form-portfolio overflow-hidden h-0">
+    <form asp-action="Portfolio" method="get" id="tagsForm" class="text-light tags-form-portfolio overflow-hidden h-0">
         @if (Model.ContainsLanguageTags)
         {
             <hr />
@@ -87,10 +87,15 @@
             </div>
         }
         <hr/>
-        <input type="submit" value="Save Filters" class="me-2 mb-5 mt-3 p-2 px-4 bg-secondary border-2 border-solid border-primary border-radius-primary text-light hover-pos-right" style="min-width: 160px;" />
+        <input type="submit" value="Save Filters" class="me-2 mb-5 mt-3 p-2 px-4 bg-secondary border-0 border-solid border-primary border-radius-primary text-light hover-pos-right" style="min-width: 160px;" />
     </form>
 
 </div>
-@foreach(MyActualWebsite.Models.Project project in Model.Projects){
-    @await Html.PartialAsync("_PortfolioProjectPartial", project)
-}
+<div class="col-lg-12 d-grid" style="grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 2rem;">
+
+    @foreach(MyActualWebsite.Models.Project project in Model.Projects){
+        <div class="" style="height:100%">
+            @await Html.PartialAsync("_projectPartials/_ProjectPartialSummary", project)
+        </div>
+    }
+</div>

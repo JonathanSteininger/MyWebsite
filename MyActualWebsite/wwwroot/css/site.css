@@ -79,9 +79,13 @@ html {
 }
 
 .test_containter:hover {
-    animation: filterButtons 0.4s;
+    animation: JumpAnimation 0.4s;
 }
-@keyframes filterButtons{
+
+.hover-jump-animation:hover {
+    animation: JumpAnimation 0.4s;
+}
+@keyframes JumpAnimation{
     0%{ 
         transform: translate(0,0)
 
@@ -95,7 +99,9 @@ html {
 }
 
 
-
+.inputs-darker input, .inputs-darker textarea{
+    background-color: #ccc;
+}
 
 
 .hover-scale-110:hover {
