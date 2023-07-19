@@ -10,14 +10,16 @@
     <video src="~/Content/Videos/Projects/@Model.VideoFilePath" controls muted width="100%" class="border-radius-primary">
     </video>
 </div>
-<div class="bg-secondary p-3 mb-5 border-radius-primary">
-    <div class="bg-primary mt-1 border-radius-primary float-end overflow-hidden mx-3 mt-3 col-lg-7">
-        <img src="~/Content/Images/Projects/@Model.ImageFileName" width="100%" height="auto" class="d-block" />
-    </div>
+<div class="bg-secondary p-3 mb-5 border-radius-primary" style="overflow:auto">
+    <div style="overflow:auto" class=" bg-primary border-radius-primary">
+        <div class="bg-primary mt-1 border-radius-primary float-end overflow-hidden mx-3 mt-3 mb-3 col-lg-7" >
+            <img src="~/Content/Images/Projects/@Model.ImageFileName" width="100%" height="auto" class="d-block" />
+        </div>
 
-    <p class="text-color-info bg-primary border-radius-primary p-2 my-1" style="flex-basis: 30%; min-width: 200px;">
-        @await Html.PartialAsync("_TextWithBreaks", Model.Body)
-    </p>
+        <p class="text-color-info p-2 my-1" style="flex-basis: 30%; min-width: 200px;">
+            @await Html.PartialAsync("_TextWithBreaks", Model.Body)
+        </p>
+    </div>
 </div>
 <div class="bg-secondary p-2 border-radius-primary">
 
