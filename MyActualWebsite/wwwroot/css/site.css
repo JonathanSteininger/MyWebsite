@@ -142,7 +142,12 @@ html {
 }
 
 
-
+.faq-question p{
+    transition: transform 0.4s;
+}
+.faq-question:hover p{
+    transform: translateX(1rem);
+}
 
 
 
@@ -155,6 +160,14 @@ html {
 .border-secondary{
     border-color: var(--MyAccent-Tame) !important;
 }
+.border-radius-primary-bottom {
+    border-radius: 0 0 var(--globalRadius) var(--globalRadius);
+
+}
+.border-radius-primary-question {
+    border-radius: var(--globalRadius) var(--globalRadius) 0 var(--globalRadius);
+}
+
 
 .border-radius-primary-half{
     border-radius: calc(var(--globalRadius)/2);

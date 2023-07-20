@@ -6,6 +6,9 @@ class Toggelable {
             this.classElement = null;
         } else {
             this.classElement = document.getElementsByClassName(classString)[0];
+            if (this.classElement == null) {
+            this.classElement = document.getElementById(classString);
+            }
         }
         this.className = classString;
     }

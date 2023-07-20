@@ -1,0 +1,17 @@
+﻿@model List<MyActualWebsite.Models.FAQ>
+
+<div class="col-lg-7 mt-primary mx-auto">
+    @{
+        int index = 0;
+    }
+    @foreach(FAQ faq in Model)
+    {
+        index++;
+        <div onclick="ToggleClosed('Answer-@index')" style=" color: #ccc;" class="border-bg-secondary border border-2 px-3 py-3 mt-2 border-radius-primary-question faq-question">
+            <p class="m-auto">@faq.Question</p>
+        </div>
+        <div id="" class="Answer-@index overflow-hidden h-0 border-radius-primary-bottom bg-secondary" style="margin-left: 2rem ; color: #eee">
+            <p class="m-auto px-3 py-2 pb-3">@faq.Answer</p>
+        </div>
+    }
+</div>

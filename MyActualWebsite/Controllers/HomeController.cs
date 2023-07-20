@@ -56,6 +56,16 @@ namespace MyActualWebsite.Controllers
             }
         }
 
+        public async Task<IActionResult> AboutMe()
+        {
+            if(_context == null || _context.FAQ == null)
+            {
+                return View(new List<FAQ>());
+            }
+
+            return View(await _context.FAQ.ToListAsync());
+        }
+
         public async Task<IActionResult> Project(int? id)
         {
             if (id == null || _context == null || _context.Project == null)
