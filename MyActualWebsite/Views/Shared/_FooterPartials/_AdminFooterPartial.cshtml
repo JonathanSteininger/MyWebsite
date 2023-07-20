@@ -1,0 +1,16 @@
+﻿
+@{
+    if (User.IsInRole("Admin"))
+    {
+        <hr class="text-gray border-top border-1 my-1" style="flex-basis: 100%" />
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="StatBars" asp-action="Index">StatBars Database</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Experiences" asp-action="Index">Experiences Database</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Mails" asp-action="Index">Mail Database</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="FAQs" asp-action="Index">FAQs Database</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Projects" asp-action="Index">Projects Database</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="ProjectTags" asp-action="Index">Projects To Tag Database</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="ProjectTags" asp-action="Index">Tags Catagory Database</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Tags" asp-action="Index">Tags Database</a>
+    }
+
+}

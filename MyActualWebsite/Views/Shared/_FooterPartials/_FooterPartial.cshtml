@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<footer class="border-top border-primary border-2 footer text-muted bg-primary position-absolute bottom-0 w-100" style="white-space: nowrap;}">
+
+    <div class="d-flex flex-wrap text-center mx-auto my-5 w-100 justify-content-center align-items-center" style="max-width: 600px; line-height: 20px; gap: 0.8rem 2rem;">
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Portfolio">Portfolio</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Experience">Experience</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
+        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="FAQ">FAQs</a>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a class="footer-nav-link" style=" min-width: fit-content" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
+            <form class="form-inline " style=" min-width: fit-content" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button  type="submit" class="footer-nav-link btn btn-link d-inline p-0 border-0">Logout</button>
+            </form>
+        }
+        else
+        {
+            <a class="footer-nav-link " style="min-width: fit-content" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        }
+        @await Html.PartialAsync("_FooterPartials/_AdminFooterPartial")
+    </div>
+
+    <div class="container footer-copyright text-center text-gray">
+        Jonathan Steininger &copy; 2023 - Jonathan-Steininger
+    </div>
+</footer>
+
+<!--
+    <footer class="border-top border-primary border-2 footer text-muted bg-primary">
+        <div class="footer-nav-box">
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Portfolio">Portfolio</a>
+                </li>
+            </ul>
+
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Experience">Experience</a>
+                </li>
+
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
+                </li>
+            </ul>
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <partial name="_loginFooterPartial" />
+
+            </ul>
+            <ul class="footer-nav border-end border-start border-1 border-secondary-darker">
+                <li class="footer-nav-item">
+                    <a class="footer-nav-link" asp-area="" asp-controller="Home" asp-action="FAQ">FAQs</a>
+                </li>
+            </ul>
+            <partial name="_AdminFooterPartial" />
+        </div>
+        <div class="container footer-copyright text-center">
+            Jonathan Steininger &copy; 2023 - Jonathan-Steininger
+        </div>
+    </footer>
+-->
