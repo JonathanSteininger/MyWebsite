@@ -3,6 +3,7 @@
     List<MyActualWebsite.Models.Tag> Languages = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("LANGUAGE"));
     List<MyActualWebsite.Models.Tag> Platforms = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("PLATFORM"));
     List<MyActualWebsite.Models.Tag> FrameWorks = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("FRAMEWORK"));
+    List<MyActualWebsite.Models.Tag> Other = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("OTHER"));
 }
 <h1 class="line-height-heading text-color-heading text-center mb-5 mt-3">@Model.Title</h1>
 <button onclick="history.back()" class="border-0 border-radius-primary p-2 hover-jump-animation bg-secondary text-light mb-2" style="min-width:180px;">Return</button>
@@ -37,6 +38,10 @@
             ViewData["ListName"] = "FrameWorks";
         }
         @await Html.PartialAsync("_ProjectPartials/_TagListPartial", FrameWorks)
+        @{
+            ViewData["ListName"] = "Other Tags";
+        }
+        @await Html.PartialAsync("_ProjectPartials/_TagListPartial", Other)
     </div>
 </div>
 
