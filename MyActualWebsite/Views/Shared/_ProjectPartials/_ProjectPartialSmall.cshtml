@@ -4,7 +4,7 @@
     List<MyActualWebsite.Models.Tag> Platforms = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("PLATFORM"));
     List<MyActualWebsite.Models.Tag> FrameWorks = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("FRAMEWORK"));
 }
-<h1 class="line-height-heading text-color-heading text-center mb-5 mt-3">@Model.Title {SmallForDebug}</h1>
+<h1 class="line-height-heading text-color-heading text-center mb-5 mt-3">@Model.Title</h1>
 <button onclick="history.back()" class="border-0 border-radius-primary p-2 hover-jump-animation bg-secondary text-light mb-2" style="min-width:180px;">Return</button>
 <div class="bg-secondary p-3 mb-5 border-radius-primary">
     <video src="~/Content/Videos/Projects/@Model.VideoFilePath" controls muted width="100%" class="border-radius-primary">
