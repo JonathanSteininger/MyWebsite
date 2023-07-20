@@ -28,6 +28,13 @@ html {
 
 }
 
+.text-bg-primary{
+    color: var(--primary-background)!important;
+}
+.text-bg-secondary {
+    color: var(--secondary-background) !important;
+}
+
 /* Customize the label (the container) */
 .test_containter {
     cursor: pointer;
