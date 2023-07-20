@@ -35,6 +35,13 @@ html {
     color: var(--secondary-background) !important;
 }
 
+.border-bg-primary{
+    border-color: var(--primary-background)!important;
+}
+.border-bg-secondary{
+    border-color: var(--secondary-background)!important;
+}
+
 /* Customize the label (the container) */
 .test_containter {
     cursor: pointer;

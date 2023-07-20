@@ -131,6 +131,18 @@ namespace MyActualWebsite.Controllers
                 return a.EndDate.Value.CompareTo(b.EndDate.Value);
             });
 
+            foreach(Project proj in projects)
+            {
+                foreach(Tag tag in  proj.Tags)
+                {
+                    if (allTags.ContainsKey(tag.TagID))
+                    {
+                        tag.isChecked = allTags[tag.TagID].IsChecked;
+                    }
+                }
+            }
+
+
             return View(new HomePortfolioTransferModel() { Projects = projects, TagsSelection = allTags });
         }
         /// <summary>

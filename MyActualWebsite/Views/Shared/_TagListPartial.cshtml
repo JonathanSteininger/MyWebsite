@@ -5,10 +5,12 @@
     <p class="h5 text-color-heading my-auto mx-2">
         @ViewData["ListName"]
     </p>
-    <div class="d-flex flex-wrap align-content-center" style="">
+    <div class="d-flex flex-wrap align-content-center align-content-stretch" style="">
         @foreach (MyActualWebsite.Models.Tag tag in Model)
         {
-            <p class="d-block m-2 text-color-heading h-min-content py-2 px-2 bg-secondary  border-2 border-radius-primary border-secondary text-center" style="flex-basis: 90px; flex-grow: 1;">@tag.TagName</p>
+            <p class="border-bg-primary @{if(tag.isChecked){ <text>border-secondary</text>}} border d-block m-2 text-color-heading h-min-content py-2 px-2 bg-secondary border-2 border-radius-primary text-center flex-grow-1" style="flex-basis: 90px;">
+                @tag.TagName
+            </p>
         }
     </div>
 </div>

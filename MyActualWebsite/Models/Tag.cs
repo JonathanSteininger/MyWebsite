@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace MyActualWebsite.Models
 {
@@ -17,5 +18,8 @@ namespace MyActualWebsite.Models
 
         public List<Project> Projects { get; } = new();
         public List<ProjectTag> ProjectTags { get; set; } = new();
+
+        [NotMapped]
+        public bool isChecked { get; set; } = false;
     }
 }
