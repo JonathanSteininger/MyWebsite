@@ -10,12 +10,12 @@ namespace MyActualWebsite.Models
 
         static string LANGUAGE = "Language";
         static string PLATFORM = "Platform";
-        static string FRAMEWORK = "Frmaework";
+        static string FRAMEWORK = "Framework";
         static string OTHER = "Other";
 
         public List<KeyValuePair<int, TagCheckBoxStorage>> LanguageTags => GetList(LANGUAGE);
         public List<KeyValuePair<int, TagCheckBoxStorage>> PlatformTags => GetList(PLATFORM);
-        public List<KeyValuePair<int, TagCheckBoxStorage>> FrmaeworkTags => GetList(FRAMEWORK);
+        public List<KeyValuePair<int, TagCheckBoxStorage>> FrameworkTags => GetList(FRAMEWORK);
         public List<KeyValuePair<int, TagCheckBoxStorage>> OtherTags => GetList(OTHER);
 
         public bool ContainsLanguageTags => ContainsTag(LANGUAGE);

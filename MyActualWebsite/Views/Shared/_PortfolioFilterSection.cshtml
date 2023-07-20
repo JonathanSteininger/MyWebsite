@@ -1,0 +1,14 @@
+﻿@model List<KeyValuePair<int, TagCheckBoxStorage>>
+
+<hr />
+<h5 class="text-light">@ViewData["FilterSectionTitle"]</h5>
+<div class="d-flex flex-wrap">
+        @foreach(KeyValuePair<int, TagCheckBoxStorage> tag in Model)
+        {
+            <label class="test_containter border border-2 border-radius-primary border-primary position-relative py-2 px-3 me-2 mb-2 overflow-hidden text-center" style="flex-basis: 100px; min-width: fit-content;">
+                @tag.Value.Tag.TagName
+                <input class="test_checkbox" id="TagsSelection_@{<text>@tag.Key</text>}__isChecked" name="TagsSelection[@{<text>@tag.Key</text>}].isChecked" type="checkbox" value="true" @{if(@tag.Value.IsChecked) {<text>checked</text>}} />
+                <span class="test_checkmark"></span>
+            </label>
+        }
+</div>
