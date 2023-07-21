@@ -13,22 +13,11 @@ class Toggelable {
         this.className = classString;
     }
 
-    toggle() {
-        if (this.classElement == null) return;
-        if (this.closed) {
-            this.Open();
-        } else {
-            this.Close();
+    toggleClass(classToToggle) {
+        let temp = classToToggle.split(' ');
+        for (let i = 0; i < temp.length; i++) {
+            this.classElement.classList.toggle(temp[i]);
         }
-    }
-    Open() {
-        this.closed = false;
-        this.classElement.style.height = "auto";
-
-    }
-    Close() {
-        this.closed = true;
-        this.classElement.style.height = "0px";
     }
 }
 
@@ -138,13 +127,25 @@ function GetFooter() {
 
 
 var toggelablesArray = [new Toggelable("none")];
-function ToggleClosed(className) {
+
+function ToggleClass(className, classToggled) {
     if (ContainsClass(className)) {
-        GetElement(className).toggle();
+        GetElement(className).toggleClass(classToggled);
     } else {
-        addToggelable(className).toggle();
+        addToggelable(className).toggleClass(classToggled);
     }
 }
+
+function ToggleAllOfClass(className, classesToggled) {
+    var elements = document.getElementsByClassName(className);
+    for (let i = 0; i < elements.length; i++) {
+        let classes = classesToggled.split(' ');
+        for (let k = 0; k < classes.length; k++) {
+            elements[i].classList.toggle(classes[k]);
+        }
+    }
+}
+
 function addToggelable(className) {
     var temp = new Toggelable(className);
     toggelablesArray.push(temp);
