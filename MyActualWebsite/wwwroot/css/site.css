@@ -272,6 +272,10 @@ body {
     border-radius: var(--globalRadius);
     padding: 4px 7px;
 }
+
+.nav-item{
+}
+
 .navbar-toggler-img{
     height: 100%;
     width: auto;
@@ -304,7 +308,7 @@ body {
 }
 
 .footer-nav-link:hover {
-    color: #0a58ca;
+    color: var(--MyAccent);
 }
 
 .footer-nav{
