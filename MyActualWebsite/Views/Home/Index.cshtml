@@ -21,11 +21,9 @@
             @await Html.PartialAsync("_StatBarPartial", bar);
         }
     </div>
-
-    <h2 class="text-color-heading text-center mt-primary">Featured Projects</h2>
-    @foreach(MyActualWebsite.Models.Project proj in Model.Projects)
-    {
-        //@await Html.PartialAsync("_PortfolioProjectPartial", proj)
+    if(Model.Projects.Count > 0)
+    {   
+        @await Html.PartialAsync("_IndexPartials/_FeaturedProjectsPartial", new object[]{ Model.Projects, "FeaturedBox"})
     }
 
 }

@@ -1,0 +1,40 @@
+﻿@model MyActualWebsite.Models.Project
+@{
+    List<MyActualWebsite.Models.Tag> Languages = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("LANGUAGE"));
+    List<MyActualWebsite.Models.Tag> Platforms = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("PLATFORM"));
+    List<MyActualWebsite.Models.Tag> FrameWorks = Model.Tags.FindAll(item => item.TagCatagory.CatagoryName.ToUpper().Contains("FRAMEWORK"));
+}
+
+<div class="bg-secondary border-radius-primary p-4 h-100 d-flex flex-column mx-sm-3" style="grid-row: 1;">
+    <h2 class=" text-color-heading text-center">@Model.Title</h2>
+
+    <div class=" bg-primary mt-1 border-radius-primary overflow-hidden my-1">
+        <img src="~/Content/Images/Projects/@Model.ImageFileName" width="100%" height="auto" class="d-block" />
+    </div>
+
+    <p class="text-color-info bg-primary border-radius-primary p-2 my-1 flex-grow-1">
+        @await Html.PartialAsync("_TextWithBreaks", Model.Summary)
+    </p>
+
+    <div class="d-flex flex-column w-100 position-relative">
+        @{
+            ViewData["ListName"] = "Languages";
+        }
+        @await Html.PartialAsync("_TagListPartial", Languages)
+        <!--
+
+        @{
+            ViewData["ListName"] = "Platforms";
+        }
+        @await Html.PartialAsync("_TagListPartial", Platforms)
+        @{
+            ViewData["ListName"] = "FrameWorks";
+        }
+        @await Html.PartialAsync("_TagListPartial", FrameWorks)
+        -->
+    </div>
+    <div class="position-relative w-100 flex-grow-1 mx-auto" style="min-height: 100px; max-width: 700px;">
+        <a href="Home/Project/@{<text>@Model.ProjectKey</text>}" class="position-absolute bottom-0 py-3 bg-primary border-radius-primary text-decoration-none text-light text-center hover-jump-animation w-100">View More</a>
+    </div>
+
+</div>

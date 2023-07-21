@@ -31,6 +31,18 @@ html {
     max-height: 0px !important;
 }
 
+.t-center-v-hover-120{
+    transform: translateY(-50%);
+}
+.t-center-v-hover-120:hover{
+    transform: translateY(-50%) scale(120%);
+
+}
+
+.center-visually-v {
+    transform: translate(0, -50%);
+}
+
 .text-bg-primary{
     color: var(--primary-background)!important;
 }

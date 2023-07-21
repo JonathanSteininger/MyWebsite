@@ -1,0 +1,21 @@
+﻿@model object[]
+
+<hr class="text-bg-primary"/>
+<h1 class="text-center text-color-heading">Featured Projects</h1>
+
+<div id="@Model[1]" class="horizontal-display w-100 overflow-hidden position-relative">
+    <div class="d-grid" style="grid-auto-columns: min(85vw, 450px); transition: margin-left 0.5s;">
+        @foreach(MyActualWebsite.Models.Project project in Model[0] as List<MyActualWebsite.Models.Project>)
+        {
+            @await Html.PartialAsync("_IndexPartials/_FeaturedProjectPanelPartial", project);
+        }
+    </div>
+    <div class="position-absolute w-100 h-100 top-0 start-50 center-visually" style="pointer-events:none; background: linear-gradient(to left, var(--primary-background) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0)  80%, var(--primary-background) 100%); ">
+    </div>
+    <div onclick="DisplayLeft('@Model[1]')" class=" p-4 position-absolute top-50 start-0 mx-5 t-center-v-hover-120 user-select-none" style="width:min-content;">
+        <img src="~/Content/Images/down-arrow.svg" class="t-rotate-90" style="height: 30px; filter: invert(100%)" />
+    </div>
+    <div onclick="DisplayRight('@Model[1]')" class=" p-4 position-absolute top-50 end-0 mx-5 t-center-v-hover-120 user-select-none" style="width:min-content;">
+        <img src="~/Content/Images/down-arrow.svg" class="t-rotate-270" style="height: 30px; filter: invert(100%)" />
+    </div>
+</div>

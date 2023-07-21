@@ -21,12 +21,105 @@ class Toggelable {
     }
 }
 
+class DisplayManager {
+    constructor() {
+        let temp = document.getElementsByClassName("horizontal-display");
+        this.Displays = [];
+        this.Keys = [];
+        for (let i = 0; i < temp.length; i++) {
+            this.Displays.push(new HorizontalDisplay(temp[i]));
+            this.Keys.push(temp[i].id);
+        }
+    }
+
+    UpdateDisplaysPosions() {
+        for (let i = 0; i < this.Displays.length; i++) {
+            this.Displays[i].UpdatePosition();
+        }
+    }
+
+    MoveUp(id) {
+        this.getDisplay(id).MoveUp()
+    }
+    MoveDown(id) {
+        this.getDisplay(id).MoveDown()
+    }
+    UpdatePostion(id) {
+        this.getDisplay(id).UpdatePosition();
+    }
+    getDisplay(id) {
+        for (let i = 0; i < this.Keys.length; i++) {
+            if (this.Keys[i] == id) {
+                return this.Displays[i];
+            }
+        }
+        console.error("Display ID not found. ID:", id)
+        return this.Displays[0];
+    }
+}
+class HorizontalDisplay {
+    constructor(element) {
+        this.window = element;
+        this.panel = element.children[0];
+        this.elementKey = element.id;
+        this.currentState = 0;
+        this.maxStates = this.panel.children.length;
+        this.UpdatePosition();
+    }
+    GetChildWidth() {
+        if (this.panel.children.length < 1) return 0;
+        var child = this.panel.children[0];
+        var width = child.offsetWidth + ((parseInt(getComputedStyle(child).marginLeft) + parseInt(getComputedStyle(child).marginRight)));
+        return width;
+    }
+
+    MoveUp() {
+        if (this.panel.children.length < 1) return;
+        this.currentState++;
+        if (this.currentState >= this.maxStates) {
+            this.currentState = 0;
+        }
+        this.UpdatePosition();
+    }
+    MoveDown() {
+        if (this.panel.children.length < 1) return;
+        this.currentState--;
+        if (this.currentState < 0) {
+            this.currentState = this.maxStates - 1;
+        }
+        this.UpdatePosition();
+    }
+    UpdatePosition() {
+        if (this.panel.children.length < 1) return;
+        let center = this.window.clientWidth / 2;
+        let childWidth = this.GetChildWidth();
+
+        let ChildCenterOffset = childWidth/2;
+        let centerChildPos = center - ChildCenterOffset;
+
+        let childrenOffset = childWidth * this.currentState;
+        let finalPos = centerChildPos - childrenOffset;
+
+        this.panel.style.marginLeft = finalPos + "px";
+    }
+}
+
+
+
 
 window.onload = PageLoaded;
 
 var footer;
 var PastHeight;
 
+function DisplayLeft(id) {
+    if (HorizontalDisplays == null) return;
+    HorizontalDisplays.MoveDown(id);
+}
+function DisplayRight(id) {
+    if (HorizontalDisplays == null) return;
+    HorizontalDisplays.MoveUp(id);
+}
 
 /**
  * runs when the page loads. 
@@ -35,39 +128,10 @@ var PastHeight;
  * etc
  */
 function PageLoaded() {
-    SetupFooter();
-    //SetUpStatBars();
-}
-
-/*
-
-var statBarList;
-function SetUpStatBars() {
-    statBarList = document.getElementsByClassName("statBar");
-
-}
-
-function DrawBars() {
-    statBarList.forEach(bar => DrawBar(bar));
-}
-
-function DrawBar(bar) {
-    var barCanvas = bar.children[0];
-    var percentage = bar.
-
-}
-*/
-
-/**
- * sets up the footers size checks.
- */
-function SetupFooter() {
-    GetFooter();
     window.addEventListener("resize", ResizeEvent);
-    FooterResizeCheck();
-
+    SetupFooter();
+    SetUpHorizontalDisplays();
 }
-
 
 /**
  * runs when the page resizes.
@@ -75,7 +139,24 @@ function SetupFooter() {
  */
 function ResizeEvent(evtArgs) {
     FooterResizeCheck();
+    if (HorizontalDisplays != null) HorizontalDisplays.UpdateDisplaysPosions();
 }
+
+var HorizontalDisplays;
+function SetUpHorizontalDisplays() {
+    HorizontalDisplays = new DisplayManager();
+    HorizontalDisplays.UpdateDisplaysPosions();
+}
+
+/**
+ * sets up the footers size checks.
+ */
+function SetupFooter() {
+    GetFooter();
+    FooterResizeCheck();
+}
+
+
 /**
  * checks if the footer has changed size.
  * if the footers height has changed, will update the body with a new bottom margin size equal to the footer size.
