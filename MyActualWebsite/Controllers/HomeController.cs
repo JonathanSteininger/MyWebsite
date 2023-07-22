@@ -52,6 +52,23 @@ namespace MyActualWebsite.Controllers
             CheckPaths(bars);
             return View(new HomeIndexTransferModel(bars, featuredProjects));
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateMail([Bind("MailID,Name,Address,Body")] Mail mail)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(mail);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(MailSent));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult MailSent()
+        {
+            return View();
+        }
 
         private void CheckPaths(List<StatBar> bars)
         {
