@@ -1,3 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Contacts";
 }
+
+<div class="col-lg-10 mx-auto">
+
+    <h1 class="mt-3 text-center text-color-heading mt-5 mb-3">Contacts</h1>
+    <div class="bg-secondary border-radius-primary p-3 d-flex flex-wrap gap-3 mb-3 col-lg-10 mx-auto">
+        <div class="bg-primary p-3 border-radius-primary text-color-info flex-grow-1 d-grid" style="grid-auto-rows: 1fr;">
+            <h5 class="text-color-heading my-auto">Email</h5>
+            <p class="my-auto">Jonathan.Steininger@Icloud.Com</p>
+        </div>
+        <div class="bg-primary p-3 border-radius-primary text-color-info flex-grow-1 d-grid" style="grid-auto-rows: 1fr;">
+            <h5 class="text-color-heading my-auto">Phone Number</h5>
+            <p class="my-auto">+64 21 08 088 247</p>
+        </div>
+        <div class="bg-primary p-3 border-radius-primary text-color-info flex-grow-1 d-grid" style="grid-auto-rows: 1fr;">
+            <h5 class="text-color-heading my-auto">Location</h5>
+            <p class="my-auto">Invercargill, New Zealand</p>
+        </div>
+    </div>
+
+    <h1 class="text-center text-color-heading pt-5 pb-3">Email Me</h1>
+
+    @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
+</div>
