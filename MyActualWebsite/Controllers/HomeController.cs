@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyActualWebsite.Data;
 using MyActualWebsite.Data.Migrations;
@@ -54,6 +55,7 @@ namespace MyActualWebsite.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Owner")]
         public async Task<IActionResult> Mail()
         {
             if (_context == null || _context.Mail == null)
