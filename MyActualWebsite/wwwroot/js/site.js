@@ -62,7 +62,7 @@ class HorizontalDisplay {
         this.window = element;
         this.panel = element.children[0];
         this.elementKey = element.id;
-        this.currentState = 0;
+        this.currentState = 1;
         this.maxStates = this.panel.children.length;
         this.UpdatePosition();
     }
