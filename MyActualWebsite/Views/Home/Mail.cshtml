@@ -1,0 +1,9 @@
+﻿@model List<MyActualWebsite.Models.Mail>
+
+<h1 class="text-color-heading text-center">Mail</h1>
+<div class="d-flex flex-column gap-5">
+    @foreach(MyActualWebsite.Models.Mail mail in Model)
+    {
+        @await Html.PartialAsync("_ContactsPartial/_MailShowPartial", mail)
+    }
+</div>

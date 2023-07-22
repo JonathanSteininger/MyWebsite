@@ -1,0 +1,22 @@
+﻿@model MyActualWebsite.Models.Mail
+
+<div class="bg-secondary border-radius-primary p-3 d-flex flex-column gap-3 my-5 border-primary border-2 @{if(Model.IsNotRead){<text>border</text>}}">
+    <div class="bg-primary p-3 border-radius-primary text-color-info d-grid" style="grid-auto-rows: 1fr;">
+        <h5 class="text-color-heading my-auto">Info</h5>
+        <p class="my-auto">Name: @Model.Name</p>
+        <p class="my-auto">Email: @{if(Model.Address != null){<text>@Model.Address</text>}}</p>
+        <p class="my-auto">DateSent: @{if(Model.DateSent != null){<text>@Model.DateSent.Value.ToString("dddd MMMM yyyy - HH:mm")</text>}} </p>
+    </div>
+    <div class="bg-primary p-3 border-radius-primary text-color-info d-grid" style="grid-auto-rows: 1fr;">
+        <h5 class="text-color-heading my-auto">Email</h5>
+        @{
+            string[] paragraphs = Model.Body.Split("\n").Where(s => s.Length > 1).ToArray();
+            foreach(string p in paragraphs)
+            {
+                <p>
+                @p
+                </p>
+            }
+        }
+    </div>
+</div>

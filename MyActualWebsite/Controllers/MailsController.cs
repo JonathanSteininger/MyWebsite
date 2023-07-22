@@ -58,10 +58,11 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MailID,Name,Address,Body")] Mail mail)
+        public async Task<IActionResult> Create([Bind("MailID,Name,Address,Body,DateSent")] Mail mail)
         {
             if (ModelState.IsValid)
             {
+                mail.DateSent = DateTime.Now;
                 _context.Add(mail);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -90,7 +91,7 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MailID,Name,Address,Body")] Mail mail)
+        public async Task<IActionResult> Edit(int id, [Bind("MailID,Name,Address,Body,DateSent")] Mail mail)
         {
             if (id != mail.MailID)
             {

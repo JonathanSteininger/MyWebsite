@@ -52,11 +52,35 @@ namespace MyActualWebsite.Controllers
             CheckPaths(bars);
             return View(new HomeIndexTransferModel(bars, featuredProjects));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Mail()
+        {
+            if (_context == null || _context.Mail == null)
+            {
+                return View(new List<Mail>());
+            }
+            List<Mail> temp = await _context.Mail.ToListAsync();
+            temp.Sort((b, a) => a.MailID.CompareTo(b.MailID));
+
+            foreach(Mail mail in temp)
+            {
+                if (mail.Read) continue;
+                mail.IsNotRead = true;
+                mail.Read = true;
+                _context.Update(mail);
+            }
+            await _context.SaveChangesAsync();
+            return View(temp);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateMail([Bind("MailID,Name,Address,Body")] Mail mail)
         {
             if (ModelState.IsValid)
             {
+                mail.DateSent = DateTime.Now;
                 _context.Add(mail);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(MailSent));

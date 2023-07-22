@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MyActualWebsite.Models
 {
 	public class Mail
@@ -25,6 +27,15 @@ namespace MyActualWebsite.Models
         [DataType(DataType.MultilineText)]
         [Display(Name = "Body Text")]
         public string Body { get; set; }
+
+
+		[DataType(DataType.DateTime)]
+		public DateTime? DateSent { get; set; }
+
+		public bool Read { get; set; } = false;
+
+		[NotMapped]
+		public bool IsNotRead { get; set; }
 
 	}
 }
