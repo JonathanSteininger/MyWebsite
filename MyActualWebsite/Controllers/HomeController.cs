@@ -106,27 +106,6 @@ namespace MyActualWebsite.Controllers
                 allTags.Add(tag.TagID, new TagCheckBoxStorage() { Tag = tag, IsChecked = false });
             }
 
-            if (tags == null || tags.TagsSelection.Count == 0)
-            {
-                List<Project> temp = _context.Project.Include(x => x.Tags)
-                    .ThenInclude(x => x.TagCatagory)
-                    .ToList()
-                    .FindAll(item => CheckProjectTags(item, tags.TagsSelection));
-
-                return View(new HomePortfolioTransferModel() { Projects = temp, TagsSelection = allTags });
-            }
-
-
-            foreach (KeyValuePair<int, TagCheckBoxStorage> tag in tags.TagsSelection)
-            {
-                if (allTags.ContainsKey(tag.Key))
-                {
-                    allTags[tag.Key].IsChecked = tag.Value.IsChecked;
-                }
-            }
-
-
-
             List<Project> projects = new List<Project>();
             if (_context != null && _context.Project != null)
             {
@@ -136,22 +115,35 @@ namespace MyActualWebsite.Controllers
                     .FindAll(item => CheckProjectTags(item, allTags));
             }
             projects.Sort((a, b) => {
+                if (a.EndDate == null && b.EndDate == null)
+                {
+                    return b.StartDate.Value.CompareTo(a.StartDate.Value);
+                }
                 if (a.EndDate == null) return -1;
                 if (b.EndDate == null) return 1;
-                return a.EndDate.Value.CompareTo(b.EndDate.Value);
+                return b.EndDate.Value.CompareTo(a.EndDate.Value);
             });
 
-            foreach(Project proj in projects)
+            if (tags != null && tags.TagsSelection.Count != 0)
             {
-                foreach(Tag tag in  proj.Tags)
+                foreach (KeyValuePair<int, TagCheckBoxStorage> tag in tags.TagsSelection)
                 {
-                    if (allTags.ContainsKey(tag.TagID))
+                    if (allTags.ContainsKey(tag.Key))
                     {
-                        tag.isChecked = allTags[tag.TagID].IsChecked;
+                        allTags[tag.Key].IsChecked = tag.Value.IsChecked;
+                    }
+                }
+                foreach(Project proj in projects)
+                {
+                    foreach(Tag tag in  proj.Tags)
+                    {
+                        if (allTags.ContainsKey(tag.TagID))
+                        {
+                            tag.isChecked = allTags[tag.TagID].IsChecked;
+                        }
                     }
                 }
             }
-
 
             return View(new HomePortfolioTransferModel() { Projects = projects, TagsSelection = allTags });
         }
