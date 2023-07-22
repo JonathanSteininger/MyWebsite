@@ -5,7 +5,7 @@
 
     if(User.IsInRole("Admin") || User.IsInRole("Owner")){
         <li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Mail">View Mail</a>
+            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Mail" asp-route-amount="50">View Mail</a>
         </li>
     }
     if (User.IsInRole("Admin"))
