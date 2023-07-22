@@ -45,4 +45,28 @@
     </div>
 </div>
 
+<div class="bg-secondary p-3 border-radius-primary col-md-6">
+    <p class="text-color-info bg-primary border-radius-primary p-3 my-auto">
+        @if (Model.EndDate != null)
+        {
+            <text>
+                Completion Date:
+                @Model.EndDate.Value.ToString("D")
+            </text>
+        }
+        else if (Model.StartDate != null)
+        {
+            <text>
+                Start Date:
+                @Model.StartDate.Value.ToString("D")
+            </text>
+        }
+        else
+        {
+            <text>No Date</text>
+        }
+    </p>
+</div>
+
+
 

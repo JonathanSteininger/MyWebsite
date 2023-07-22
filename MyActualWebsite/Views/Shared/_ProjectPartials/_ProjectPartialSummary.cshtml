@@ -27,9 +27,28 @@
             @await Html.PartialAsync("_TagListPartial", FrameWorks)
         </div>
     </div>
-    
     <p class="text-color-info bg-primary border-radius-primary p-2 my-1">
         @await Html.PartialAsync("_TextWithBreaks", Model.Summary)
+    </p>
+    <p class="text-color-info bg-primary border-radius-primary p-2 my-1">
+        @if (Model.EndDate != null)
+        {
+            <text>
+                Completion Date:
+                @Model.EndDate.Value.ToString("D")
+            </text>
+        }
+        else if (Model.StartDate != null)
+        {
+            <text>
+                Start Date:
+                @Model.StartDate.Value.ToString("D")
+            </text>
+        }
+        else
+        {
+            <text>No Date</text>
+        }
     </p>
     <div class="position-relative h-100 w-100 mx-auto" style="min-height: 100px; max-width: 700px;" >
         <a href="Project/@{<text>@Model.ProjectKey</text>}" class="position-absolute bottom-0 py-3 bg-primary border-radius-primary text-decoration-none text-light text-center hover-jump-animation w-100">View More</a>

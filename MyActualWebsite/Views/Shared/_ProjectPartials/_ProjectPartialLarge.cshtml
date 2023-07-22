@@ -45,7 +45,7 @@
         }
     </div>
 </div>
-<div class="bg-secondary p-2 border-radius-primary">
+<div class="bg-secondary p-2 border-radius-primary mb-5">
 
     <h5 class="text-color-heading p-2">Tags</h5>
     <div class="d-flex flex-wrap w-100" style="flex-basis: 30%; min-width: 200px;">
@@ -66,6 +66,29 @@
         }
         @await Html.PartialAsync("_ProjectPartials/_TagListPartial", Other)
     </div>
+</div>
+
+<div class="bg-secondary p-3 border-radius-primary col-md-6">
+    <p class="text-color-info bg-primary border-radius-primary p-3 my-auto">
+        @if (Model.EndDate != null)
+        {
+            <text>
+                Completion Date:
+                @Model.EndDate.Value.ToString("D")
+            </text>
+        }
+        else if (Model.StartDate != null)
+        {
+            <text>
+                Start Date:
+                @Model.StartDate.Value.ToString("D")
+            </text>
+        }
+        else
+        {
+            <text>No Date</text>
+        }
+    </p>
 </div>
 
 
