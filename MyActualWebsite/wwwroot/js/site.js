@@ -129,8 +129,20 @@ function DisplayRight(id) {
  */
 function PageLoaded() {
     window.addEventListener("resize", ResizeEvent);
+    window.addEventListener("pageshow", ClearValues);
+    window.addEventListener("pagehide", ClearValues);
     SetupFooter();
     SetUpHorizontalDisplays();
+}
+
+
+function ClearValues() {
+    console.log("tests");
+    let className = "clearValueOnLoad";
+    let elements = document.getElementsByClassName(className);
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].value = "";
+    }
 }
 
 /**
