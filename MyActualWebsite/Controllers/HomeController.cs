@@ -56,14 +56,26 @@ namespace MyActualWebsite.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin,Owner")]
-        public async Task<IActionResult> Mail()
+        [Route("/Home/Mail")]
+        [Route("/Home/Mail/{amount?}")]
+        public async Task<IActionResult> Mail(int? amount)
         {
+            int AmountShown = 50;
+            if (amount != null)
+            {
+                AmountShown = (int)amount;
+            }
             if (_context == null || _context.Mail == null)
             {
                 return View(new List<Mail>());
             }
             List<Mail> temp = await _context.Mail.ToListAsync();
             temp.Sort((b, a) => a.MailID.CompareTo(b.MailID));
+
+            if(temp.Count > AmountShown)
+            {
+                temp.RemoveRange(AmountShown, temp.Count - AmountShown);
+            }
 
             foreach(Mail mail in temp)
             {
@@ -72,6 +84,7 @@ namespace MyActualWebsite.Controllers
                 mail.Read = true;
                 _context.Update(mail);
             }
+
             await _context.SaveChangesAsync();
             return View(temp);
         }
