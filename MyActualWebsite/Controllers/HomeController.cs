@@ -37,6 +37,15 @@ namespace MyActualWebsite.Controllers
                     .Include(w => w.Tags)
                     .ThenInclude(w => w.TagCatagory)
                     .ToList();
+                featuredProjects.Sort((a, b) => {
+                    if (a.EndDate == null && b.EndDate == null)
+                    {
+                        return b.StartDate.Value.CompareTo(a.StartDate.Value);
+                    }
+                    if (a.EndDate == null) return -1;
+                    if (b.EndDate == null) return 1;
+                    return b.EndDate.Value.CompareTo(a.EndDate.Value);
+                });
             }
             if(bars == null) bars = new List<Models.StatBar>();
             bars.Sort((b,a) => a.Precentage.CompareTo(b.Precentage));
