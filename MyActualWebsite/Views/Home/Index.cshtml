@@ -26,4 +26,7 @@
         @await Html.PartialAsync("_IndexPartials/_FeaturedProjectsPartial", new object[]{ Model.Projects, "FeaturedBox"})
     }
 
+    <hr />
+    @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
+
 }
