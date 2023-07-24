@@ -3,6 +3,23 @@
     ViewData["Title"] = "Home Page";
 }
 @{
+    <div class="position-absolute w-100 start-0"  style="top:80px;">
+        <div class="position-relative w-100 d-flex align-items-center justify-items-center" style="height: calc(100vh - 80px">
+            <canvas id="LandingPageCanvas" class="position-absolute w-100 start-0 h-100" style="z-index: -1" >
+            </canvas>
+            @section Scripts
+            {
+                <script src="~/js/LandingCanvas.js"></script>
+            }
+            <div id="LandingPageInfoBox" class="bg-secondary border-radius-primary col-lg-6 m-auto p-3 text-center" style="margin: 40vh auto; height: 15vh">
+                <h2 class="text-color-info">Welcome To My Website</h2>
+                <h3 class="text-color-info">My Name Is Jonathan Steininger</h3>
+            </div>
+        </div>
+    </div>
+
+    <hr class=" opacity-0" style="margin-top: 95vh" />
+
     <div class="col-lg-6 border-radius-primary bg-secondary p-3 position-relative start-33 center-visually mt-primary">
         <h3 class="text-color-heading line-height-heading">About Me</h3>
         <img src="~/Content//Images/me.jpeg" class="col-5 text-wrap float-end border-radius-primary m-1">
