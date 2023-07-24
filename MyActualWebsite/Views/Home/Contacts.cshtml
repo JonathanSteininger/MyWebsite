@@ -20,7 +20,9 @@
         </div>
     </div>
 
-    <h1 class="text-center text-color-heading pt-5 pb-3">Email Me</h1>
+    <h1 class="text-center text-color-heading pt-5 pb-3">Contact Form</h1>
 
-    @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
+    <div class="col-lg-10 mx-auto" >
+        @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
+    </div>
 </div>

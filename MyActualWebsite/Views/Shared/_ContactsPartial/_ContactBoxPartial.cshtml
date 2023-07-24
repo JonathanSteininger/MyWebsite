@@ -1,25 +1,25 @@
 ﻿@model MyActualWebsite.Models.Mail
 
-<form asp-action="CreateMail" class="bg-secondary p-3 border-radius-primary d-flex flex-column" style="gap: 1rem 0;">
+<form asp-action="CreateMail" class="bg-secondary p-4 border-radius-primary d-flex flex-column" style="gap: 1.5rem 0;">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
-        <label asp-for="Name" class="control-label text-color-heading"></label>
-        <input asp-for="Name" maxlength="50" required style="max-width: 100%; width: 450px" class="d-block border-radius-primary p-2 bg-primary border-1 border-bg-primary border target-border-primary text-color-info" />
+        <label asp-for="Name" class="control-label text-color-heading my-2 fs-5"></label>
+        <input asp-for="Name" maxlength="50" required class="w-100 d-block border-radius-primary p-2 py-3 bg-primary border-1 border-bg-primary border target-border-primary text-color-info" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Address" class="control-label text-color-heading">Your Email Address (Optional)</label>
-        <input asp-for="Address" type="email" style="max-width: 100%; width: 450px" class="d-block border-radius-primary p-2 bg-primary border-1 border-bg-primary border target-border-primary text-color-info" />
+        <label asp-for="Address" class="control-label text-color-heading my-2 fs-5">Your Email Address (Optional)</label>
+        <input asp-for="Address" type="email" class="w-100 d-block border-radius-primary p-2 bg-primary py-3 border-1 border-bg-primary border target-border-primary text-color-info" />
         <span asp-validation-for="Address" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Body" class="control-label  text-color-heading"></label>
-        <textarea asp-for="Body" minlength="30" required rows="20" class="form-control clearValueOnLoad d-block w-100 border-radius-primary p-2 bg-primary border-1 border-bg-primary border target-border-primary text-color-info"></textarea>
+        <label asp-for="Body" class="control-label  text-color-heading my-2 fs-5"></label>
+        <textarea asp-for="Body" minlength="30" required rows="15" class="form-control clearValueOnLoad d-block w-100 border-radius-primary p-2 bg-primary border-1 border-bg-primary border target-border-primary text-color-info"></textarea>
         <span asp-validation-for="Body" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Send" class="btn btn-primary d-block border-radius-primary p-2 bg-primary border-0 text-light px-5" />
+        <input type="submit" value="SEND" class="btn btn-primary d-block border-radius-primary p-2 bg-primary border-0 text-color-heading fw-bold px-5 hover-jump-animation contact-submit-button-hover" />
     </div>
 </form>
 @section Scripts {

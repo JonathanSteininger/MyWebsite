@@ -31,6 +31,19 @@ html {
     max-height: 0px !important;
 }
 
+.text-border-primary{
+    color: var(--MyAccent)!important;
+}
+.text-border-secondary {
+    color: var(--MyAccent-Tame) !important;
+}
+
+
+.contact-submit-button-hover:hover{
+    background-color: var(--MyAccent)!important;
+    color: black !important;
+}
+
 .clearValueOnLoad{
 }
 .t-center-v-hover-120 {
@@ -44,6 +57,13 @@ html {
 .target-border-primary:focus-visible{
     outline: none;
     border-color: var(--MyAccent)!important;
+}
+.target-border-primary:target{
+    outline:none;
+}
+.target-border-primary:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 .center-visually-v {

@@ -25,7 +25,7 @@ namespace MyActualWebsite.Models
 		[Required]
 		[StringLength(15000, ErrorMessage = "Must be less than 15000 Charecters")]
         [DataType(DataType.MultilineText)]
-        [Display(Name = "Body Text")]
+        [Display(Name = "Message")]
         public string Body { get; set; }
 
 

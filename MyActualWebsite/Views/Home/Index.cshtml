@@ -25,7 +25,7 @@
     {   
         @await Html.PartialAsync("_IndexPartials/_FeaturedProjectsPartial", new object[]{ Model.Projects, "FeaturedBox"})
     }
-    <div class="col-lg-10 mx-auto mb-primary">
+    <div class="col-lg-8 mx-auto mb-primary">
         <h1 class="text-color-heading text-center mt-primary mb-5">Contact Me</h1>
         @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
     </div>
