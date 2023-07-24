@@ -122,6 +122,8 @@ const TrailDistance = 200;
 var CenterBoxCollision = true;
 var CollisionEnergyLoss = 0.7;
 
+const GravityStrength = 1 / FrameRate;
+
 
 class LandingPageCanvas extends Canvas {
     constructor(element, infoBoxElement) {
@@ -159,35 +161,49 @@ class LandingPageCanvas extends Canvas {
             let PastPoint = particle.Location.DeepClone();
             let PastVelocity = particle.Velocity.DeepClone();
 
-
-            particle.MoveTo(this.TargetPoint);//does normal point move.
-
-            if (this.CheckValidPoint(particle.Location)) continue;
-
-            particle.Location = PastPoint.DeepClone();
-            particle.Velocity = PastVelocity.DeepClone();
-            particle.FlipHorizontal = true;
-            particle.MoveTo(this.TargetPoint);//horizontal move flipped.
+            this.ParticleMove(particle, false, false)
 
             if (this.CheckValidPoint(particle.Location)) continue;
 
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
-            particle.FlipVerticle = true;
-            particle.MoveTo(this.TargetPoint);//verticle move flipped.
+            this.ParticleMove(particle, true, false)
 
             if (this.CheckValidPoint(particle.Location)) continue;
 
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
-            particle.FlipHorizontal = true;
-            particle.FlipVerticle = true;
-            particle.MoveTo(this.TargetPoint);//verticle and horizontal flipped
+            this.ParticleMove(particle, false, true)
+
+            if (this.CheckValidPoint(particle.Location)) continue;
+
+            particle.Location = PastPoint.DeepClone();
+            particle.Velocity = PastVelocity.DeepClone();
+            this.ParticleMove(particle, true, true)
 
             if (this.CheckValidPoint(particle.Location)) continue;
             this.Particles[i] = this.CreateParticle();
+
         }
     }
+
+    ParticleMove(particle, flipX, flipY) {
+
+        let X_Delta = this.TargetPoint.X - particle.Location.X;
+        let Y_Delta = this.TargetPoint.Y - particle.Location.Y;
+        let angle = Math.atan2(Y_Delta, X_Delta);
+        particle.Velocity.X += Math.cos(angle) * GravityStrength;
+        particle.Velocity.Y += Math.sin(angle) * GravityStrength;
+
+        if (flipX) {
+            particle.Velocity.X *= -1 * CollisionEnergyLoss;
+        }
+        if (flipY) {
+            particle.Velocity.Y *= -1 * CollisionEnergyLoss;
+        }
+        particle.UpdatePos();
+    }
+    
 
     Draw() {
         this.DrawRect(new Point(0, 0), this.Width, this.Height, "#1A1A1B");
