@@ -114,15 +114,24 @@ class Canvas {
         this.Canvas.height = this.Canvas.clientHeight * this.ResolutionScale;
     }
 }
-const FrameRate = 60;
-const pointGenerateTimeout = 25;
-const particleAmount = 25;
-const particleAcceleration = 1;
-const TrailDistance = 200;
+const FrameRate = 30;
 var CenterBoxCollision = true;
+
+const particleAmount = 500;
+const MaxStartSpeed = 150 / FrameRate;
+const particleAcceleration = 1;
+const TrailDistance = 20;
 var CollisionEnergyLoss = 0.7;
 
-const GravityStrength = 1 / FrameRate;
+const TargetAmount = 4;
+const GravityStrength = 90 / FrameRate;
+var GravityFallOff = true;
+var GravityFallOffScale = 200;
+var pointGenerateTimeout = 25;
+
+
+const TempSpeedUP = 2;
+
 
 
 class LandingPageCanvas extends Canvas {
@@ -130,11 +139,19 @@ class LandingPageCanvas extends Canvas {
         super(element);
         this.CenterBox = infoBoxElement;
         this.Particles = [];
+        this.Targets = [];
+        this.CreateTargets();
         this.CreateParticles(particleAmount);
         this.Time = 0;
         this.PointGenerateTimerTracker = 0;
         this.TargetPoint = this.GenerateValidPoint();
         this.mainLoop(this);
+    }
+    CreateTargets() {
+        this.Targets = []
+        for (let i = 0; i < TargetAmount; i++) {
+            this.Targets.push(this.GenerateValidPoint());
+        }
     }
 
     mainLoop(self) {
@@ -142,13 +159,14 @@ class LandingPageCanvas extends Canvas {
         self.MoveParticles();
         self.Draw();
         self.Time += 1 / FrameRate;
-        setTimeout(self.mainLoop, 1000 / FrameRate, self);
+        setTimeout(self.mainLoop, 1000 / (FrameRate * TempSpeedUP), self);
     }
 
     RandomPointGenerate() {
         if (this.Time >= this.PointGenerateTimerTracker) {
             this.PointGenerateTimerTracker = this.Time + pointGenerateTimeout;
-            this.TargetPoint = this.GenerateValidPoint();
+            //this.TargetPoint = this.GenerateValidPoint();
+            this.CreateTargets();
         }
     }
 
@@ -188,12 +206,23 @@ class LandingPageCanvas extends Canvas {
     }
 
     ParticleMove(particle, flipX, flipY) {
+        for (let i = 0; i < this.Targets.length; i++) { 
+            let X_Delta = this.Targets[i].X - particle.Location.X;
+            let Y_Delta = this.Targets[i].Y - particle.Location.Y;
+            let angle = Math.atan2(Y_Delta, X_Delta);
 
-        let X_Delta = this.TargetPoint.X - particle.Location.X;
-        let Y_Delta = this.TargetPoint.Y - particle.Location.Y;
-        let angle = Math.atan2(Y_Delta, X_Delta);
-        particle.Velocity.X += Math.cos(angle) * GravityStrength;
-        particle.Velocity.Y += Math.sin(angle) * GravityStrength;
+            let V_X_Delta = Math.cos(angle) * GravityStrength;
+            let V_Y_Delta = Math.sin(angle) * GravityStrength;
+
+            let FallOff = 1;
+            if (GravityFallOff) {
+                let Distance = Math.sqrt(Math.pow(X_Delta, 2) + Math.pow(Y_Delta, 2)) / GravityFallOff;
+                FallOff = Math.log(Distance) / Distance;
+            }
+
+            particle.Velocity.X += V_X_Delta * FallOff;
+            particle.Velocity.Y += V_Y_Delta * FallOff;
+        }
 
         if (flipX) {
             particle.Velocity.X *= -1 * CollisionEnergyLoss;
@@ -207,7 +236,10 @@ class LandingPageCanvas extends Canvas {
 
     Draw() {
         this.DrawRect(new Point(0, 0), this.Width, this.Height, "#1A1A1B");
-        this.DrawRect(this.TargetPoint, 5, 5, "blue");
+        for (let i = 0; i < this.Targets.length; i++) {
+
+            this.DrawRect(this.Targets[i], 3, 3, "red");
+        }
         for (let i = 0; i < this.Particles.length; i++) {
             let particle = this.Particles[i];
             if (particle.History.Length < 2) continue;
@@ -228,7 +260,10 @@ class LandingPageCanvas extends Canvas {
         }
     }
     CreateParticle() {
-        return new Particle("#00adb5", this.GenerateValidPoint(), particleAcceleration / FrameRate);
+        let p = new Particle("#00adb5", this.GenerateValidPoint(), particleAcceleration / FrameRate);
+        p.Velocity.X = (Math.random() * MaxStartSpeed) - MaxStartSpeed /2;
+        p.Velocity.Y = (Math.random() * MaxStartSpeed) - MaxStartSpeed / 2;
+        return p;
     }
 
     GenerateValidPoint() {
