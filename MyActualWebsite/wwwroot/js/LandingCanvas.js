@@ -8,10 +8,19 @@ window.onload = function () {
 
     window.addEventListener("resize", UpdateCanvasSize);
     window.addEventListener("mousemove", MouseMoved);
+    window.addEventListener("mousedown", MousePressed);
+    window.addEventListener("mouseup", MouseReleased);
+}
+function MousePressed(evt) {
+    GravityMultiplier = -3;
+    setTimeout(() => GravityMultiplier = 1, 200);
+}
+function MouseReleased(evt) {
+   // GravityMultiplier = 1;
 }
 function MouseMoved(evt) {
     LandingPageCanvasStorage.TargetPoint.X = evt.pageX;
-    LandingPageCanvasStorage.TargetPoint.Y = evt.pageY - LandingPageCanvasStorage.Canvas.getBoundingClientRect().top;
+    LandingPageCanvasStorage.TargetPoint.Y = evt.pageY - (LandingPageCanvasStorage.Canvas.getBoundingClientRect().top + window.scrollY);
 }
 
 function UpdateCanvasSize() {
@@ -117,7 +126,7 @@ class Canvas {
         this.Canvas.height = this.Canvas.clientHeight * this.ResolutionScale;
     }
 }
-const FrameRate = 60;
+const FrameRate = 59;
 var CenterBoxCollision = true;
 
 const particleAmount = 4000;
@@ -131,6 +140,7 @@ var FollowMouse = true;
 
 const TargetAmount = 0;
 const GravityStrength = 90 / FrameRate;
+var GravityMultiplier = 1;
 var GravityFallOff = true;
 var GravityFallOffScale = 200;
 var pointGenerateTimeout = 15;
@@ -207,14 +217,9 @@ class LandingPageCanvas extends Canvas {
     }
 
     MoveParticles() {
-
+        let garbage = [];
         for (let i = 0; i < this.Particles.length; i++) { 
             let particle = this.Particles[i];
-
-            if (false && this.CheckIfParticleCloseAndSlow(particle)) {
-                this.Particles[i] = this.CreateParticle();
-                continue;
-            }
 
             particle.AddToHistory();
 
@@ -222,29 +227,36 @@ class LandingPageCanvas extends Canvas {
             let PastPoint = particle.Location.DeepClone();
             let PastVelocity = particle.Velocity.DeepClone();
 
-            this.ParticleMove(particle, false, false)
+            this.ParticleMove(particle, false, false);
 
             if (this.CheckValidPoint(particle.Location)) continue;
 
+            garbage.push(particle.Location);
+            garbage.push(particle.Velocity);
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
-            this.ParticleMove(particle, true, false)
+            this.ParticleMove(particle, true, false);
 
             if (this.CheckValidPoint(particle.Location)) continue;
-
+            garbage.push(particle.Location);
+            garbage.push(particle.Velocity);
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
-            this.ParticleMove(particle, false, true)
+            this.ParticleMove(particle, false, true);
 
             if (this.CheckValidPoint(particle.Location)) continue;
-
+            garbage.push(particle.Location);
+            garbage.push(particle.Velocity);
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
-            this.ParticleMove(particle, true, true)
+            this.ParticleMove(particle, true, true);
 
             if (this.CheckValidPoint(particle.Location)) continue;
             this.Particles[i] = this.CreateParticle();
 
+        }
+        for (let i = 0; i < garbage.length; i++) {
+            delete garbage[i];
         }
     }
     CheckIfParticleCloseAndSlow(particle) {
@@ -275,8 +287,8 @@ class LandingPageCanvas extends Canvas {
             let Y_Delta = this.TargetPoint.Y - particle.Location.Y;
             let angle = Math.atan2(Y_Delta, X_Delta);
 
-            let V_X_Delta = Math.cos(angle) * GravityStrength;
-            let V_Y_Delta = Math.sin(angle) * GravityStrength;
+            let V_X_Delta = Math.cos(angle) * GravityStrength * GravityMultiplier;
+            let V_Y_Delta = Math.sin(angle) * GravityStrength * GravityMultiplier;
 
             let FallOff = 1;
             if (GravityFallOff) {
@@ -441,6 +453,7 @@ class Particle {
         this.UpdateSpeed(point);
         this.UpdatePos();
     }
+
 
     UpdateSpeed(point) {
         this.Velocity.X += this.Acceleration * this.HorizontalPointCheck(point);
