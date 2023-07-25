@@ -129,11 +129,11 @@ class Canvas {
 const FrameRate = 59;
 var CenterBoxCollision = true;
 
-const particleAmount = 4000;
+const particleAmount = 1000;
 const MaxStartSpeed = 150 / FrameRate;
 var lineThickness = 2;
 const particleAcceleration = 1;
-const TrailDistance = 4;
+const TrailDistance = 5;
 var CollisionEnergyLoss = 0.5;
 
 var FollowMouse = true;
