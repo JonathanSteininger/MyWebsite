@@ -3,15 +3,15 @@
     ViewData["Title"] = "Home Page";
 }
 @{
-    <div class="position-absolute w-100 start-0"  style="top:80px;">
-        <div class="position-relative w-100 d-flex align-items-center justify-items-center" style="height: calc(100vh - 80px">
+    <div class="position-absolute w-100 start-0" style="top:80px; height: calc(100vh - 80px)">
+        <div class="position-relative w-100 d-flex align-items-center justify-items-center h-100">
             <canvas id="LandingPageCanvas" class="position-absolute w-100 start-0 h-100" style="z-index: -1" >
             </canvas>
             @section Scripts
             {
                 <script src="~/js/LandingCanvas.js"></script>
             }
-            <div id="LandingPageInfoBox" class="bg-secondary border-radius-primary col-lg-6 m-auto p-3 text-center" style="margin: 40vh auto; height: 15vh">
+            <div id="LandingPageInfoBox" class="bg-primary border-radius-primary border border-1 border-primary col-lg-6 m-auto p-3 pt-5 pb-5 text-center" >
                 <h2 class="text-color-info">Welcome To My Website</h2>
                 <h3 class="text-color-info">My Name Is Jonathan Steininger</h3>
             </div>

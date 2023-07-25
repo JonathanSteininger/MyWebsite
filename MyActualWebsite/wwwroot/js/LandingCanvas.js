@@ -7,11 +7,15 @@ window.onload = function () {
     LandingPageCanvasStorage = new LandingPageCanvas(canvas, infoBox);
 
     window.addEventListener("resize", UpdateCanvasSize);
+    window.addEventListener("mousemove", MouseMoved);
+}
+function MouseMoved(evt) {
+    LandingPageCanvasStorage.TargetPoint.X = evt.pageX;
+    LandingPageCanvasStorage.TargetPoint.Y = evt.pageY - LandingPageCanvasStorage.Canvas.getBoundingClientRect().top;
 }
 
 function UpdateCanvasSize() {
     LandingPageCanvasStorage.UpdateSizeDrawing();
-    console.log("hello")
 }
 
 class Point {
@@ -38,7 +42,6 @@ class Canvas {
     constructor(element) {
         this.Canvas = element;
         this.ResolutionScale = 1;
-        this.UpdateSizeDrawing();
         this.ctx = this.Canvas.getContext("2d");
     }
 
@@ -114,23 +117,32 @@ class Canvas {
         this.Canvas.height = this.Canvas.clientHeight * this.ResolutionScale;
     }
 }
-const FrameRate = 30;
+const FrameRate = 60;
 var CenterBoxCollision = true;
 
-const particleAmount = 500;
+const particleAmount = 4000;
 const MaxStartSpeed = 150 / FrameRate;
+var lineThickness = 2;
 const particleAcceleration = 1;
-const TrailDistance = 20;
-var CollisionEnergyLoss = 0.7;
+const TrailDistance = 4;
+var CollisionEnergyLoss = 0.5;
 
-const TargetAmount = 4;
+var FollowMouse = true;
+
+const TargetAmount = 0;
 const GravityStrength = 90 / FrameRate;
 var GravityFallOff = true;
 var GravityFallOffScale = 200;
-var pointGenerateTimeout = 25;
+var pointGenerateTimeout = 15;
 
 
-const TempSpeedUP = 2;
+const TempSpeedUP = 1;
+
+
+const respawnRadius = 70;
+const respawnSpeedMax = 20 / FrameRate;
+
+const PerformanceThreshold = 1.07;
 
 
 
@@ -138,6 +150,7 @@ class LandingPageCanvas extends Canvas {
     constructor(element, infoBoxElement) {
         super(element);
         this.CenterBox = infoBoxElement;
+        this.UpdateSizeDrawing();
         this.Particles = [];
         this.Targets = [];
         this.CreateTargets();
@@ -145,6 +158,12 @@ class LandingPageCanvas extends Canvas {
         this.Time = 0;
         this.PointGenerateTimerTracker = 0;
         this.TargetPoint = this.GenerateValidPoint();
+        this.FastRendering = false;
+        this.TimeStop = 1000 / (FrameRate * TempSpeedUP);
+        this.TargetTime = 1000 / (FrameRate * TempSpeedUP) * PerformanceThreshold;
+        this.SlowFrameHitsInARow = 0;
+        this.Loops = 0;
+        this.PastTime = Date.now();
         this.mainLoop(this);
     }
     CreateTargets() {
@@ -155,17 +174,34 @@ class LandingPageCanvas extends Canvas {
     }
 
     mainLoop(self) {
+        self.Loops++;
+        setTimeout(self.mainLoop, self.TimeStop, self);
+        self.CheckPerformance();
         self.RandomPointGenerate();
         self.MoveParticles();
         self.Draw();
         self.Time += 1 / FrameRate;
-        setTimeout(self.mainLoop, 1000 / (FrameRate * TempSpeedUP), self);
+    }
+
+    CheckPerformance() {
+        if (!this.FastRendering) {
+            let CurrentTime = Date.now();
+            let gapTime = CurrentTime - this.PastTime;
+            if (gapTime > this.TargetTime && this.Loops > 15) {
+                this.SlowFrameHitsInARow++;
+                if (this.SlowFrameHitsInARow >= 4) {
+                    this.FastRendering = true;
+                }
+            } else {
+                this.SlowFrameHitsInARow = 0;
+            }
+            this.PastTime = CurrentTime;
+        }
     }
 
     RandomPointGenerate() {
         if (this.Time >= this.PointGenerateTimerTracker) {
             this.PointGenerateTimerTracker = this.Time + pointGenerateTimeout;
-            //this.TargetPoint = this.GenerateValidPoint();
             this.CreateTargets();
         }
     }
@@ -174,7 +210,14 @@ class LandingPageCanvas extends Canvas {
 
         for (let i = 0; i < this.Particles.length; i++) { 
             let particle = this.Particles[i];
+
+            if (false && this.CheckIfParticleCloseAndSlow(particle)) {
+                this.Particles[i] = this.CreateParticle();
+                continue;
+            }
+
             particle.AddToHistory();
+
 
             let PastPoint = particle.Location.DeepClone();
             let PastVelocity = particle.Velocity.DeepClone();
@@ -204,11 +247,32 @@ class LandingPageCanvas extends Canvas {
 
         }
     }
+    CheckIfParticleCloseAndSlow(particle) {
+        if (FollowMouse) {
+            if (particle.Velocity.GetTotalVelocity() <= respawnSpeedMax) {
+                let distance = Math.sqrt(Math.pow(particle.Location.X - this.TargetPoint.X, 2) + Math.pow(particle.Location.Y - this.TargetPoint.Y, 2));
+                if (respawnRadius >= distance) {
+                    return true;
+                }
+            }
+        } else {
+            for (let i = 0; i < this.Targets.length; i++) {
+                if (particle.Velocity.GetTotalVelocity() <= respawnSpeedMax) {
+                    let distance = Math.sqrt(Math.pow(particle.Location.X - this.Targets[i].X, 2) + Math.pow(particle.Location.Y - this.Targets[i].Y, 2));
+                    if (respawnRadius >= distance) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     ParticleMove(particle, flipX, flipY) {
-        for (let i = 0; i < this.Targets.length; i++) { 
-            let X_Delta = this.Targets[i].X - particle.Location.X;
-            let Y_Delta = this.Targets[i].Y - particle.Location.Y;
+
+        if (FollowMouse) {
+            let X_Delta = this.TargetPoint.X - particle.Location.X;
+            let Y_Delta = this.TargetPoint.Y - particle.Location.Y;
             let angle = Math.atan2(Y_Delta, X_Delta);
 
             let V_X_Delta = Math.cos(angle) * GravityStrength;
@@ -222,6 +286,26 @@ class LandingPageCanvas extends Canvas {
 
             particle.Velocity.X += V_X_Delta * FallOff;
             particle.Velocity.Y += V_Y_Delta * FallOff;
+        } else {
+
+
+            for (let i = 0; i < this.Targets.length; i++) { 
+                let X_Delta = this.Targets[i].X - particle.Location.X;
+                let Y_Delta = this.Targets[i].Y - particle.Location.Y;
+                let angle = Math.atan2(Y_Delta, X_Delta);
+
+                let V_X_Delta = Math.cos(angle) * GravityStrength;
+                let V_Y_Delta = Math.sin(angle) * GravityStrength;
+
+                let FallOff = 1;
+                if (GravityFallOff) {
+                    let Distance = Math.sqrt(Math.pow(X_Delta, 2) + Math.pow(Y_Delta, 2)) / GravityFallOff;
+                    FallOff = Math.log(Distance) / Distance;
+                }
+
+                particle.Velocity.X += V_X_Delta * FallOff;
+                particle.Velocity.Y += V_Y_Delta * FallOff;
+            }
         }
 
         if (flipX) {
@@ -236,14 +320,44 @@ class LandingPageCanvas extends Canvas {
 
     Draw() {
         this.DrawRect(new Point(0, 0), this.Width, this.Height, "#1A1A1B");
-        for (let i = 0; i < this.Targets.length; i++) {
+        
+        this.RenderDebug();
 
-            this.DrawRect(this.Targets[i], 3, 3, "red");
+        if (this.FastRendering) {
+            this.RenderLinesFast();
+        } else {
+            this.RenderLines();
         }
+    }
+    RenderDebug() {
+        let color = "red";
+        if (this.FastRendering) color = "blue";
+        if (!FollowMouse) {
+            for (let i = 0; i < this.Targets.length; i++) {
+                this.DrawRect(this.Targets[i], 3, 3, color);
+            }
+        } else {
+            this.DrawRect(this.TargetPoint, 3, 3, color);
+        }
+    }
+    RenderLinesFast() {
+        this.ctx.lineWidth = lineThickness * this.ResolutionScale;
+        this.ctx.strokeStyle = this.Particles[0].Color;
+        this.ctx.beginPath();
+        for (let i = 0; i < this.Particles.length; i++) {
+            let particleHistory = this.Particles[i].History;
+            if (particleHistory.Length < 2) continue;
+            this.ctx.moveTo(particleHistory.Get(0).X, particleHistory.Get(0).Y);
+            this.ctx.lineTo(particleHistory.Get(particleHistory.Length - 1).X, particleHistory.Get(particleHistory.Length - 1).Y);
+        }
+        this.ctx.stroke();
+    }
+    RenderLines() {
+        this.ctx.lineWidth = lineThickness * this.ResolutionScale;
         for (let i = 0; i < this.Particles.length; i++) {
             let particle = this.Particles[i];
-            if (particle.History.Length < 2) continue;
-            this.ctx.lineWidth = 1 * this.ResolutionScale;
+            let particleHistory = particle.History;
+            if (particleHistory.Length < 2) continue;
             this.ctx.strokeStyle = particle.Color;
             this.ctx.beginPath();
             this.ctx.moveTo(particle.History.Get(0).X * this.ResolutionScale, particle.History.Get(0).Y * this.ResolutionScale);
@@ -252,6 +366,7 @@ class LandingPageCanvas extends Canvas {
             }
             this.ctx.stroke();
         }
+
     }
 
     CreateParticles(amount) {
@@ -279,12 +394,15 @@ class LandingPageCanvas extends Canvas {
     }
 
     CheckValidPoint(point) {
-        return this.CheckValidPointBox(point) && this.CheckValidPointEdge(point);
+        return this.CheckValidPointEdge(point) && this.CheckValidPointBox(point);
     }
+
+
+
     CheckValidPointBox(point) {
         if (!CenterBoxCollision) return true;
-        if (point.X > this.CenterBox.offsetLeft && point.X < this.CenterBox.offsetLeft + this.CenterBox.clientWidth) {
-            if (point.Y > this.CenterBox.offsetTop && point.Y < this.CenterBox.offsetTop + this.CenterBox.clientHeight) {
+        if (point.X > this.BoxLeft && point.X < this.BoxRight) {
+            if (point.Y > this.BoxTop && point.Y < this.BoxBottom) {
                 return false;
             }
         }
@@ -297,6 +415,13 @@ class LandingPageCanvas extends Canvas {
         return true;
     }
 
+    UpdateSizeDrawing() {
+        super.UpdateSizeDrawing();
+        this.BoxLeft = this.CenterBox.offsetLeft;
+        this.BoxRight = this.CenterBox.offsetLeft + this.CenterBox.clientWidth;
+        this.BoxTop = this.CenterBox.offsetTop;
+        this.BoxBottom = this.CenterBox.offsetTop + this.CenterBox.clientHeight;
+    }
 
 }
 
@@ -361,6 +486,10 @@ class Velocity{
     DeepClone() {
         return new Velocity(this.X, this.Y);
     }
+
+    GetTotalVelocity() {
+        return Math.sqrt(Math.pow(this.X, 2) + Math.pow(this.Y, 2));
+    }
 }
 
 class FixedQueue {
@@ -372,6 +501,9 @@ class FixedQueue {
         this.Looped = false;
     }
     Add(object) {
+        if (this.Looped) {
+            delete this.List[this.Pointer];
+        }
         this.List[this.Pointer] = object;
         this.Pointer++;
         this.CheckPointer();
