@@ -129,7 +129,7 @@ class Canvas {
 const FrameRate = 59;
 var CenterBoxCollision = true;
 
-const particleAmount = 1000;
+const particleAmount = 4000;
 const MaxStartSpeed = 150 / FrameRate;
 var lineThickness = 2;
 const particleAcceleration = 1;
@@ -444,7 +444,7 @@ class Particle {
         this.Location = startPoint;
         this.Velocity = new Velocity();
         this.Acceleration = Acceleration;
-        this.History = new FixedQueue(TrailDistance);
+        this.History = new FixedQueuePoints(TrailDistance);
         this.FlipHorizontal = false;
         this.FlipVerticle = false;
     }
@@ -474,7 +474,7 @@ class Particle {
     }
 
     AddToHistory() {
-        this.History.Add(this.Location.DeepClone());
+        this.History.Add(this.Location);
     }
 
     HorizontalPointCheck(point) {
@@ -545,6 +545,24 @@ class FixedQueue {
             return this.List[MovedIndex];
         }
         return this.List[index];
+    }
+}
+class FixedQueuePoints extends FixedQueue {
+    constructor(amount) {
+        super(amount);
+    }
+    Add(point) {
+
+        if (this.Looped) {
+            this.List[this.Pointer].X = point.X;
+            this.List[this.Pointer].Y = point.Y;
+        } else {
+            this.List[this.Pointer] = point.DeepClone();
+        }
+        this.Pointer++;
+        this.CheckPointer();
+        if (!this.Looped && this.Pointer == 0) this.Looped = true;
+        if (this.Length < this.MaxLength) this.Length++;
     }
 
 }
