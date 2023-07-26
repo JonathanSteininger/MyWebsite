@@ -107,7 +107,7 @@ class HorizontalDisplay {
 
 
 
-window.onload = PageLoaded;
+window.onload = function () { PageLoaded(); };
 
 var footer;
 var PastHeight;

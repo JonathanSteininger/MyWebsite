@@ -10,6 +10,8 @@ window.onload = function () {
     window.addEventListener("mousemove", MouseMoved);
     window.addEventListener("mousedown", MousePressed);
     window.addEventListener("mouseup", MouseReleased);
+
+    PageLoaded();
 }
 function MousePressed(evt) {
     GravityMultiplier = -3;
@@ -129,7 +131,7 @@ class Canvas {
 const FrameRate = 59;
 var CenterBoxCollision = true;
 
-const particleAmount = 4000;
+const particleAmount = 1000;
 const MaxStartSpeed = 150 / FrameRate;
 var lineThickness = 2;
 const particleAcceleration = 1;
