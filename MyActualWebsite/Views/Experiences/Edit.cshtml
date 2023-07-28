@@ -14,6 +14,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ExperienceKey" />
             <div class="form-group">
+                <label asp-for="Shown" class="control-label"></label><br />
+                @Html.CheckBox("Shown", Model.Shown)
+                <span asp-validation-for="Shown" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="CompanyName" class="control-label"></label>
                 <input asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>

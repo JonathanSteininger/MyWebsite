@@ -58,7 +58,7 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExperienceKey,CompanyName,link,StartDate,EndDate,Position,Body")] Experience experience)
+        public async Task<IActionResult> Create([Bind("ExperienceKey,Shown,CompanyName,link,StartDate,EndDate,Position,Body")] Experience experience)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ExperienceKey,CompanyName,link,StartDate,EndDate,Position,Body")] Experience experience)
+        public async Task<IActionResult> Edit(int id, [Bind("ExperienceKey,Shown,CompanyName,link,StartDate,EndDate,Position,Body")] Experience experience)
         {
             if (id != experience.ExperienceKey)
             {
