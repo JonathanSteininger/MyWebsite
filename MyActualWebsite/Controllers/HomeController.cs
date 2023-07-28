@@ -31,9 +31,14 @@ namespace MyActualWebsite.Controllers
         {
             List<StatBar> bars = new List<StatBar>();
             List<Project> featuredProjects = new List<Project>();
-            if(_context != null && _context.StatBar != null && _context.Project != null)
+            List<Experience> experiences = new List<Experience>();
+            if(_context == null)
             {
-                bars = _context.StatBar.ToList();
+                return View(new HomeIndexTransferModel(bars, featuredProjects, experiences));
+            }
+
+            if(_context.Project != null)
+            {
                 featuredProjects = _context.Project.Where(w => w.Featured)
                     .Include(w => w.Tags)
                     .ThenInclude(w => w.TagCatagory)
@@ -48,10 +53,26 @@ namespace MyActualWebsite.Controllers
                     return b.EndDate.Value.CompareTo(a.EndDate.Value);
                 });
             }
-            if(bars == null) bars = new List<Models.StatBar>();
-            bars.Sort((b,a) => a.Precentage.CompareTo(b.Precentage));
-            CheckPaths(bars);
-            return View(new HomeIndexTransferModel(bars, featuredProjects));
+            if(_context.StatBar != null)
+            {
+                bars = _context.StatBar.ToList();
+                bars.Sort((b,a) => a.Precentage.CompareTo(b.Precentage));
+                CheckPaths(bars);
+            }
+            if(_context.Experience != null)
+            {
+                experiences = _context.Experience.Where(w => w.Shown).ToList();
+                experiences.Sort((a,b) => {
+                    if (a.EndDate == null && b.EndDate == null)
+                    {
+                        return b.StartDate.CompareTo(a.StartDate);
+                    }
+                    if (a.EndDate == null) return -1;
+                    if (b.EndDate == null) return 1;
+                    return b.EndDate.Value.CompareTo(a.EndDate.Value);
+                });
+            }
+            return View(new HomeIndexTransferModel(bars, featuredProjects, experiences));
         }
 
         [HttpGet]
