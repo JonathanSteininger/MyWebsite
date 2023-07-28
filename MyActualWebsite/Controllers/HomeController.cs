@@ -192,6 +192,18 @@ namespace MyActualWebsite.Controllers
                 allTags.Add(tag.TagID, new TagCheckBoxStorage() { Tag = tag, IsChecked = false });
             }
 
+            if (tags != null && tags.TagsSelection.Count != 0)
+            {
+                foreach (KeyValuePair<int, TagCheckBoxStorage> tag in tags.TagsSelection)
+                {
+                    if (allTags.ContainsKey(tag.Key))
+                    {
+                        allTags[tag.Key].IsChecked = tag.Value.IsChecked;
+                    }
+                }
+                
+            }
+
             List<Project> projects = new List<Project>();
             if (_context != null && _context.Project != null)
             {
@@ -209,19 +221,11 @@ namespace MyActualWebsite.Controllers
                 if (b.EndDate == null) return 1;
                 return b.EndDate.Value.CompareTo(a.EndDate.Value);
             });
-
             if (tags != null && tags.TagsSelection.Count != 0)
             {
-                foreach (KeyValuePair<int, TagCheckBoxStorage> tag in tags.TagsSelection)
+                foreach (Project proj in projects)
                 {
-                    if (allTags.ContainsKey(tag.Key))
-                    {
-                        allTags[tag.Key].IsChecked = tag.Value.IsChecked;
-                    }
-                }
-                foreach(Project proj in projects)
-                {
-                    foreach(Tag tag in  proj.Tags)
+                    foreach (Tag tag in proj.Tags)
                     {
                         if (allTags.ContainsKey(tag.TagID))
                         {
@@ -229,7 +233,9 @@ namespace MyActualWebsite.Controllers
                         }
                     }
                 }
+
             }
+            
 
             return View(new HomePortfolioTransferModel() { Projects = projects, TagsSelection = allTags });
         }
