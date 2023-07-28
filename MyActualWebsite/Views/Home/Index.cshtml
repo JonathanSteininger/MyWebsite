@@ -47,4 +47,9 @@
         @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
     </div>
 
+    <div class="col-lg-10 mx-auto mb-primary">
+        <h1 class="text-color-heading text-center mt-primary mb-5">Experience</h1>
+        @await Html.PartialAsync("_IndexPartials/_ExperiencesPartial", Model.Experiences)
+    </div>
+
 }

@@ -1,0 +1,39 @@
+﻿@model List<MyActualWebsite.Models.Experience>
+
+<div class="w-100 d-flex flex-column mx-3">
+    @foreach(MyActualWebsite.Models.Experience item in Model){
+        <div class="border-radius-primary bg-secondary p-3 w-100 d-flex gap-3 flex-column">
+            <h3 class="text-center text-color-heading">@item.CompanyName - @item.Position</h3>
+            <div class="d-flex flex-wrap w-100 bg-primary text-color-info border-radius-primary p-2 gap-1 flex-column">
+                <p class="m-0">Start Date: @item.StartDate.ToString("d/M/yyyy")</p>
+                @if(item.EndDate != null)
+                {
+                    string temp = ((DateTime)item.EndDate).ToString("d/M/yyyy");
+                    <p class="m-0">End Date: @temp</p>
+                }
+            </div>
+            <div class="bg-primary border-radius-primary text-color-info w-100 p-2">
+                @{
+                    string[] paragraphs = item.Body.Split("\n").Where(s => s.Length > 5).ToArray();
+                    foreach(string paragraph in paragraphs)
+                    {
+                        <p>@paragraph</p>
+                    }
+                }
+            </div>
+            @if(item.link != null)
+            {
+                <a href="@item.link" class="bg-primary p-3  hover-link text-color-info border-radius-primary" target="_blank">
+                    @{
+                        string temp = item.CompanyName + "'";
+                        if (item.CompanyName[item.CompanyName.Length - 1] != 's' && item.CompanyName[item.CompanyName.Length - 1] != 'S')
+                        {
+                             temp += "s"; 
+                        }
+                        <text>@temp Website</text>
+                    }
+                    </a>
+            }
+        </div>
+    }
+</div>
