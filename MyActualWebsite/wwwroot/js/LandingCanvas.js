@@ -187,12 +187,12 @@ class LandingPageCanvas extends Canvas {
 
     mainLoop(self) {
         self.Loops++;
-        setTimeout(self.mainLoop, self.TimeStop, self);
         self.CheckPerformance();
         self.RandomPointGenerate();
         self.MoveParticles();
         self.Draw();
         self.Time += 1 / FrameRate;
+        setTimeout(self.mainLoop, self.TimeStop, self);
     }
 
     CheckPerformance() {
@@ -208,6 +208,23 @@ class LandingPageCanvas extends Canvas {
                 this.SlowFrameHitsInARow = 0;
             }
             this.PastTime = CurrentTime;
+        } else {
+            let CurrentTime = Date.now();
+            let gapTime = CurrentTime - this.PastTime;
+            if (gapTime > this.TargetTime * 1.5 && this.Loops > 15) {
+                this.SlowFrameHitsInARow++;
+                if (this.SlowFrameHitsInARow >= 3) {
+                    this.RemoveParticle();
+                }
+            } else {
+                this.SlowFrameHitsInARow = 0;
+            }
+            this.PastTime = CurrentTime;
+        }
+    }
+    RemoveParticle() {
+        if (this.Particles.length > 200) {
+            this.Particles.pop();
         }
     }
 

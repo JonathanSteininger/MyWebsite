@@ -103,11 +103,7 @@ class HorizontalDisplay {
         this.panel.style.marginLeft = finalPos + "px";
     }
 }
-
-
-
-
-window.onload = function () { PageLoaded(); };
+window.onload = PageLoaded();
 
 var footer;
 var PastHeight;

@@ -344,7 +344,7 @@ body {
     transition: color 0.2s;
 }
 .hover-link:hover {
-    color: #0a58ca;
+    color: var(--MyAccent) !important;
 }
 
 .footer-nav-link {
