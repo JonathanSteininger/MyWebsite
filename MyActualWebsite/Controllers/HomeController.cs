@@ -27,16 +27,15 @@ namespace MyActualWebsite.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<StatBar> bars = new List<StatBar>();
+            List<StatBarCatagory> barsCatagories = new List<StatBarCatagory>();
             List<Project> featuredProjects = new List<Project>();
             List<Experience> experiences = new List<Experience>();
             if(_context == null)
             {
-                return View(new HomeIndexTransferModel(bars, featuredProjects, experiences));
+                return View(new HomeIndexTransferModel(barsCatagories, featuredProjects, experiences));
             }
-
             if(_context.Project != null)
             {
                 featuredProjects = _context.Project.Where(w => w.Featured)
@@ -53,11 +52,9 @@ namespace MyActualWebsite.Controllers
                     return b.EndDate.Value.CompareTo(a.EndDate.Value);
                 });
             }
-            if(_context.StatBar != null)
+            if(_context.StatBarCatagory != null)
             {
-                bars = _context.StatBar.ToList();
-                bars.Sort((b,a) => a.Precentage.CompareTo(b.Precentage));
-                CheckPaths(bars);
+                barsCatagories = await _context.StatBarCatagory.ToListAsync();
             }
             if(_context.Experience != null)
             {
@@ -72,7 +69,17 @@ namespace MyActualWebsite.Controllers
                     return b.EndDate.Value.CompareTo(a.EndDate.Value);
                 });
             }
-            return View(new HomeIndexTransferModel(bars, featuredProjects, experiences));
+            HomeIndexTransferModel transferModel = new HomeIndexTransferModel(barsCatagories, featuredProjects, experiences);
+            if(_context.StatBar != null && _context.StatBarCatagory != null)
+            {
+                foreach(StatBarCatagory catagory in _context.StatBarCatagory)
+                {
+                    StatBar[] bars = await _context.StatBar.Where(w => w.StatBarCatagoryID == catagory.StatBarCatagoryID).Include(s => s.StatBarCatagory).ToArrayAsync();
+                    CheckPaths(bars);
+                    transferModel.AddBarSet(bars);
+                }
+            }
+            return View(transferModel);
         }
 
         [HttpGet]
@@ -130,7 +137,7 @@ namespace MyActualWebsite.Controllers
             return View();
         }
 
-        private void CheckPaths(List<StatBar> bars)
+        private void CheckPaths(IEnumerable<StatBar> bars)
         {
             foreach (StatBar bar in bars)
             {

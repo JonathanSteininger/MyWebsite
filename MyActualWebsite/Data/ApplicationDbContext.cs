@@ -34,5 +34,7 @@ namespace MyActualWebsite.Data
         public DbSet<MyActualWebsite.Models.TagCatagory>? TagCatagory { get; set; }
 
         public DbSet<MyActualWebsite.Models.ProjectTag>? ProjectTag { get; set; }
+
+        public DbSet<MyActualWebsite.Models.StatBarCatagory>? StatBarCatagory { get; set; }
     }
 }

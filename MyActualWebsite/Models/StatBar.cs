@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MyActualWebsite.Models
 {
 	public class StatBar
@@ -19,6 +21,10 @@ namespace MyActualWebsite.Models
 		[IllegalCharecters(ErrorMessage = "Illegal Charecters detected")]
         [Display(Name = "Icon File Path")]
         public string? IconPath { get; set; }
+
+		[ForeignKey("StatBarCatagoryID"), Display(Name = "Catagory")]
+		public int? StatBarCatagoryID { get; set; }
+		public StatBarCatagory? StatBarCatagory { get; set;}
 	}
 
 }

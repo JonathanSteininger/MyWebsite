@@ -24,9 +24,13 @@ namespace MyActualWebsite.Controllers
         // GET: StatBars
         public async Task<IActionResult> Index()
         {
-              return _context.StatBar != null ? 
-                          View(await _context.StatBar.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.StatBar'  is null.");
+            if(_context.StatBar == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.StatBar'  is null.");
+
+            }
+
+            return View(await _context.StatBar.Include(w => w.StatBarCatagory).ToListAsync());
         }
 
         // GET: StatBars/Details/5
@@ -38,6 +42,7 @@ namespace MyActualWebsite.Controllers
             }
 
             var statBar = await _context.StatBar
+                .Include(w => w.StatBarCatagory)
                 .FirstOrDefaultAsync(m => m.StatBarID == id);
             if (statBar == null)
             {
@@ -50,6 +55,7 @@ namespace MyActualWebsite.Controllers
         // GET: StatBars/Create
         public IActionResult Create()
         {
+            ViewData["StatBarCatagoryID"] = new SelectList(_context.StatBarCatagory, "StatBarCatagoryID", "Name");
             return View();
         }
 
@@ -58,7 +64,7 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StatBarID,Precentage,IconPath")] StatBar statBar)
+        public async Task<IActionResult> Create([Bind("StatBarID,Precentage,IconPath,StatBarCatagoryID")] StatBar statBar)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +72,8 @@ namespace MyActualWebsite.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["StatBarCatagoryID"] = new SelectList(_context.StatBarCatagory, "StatBarCatagoryID", "Name");
             return View(statBar);
         }
 
@@ -82,6 +90,8 @@ namespace MyActualWebsite.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["StatBarCatagoryID"] = new SelectList(_context.StatBarCatagory, "StatBarCatagoryID", "Name", statBar.StatBarCatagoryID);
             return View(statBar);
         }
 
@@ -90,7 +100,7 @@ namespace MyActualWebsite.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StatBarID,Precentage,IconPath")] StatBar statBar)
+        public async Task<IActionResult> Edit(int id, [Bind("StatBarID,Precentage,IconPath,StatBarCatagoryID")] StatBar statBar)
         {
             if (id != statBar.StatBarID)
             {
@@ -117,6 +127,8 @@ namespace MyActualWebsite.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["StatBarCatagoryID"] = new SelectList(_context.StatBarCatagory, "StatBarCatagoryID", "Name", statBar.StatBarCatagoryID);
             return View(statBar);
         }
 
@@ -129,6 +141,7 @@ namespace MyActualWebsite.Controllers
             }
 
             var statBar = await _context.StatBar
+                .Include(w => w.StatBarCatagory)
                 .FirstOrDefaultAsync(m => m.StatBarID == id);
             if (statBar == null)
             {

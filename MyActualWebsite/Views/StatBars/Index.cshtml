@@ -18,6 +18,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.IconPath)
             </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.StatBarCatagory)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -29,6 +33,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IconPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatBarCatagory.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.StatBarID">Edit</a> |
