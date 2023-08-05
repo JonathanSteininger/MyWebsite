@@ -131,7 +131,7 @@ class Canvas {
 const FrameRate = 59;
 var CenterBoxCollision = true;
 
-const particleAmount = 1000;
+const particleAmount = 600;
 const MaxStartSpeed = 150 / FrameRate;
 var lineThickness = 2;
 const particleAcceleration = 1;
@@ -154,7 +154,7 @@ const TempSpeedUP = 1;
 const respawnRadius = 70;
 const respawnSpeedMax = 20 / FrameRate;
 
-const PerformanceThreshold = 1.07;
+const PerformanceThreshold = 1.1;
 
 
 
@@ -199,9 +199,9 @@ class LandingPageCanvas extends Canvas {
         if (!this.FastRendering) {
             let CurrentTime = Date.now();
             let gapTime = CurrentTime - this.PastTime;
-            if (gapTime > this.TargetTime && this.Loops > 15) {
+            if (gapTime > this.TargetTime && this.Loops > FrameRate) {
                 this.SlowFrameHitsInARow++;
-                if (this.SlowFrameHitsInARow >= 4) {
+                if (this.SlowFrameHitsInARow >= 7) {
                     this.FastRendering = true;
                 }
             } else {
