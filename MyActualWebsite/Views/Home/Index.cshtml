@@ -17,36 +17,50 @@
                 </h2>
                 <h5 class="text-color-info col-sm-8 mx-auto" style="line-height: 32pt; letter-spacing: 1pt;">
                     I'm Jonathan, an IT enthusiast.
-                    Explore my projects and experience as we dive into the world of technology
+                    Explore my projects and experience as we dive into the world of technology.
                 </h5>
             </div>
         </div>
     </div>
 
     <hr class=" opacity-0" style="margin-top: 95vh" />
-
-    <div class="col-lg-6 border-radius-primary bg-secondary p-3 position-relative start-33 center-visually mt-primary">
-        <h3 class="text-color-heading line-height-heading">About Me</h3>
-        <img src="~/Content//Images/me.jpeg" class="col-5 text-wrap float-end border-radius-primary m-1">
-        <p class="text-color-info line-height-info-small">
-            Hello, I'm Jonathan, an aspiring programmer and passionate tech enthusiast.
-            I have a strong affinity for creating through programming and possess skills in Web Development, Backend Development, Database Management, and Git.
-            While I'm yet to venture into a professional work environment, I am confident in my ability to excel under those conditions.
-        </p>
-        <p class="text-color-info line-height-info-small">
-            Notably, I've recently completed the very website you're exploring!
-            Developed on ASP.Net Core and utilizing a MySQL database, this site reflects my dedication to hands-on learning and application.
-            Feel free to navigate through my website to discover more about me and explore my projects."
-        </p>
+    <div class="w-100 d-flex flex-column">
+        <div class="col-lg-7 border-radius-primary bg-secondary p-3 mt-primary align-self-start ms-lg-5">
+            <h3 class="text-color-heading line-height-heading">About Me</h3>
+            <img src="~/Content//Images/me.jpeg" class="col-4 text-wrap float-end border-radius-primary m-sm-2" style="max-width: 240px; min-width: 150px">
+            <p class="text-color-info line-height-info-small">
+                Hello, I'm Jonathan, an aspiring programmer and passionate tech enthusiast.
+                I have a strong affinity for creating through programming and possess skills in Web Development, Backend Development, Database Management, and Git.
+                While I'm yet to venture into a professional work environment, I am confident in my ability to excel under those conditions.
+            </p>
+            <p class="text-color-info line-height-info-small">
+                Notably, I've recently completed the very website you're exploring!
+                Developed on ASP.Net Core and utilizing a MySQL database, this site reflects my dedication to hands-on learning and application.
+                Feel free to navigate through my website to discover more about me and explore my projects."
+            </p>
+        </div>
+     
+        <div class="col-lg-7 border-radius-primary bg-secondary p-3 mt-primary align-self-end me-lg-5">
+            <h3 class="text-color-heading line-height-heading">Education</h3>
+            <p class="text-color-info line-height-info-small">
+                My education path took an unconventional turn.
+                While pursuing a Diploma in Information Technology at the Southern Institute of Technology Tepukenga, I made a deliberate choice to diverge.
+                Instead, I opted for a personalized route, harnessing the flexibility of online courses to match my pace and preferences.
+                This transition was fueled by a preference for practical, hands-on learning over traditional classroom settings.
+                <br/>
+                <br/>
+                I secured a Certificate in Information Technology and made significant headway in my studies.
+                Level 6 subjects including Advanced Programming, Web Development, and Networking deepened my grasp of essential areas like Object-Oriented Programming, Database Management, API Interaction, Web Development, and Network Setup.
+                My foundation in mathematics and algebra, gained through calculus and physics courses at Southland Boys High School in Invercargill, New Zealand, further enriched my skill set.
+                <br/>
+                <br/>
+                Unveiling my inherent love for technology, I consistently excelled in tech-centered coursework.
+                As my academic journey reached its peak, a strong urge to guide my own learning surfaced.
+                Embracing self-reliance, I embarked on a personal quest to refine my programming skills, discovering profound joy along the way.
+            </p>
+        </div>
     </div>
-    <!-- 
-    <div class="col-lg-6 border-radius-primary bg-secondary p-3 position-relative start-66 center-visually mt-primary">
-        <h3 class="text-color-heading line-height-heading">About Me</h3>
-        <img src="~/Content//Images/me.jpeg" class="col-5 text-wrap float-end border-radius-primary m-1">
-        <p class="text-color-info line-height-info-small">
-        </p>
-    </div>
-    -->
+    
     @if (Model.BarSetsContainsKey("Program"))
     {
         <div class="col-lg-9 statbar-box shadow-lg border-primary border border-0 start-50 center-visually position-relative px-4 pt-3 pb-1 border-radius-primary bg-secondary mt-primary">
