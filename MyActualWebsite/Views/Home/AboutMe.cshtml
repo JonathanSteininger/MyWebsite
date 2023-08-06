@@ -1,7 +1,147 @@
 ﻿@model List<MyActualWebsite.Models.FAQ>
 
+<h1 class="text-center text-color-heading" style="margin: 64px auto 164px auto ">About Me</h1>
 
-<h1 class="text-center text-color-heading my-3">About Me</h1>
+<div class="d-flex flex-column mx-auto col-lg-10" style="gap: 124px">
+
+    <div class=" w-100 bg-secondary border-radius-primary p-3 mx-auto">
+        <h3 class="text-color-heading">About Me</h3>
+        <div class="w-100 bg-primary border-radius-primary p-2 overflow-auto">
+
+            <img src="~/Content//Images/me.jpeg" class="col-4 text-wrap float-end border-radius-primary m-sm-2" style="max-width: 240px; min-width: 150px">
+            <p class="text-color-info">
+                I'm Jonathan, a growing programmer stepping into the dynamic realm of IT. My heart lies in Backend development, where I relish creating through coding. My dream is to expand my abilities to tackle challenges, developing applications and programs limited only by my knowledge and imagination.
+            </p>
+            <p class="text-color-info">
+                Beyond the realm of technology, I find equal joy in diverse hobbies. Mountain biking, gardening, gaming, cooking, and playing my Bass guitar each contribute uniquely to my growth. These activities engage my critical thinking, promote exercise, foster social interaction, and offer moments of relaxation, ensuring I remain both mentally and physically healthy.
+            </p>
+            <p class="text-color-info">
+                My family relationship is uncommon as we are all really close, we all support each other. This environment helps me collaborate and connect with people, qualities that extend into my obsession with programming.
+            </p>
+        </div>
+    </div>
+    <div class=" w-100 bg-secondary border-radius-primary p-3 mx-auto">
+        <h3 class="text-color-heading">Education</h3>
+
+        <div class="w-100 bg-primary border-radius-primary p-2">
+            <p class="text-color-info">
+                My recent achievement is a Certificate in Information Technology from the Southern Institute of Technology Tepukenga. Though I embarked on a Diploma in Information Technology, I charted a distinct course midway through the second year. Dropping out, my self-driven approach to learning set me apart, as I constantly pushed my own boundaries. This kept my knowledge ahead of the curriculum's pace, leading to unique challenges. I was never able to find any like-minded peers, there were large moments of bordom, and the benifit of having tutors was waisted since I rarely need their aid. . Notable subject before dropping out are: Advanced programming, Networking, Web Development. Helping me refine the basics of Object Oriented Programming, interacting with APIs, Setting up networks, maintaining databases, and developing webistes.
+            </p>
+            <p class="text-color-info">
+                Despite facing a depressive episode causing a brief hiatus, my determination to excel remained. This shift in direction ultimately granted me a certificate, even earning recognition as the top student. My education journey continues, fueled by the power of self-motivation and the thrill of continuous expansion.
+            </p>
+        </div>
+    </div>
+    <div class=" w-100 bg-secondary border-radius-primary p-3 mx-auto">
+        <h3 class="text-color-heading">Skills and Expertise</h3>
+        <div class="d-flex flex-column gap-2 text-color-info bg-primary border-radius-primary p-2 m-auto">
+            <p>
+                <strong>
+                    Programming Languages
+                </strong>
+                <br/>
+                Proficient in C#, JavaScript, Java, and SQL.
+            </p>
+            <p>
+                <strong>
+                    Web Development
+                </strong>
+                <br />
+                Skilled in HTML5, CSS3, and responsive design principles.
+            </p>
+            <p>
+                <strong>
+                    Backend Development
+                </strong>
+                <br />
+                Confident in building APIs, server-side logic, client handling, and multi-threading.
+            </p>
+            <p>
+                <strong>
+                    Database Management
+                </strong>
+                <br />
+                Basic understanding of MySQL with a strong grasp of data organization and retrieval.
+            </p>
+            <p>
+                <strong>
+                    Version Control
+                </strong>
+                <br />
+                Experienced in using Git for collaborative development.
+            </p>
+            <p>
+                <strong>
+                Web Frameworks
+                </strong>
+                <br/>
+                Solid understanding of ASP.NET Core and Model-View-Controller (MVC) principles.
+            </p>
+            <p>
+                <strong>
+                Application Frameworks
+                </strong>
+                <br />
+                Proficient in the .NET Framework, including Windows Forms.
+            </p>
+            <p>
+                <strong>
+                API Integration
+                </strong>
+                <br />
+                Able to interact with external APIs to enhance application functionality.
+            </p>
+            <p>
+                <strong>
+                Object-Oriented Programming (OOP)
+                </strong>
+                <br/>
+                In-depth understanding of OOP principles and design patterns.
+            </p>
+            <p>
+                <strong>
+                Agile Methodology
+                </strong>
+                <br/>
+                Good comprehension of Agile development environments, though no direct experience with team projects in this setup.
+            </p>
+            <p>
+                <strong>
+                Networking
+                </strong>
+                <br/>
+                Confident in setting up and maintaining networks.
+            </p>
+            <p>
+                <strong>
+                Development Environments
+                </strong>
+                <br />
+                Familiarity with Visual Studio Code, Visual Studio 2022, Unity, and previous experience with Atom.
+            </p>
+        </div>
+        
+    </div>
 
 
-@await Html.PartialAsync("_FAQPartials/_FAQPartial", Model)
+    <div class="mx-auto w-100 bg-secondary border-radius-primary p-3">
+        <h3 class="text-color-heading">Frequently Asked Questions</h3>
+        @await Html.PartialAsync("_FAQPartials/_FAQPartial", Model)
+    </div>
+
+    <div class=" w-100 bg-secondary border-radius-primary p-3 mx-auto">
+        <h3 class="text-color-heading">Conclusion</h3>
+
+        <div class="w-100 bg-primary border-radius-primary p-2">
+            <p class="text-color-info">
+                My journey reflects my passion for programming and determination to succeed. As I push boundaries and embrace the evolving IT landscape, I look ahead with excitement. For any unanswered questions, feel free to reach out.
+            </p>
+        </div>
+    </div>
+
+    
+    <div class="mx-auto w-100">
+    <h2 class="text-color-heading">Contact Me</h2>
+    @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
+    </div>
+</div>

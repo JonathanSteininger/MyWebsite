@@ -14,8 +14,10 @@ class Toggelable {
     }
 
     toggleClass(classToToggle) {
+        if (classToToggle.length == 0) return;
         let temp = classToToggle.split(' ');
         for (let i = 0; i < temp.length; i++) {
+            if (temp[i].length == 0) continue;
             this.classElement.classList.toggle(temp[i]);
         }
     }
