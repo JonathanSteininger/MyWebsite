@@ -135,7 +135,6 @@ function PageLoaded() {
 
 
 function ClearValues() {
-    console.log("tests");
     let className = "clearValueOnLoad";
     let elements = document.getElementsByClassName(className);
     for (let i = 0; i < elements.length; i++) {

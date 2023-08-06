@@ -13,6 +13,8 @@ window.onload = function () {
     if (document.visibilityState != null) {
         PageVisible = document.visibilityState == "visible";
         document.addEventListener("visibilitychange", VisibilityChanged);
+    } else {
+        console.warn("Page Visibility not determinable. Canvas performance checks may be wrong. Visuals can decrease due to this.");
     }
 
     PageLoaded();
