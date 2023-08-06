@@ -10,9 +10,22 @@ window.onload = function () {
     window.addEventListener("mousemove", MouseMoved);
     window.addEventListener("mousedown", MousePressed);
     window.addEventListener("mouseup", MouseReleased);
+    if (document.visibilityState != null) {
+        PageVisible = document.visibilityState == "visible";
+        document.addEventListener("visibilitychange", VisibilityChanged);
+    }
 
     PageLoaded();
 }
+function VisibilityChanged() {
+    if (document.visibilityState == "visible") {
+        PageVisible = true;
+
+    } else {
+        PageVisible = false;
+    }
+}
+var PageVisible = true;
 function MousePressed(evt) {
     GravityMultiplier = -3;
     setTimeout(() => GravityMultiplier = 1, 200);
@@ -197,7 +210,9 @@ class LandingPageCanvas extends Canvas {
         self.CheckPerformance();
         self.RandomPointGenerate();
         self.MoveParticles();
-        self.Draw();
+        if (PageVisible) {
+            self.Draw();
+        }
         self.Time += 1 / FrameRate;
         setTimeout(self.mainLoop, self.TimeStop * self.Lag, self);
         if (self.Lag != 1) self.Lag = 1;
@@ -214,7 +229,9 @@ class LandingPageCanvas extends Canvas {
         } else if (this.DeltaTimeMultiplier != 1) {
             this.DeltaTimeMultiplier = 1;
         }
-
+        if (!PageVisible) {
+            return;
+        }
         if (!this.FastRendering) {
             if (gapTime > this.TargetTime && this.Loops > FrameRate) {
                 this.SlowFrameHitsInARow++;
