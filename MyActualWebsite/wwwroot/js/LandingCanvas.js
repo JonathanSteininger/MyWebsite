@@ -236,7 +236,8 @@ class LandingPageCanvas extends Canvas {
     }
 
     MoveParticles() {
-        let garbage = [];
+        let counter = 0;
+        let garbage = new Array(this.Particles.length * 4);
         for (let i = 0; i < this.Particles.length; i++) { 
             let particle = this.Particles[i];
 
@@ -250,33 +251,31 @@ class LandingPageCanvas extends Canvas {
 
             if (this.CheckValidPoint(particle.Location)) continue;
 
-            garbage.push(particle.Location);
-            garbage.push(particle.Velocity);
+            garbage[counter++] = particle.Location;
+            garbage[counter++] = particle.Velocity;
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
             this.ParticleMove(particle, true, false);
 
             if (this.CheckValidPoint(particle.Location)) continue;
-            garbage.push(particle.Location);
-            garbage.push(particle.Velocity);
+            garbage[counter++] = particle.Location;
+            garbage[counter++] = particle.Velocity;
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
             this.ParticleMove(particle, false, true);
 
             if (this.CheckValidPoint(particle.Location)) continue;
-            garbage.push(particle.Location);
-            garbage.push(particle.Velocity);
+            garbage[counter++] = particle.Location;
+            garbage[counter++] = particle.Velocity;
             particle.Location = PastPoint.DeepClone();
             particle.Velocity = PastVelocity.DeepClone();
             this.ParticleMove(particle, true, true);
 
             if (this.CheckValidPoint(particle.Location)) continue;
+            garbage[counter++] = particle;
             this.Particles[i] = this.CreateParticle();
-
         }
-        for (let i = 0; i < garbage.length; i++) {
-            delete garbage[i];
-        }
+        garbage = null;
     }
     CheckIfParticleCloseAndSlow(particle) {
         if (FollowMouse) {
