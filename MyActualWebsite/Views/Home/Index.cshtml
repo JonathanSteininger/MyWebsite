@@ -5,13 +5,13 @@
 @{
     <div class="position-absolute w-100 start-0" style="top:80px; height: calc(100vh - 80px)">
         <div class="position-relative w-100 d-flex align-items-center justify-items-center h-100">
-            <canvas id="LandingPageCanvas" class="position-absolute w-100 start-0 h-100" style="z-index: -1" >
+            <canvas id="LandingPageCanvas" class="position-absolute w-100 start-0 h-100" style="z-index: -2" >
             </canvas>
             @section Scripts
             {
                 <script src="~/js/LandingCanvas.js"></script>
             }
-            <div id="LandingPageInfoBox" class="bg-primary border-radius-primary border border-1 border-primary mx-auto p-3 text-center" style="max-width: 90vw; width: 700px;" >
+            <div id="LandingPageInfoBox" class="bg-primary border-radius-primary border border-1 border-primary mx-auto p-3 text-center" style="max-width: 90vw; width: 700px; z-index: -1" >
                 <h2 class="text-color-info" style="line-height: 64pt; letter-spacing: 2pt;">
                     Hello and Welcome!
                 </h2>
