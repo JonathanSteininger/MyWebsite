@@ -156,7 +156,7 @@ const respawnSpeedMax = 20 / FrameRate;
 
 const PerformanceThreshold = 1.1;
 
-var DeltaTimeActive = false;
+var DeltaTimeActive = true;
 var removeParticlesIfSlow = true;
 var ReduceFrameRateIfSlow = true;
 
@@ -165,6 +165,8 @@ var minParticles = 250;
 const MinFrameRate = 30;
 const MinTimeStop = 1000 / (MinFrameRate * TempSpeedUP);
 const MinTarget = 1000 / (MinFrameRate * TempSpeedUP) * PerformanceThreshold;
+
+
 
 
 class LandingPageCanvas extends Canvas {
@@ -187,12 +189,7 @@ class LandingPageCanvas extends Canvas {
         this.PastTime = Date.now();
         this.mainLoop(this);
         this.DeltaTimeMultiplier = 1;
-    }
-    CreateTargets() {
-        this.Targets = []
-        for (let i = 0; i < TargetAmount; i++) {
-            this.Targets.push(this.GenerateValidPoint());
-        }
+        this.Lag = 1;
     }
 
     mainLoop(self) {
@@ -202,8 +199,12 @@ class LandingPageCanvas extends Canvas {
         self.MoveParticles();
         self.Draw();
         self.Time += 1 / FrameRate;
-        setTimeout(self.mainLoop, self.TimeStop, self);
+        setTimeout(self.mainLoop, self.TimeStop * self.Lag, self);
+        if (self.Lag != 1) self.Lag = 1;
     }
+
+    
+    
 
     CheckPerformance() {
         let CurrentTime = Date.now();
@@ -213,6 +214,7 @@ class LandingPageCanvas extends Canvas {
         } else if (this.DeltaTimeMultiplier != 1) {
             this.DeltaTimeMultiplier = 1;
         }
+
         if (!this.FastRendering) {
             if (gapTime > this.TargetTime && this.Loops > FrameRate) {
                 this.SlowFrameHitsInARow++;
@@ -223,31 +225,44 @@ class LandingPageCanvas extends Canvas {
                 this.SlowFrameHitsInARow = 0;
             }
         } else {
-            if (removeParticlesIfSlow) {
-                if (gapTime > this.TargetTime * 1.5) {
-                    this.SlowFrameHitsInARow++;
-                    if (this.SlowFrameHitsInARow >= 3) {
-                        this.RemoveParticle();
-                    }
-                } else {
-                    this.SlowFrameHitsInARow = 0;
+            this.CheckFastRenderingPerformance(gapTime);
+        }
+
+
+        
+        this.PastTime = CurrentTime;
+    }
+
+    LagF(amount) {
+        this.Lag = amount;
+    }
+    CheckFastRenderingPerformance(gapTime) {
+        if (removeParticlesIfSlow) {
+            if (gapTime > this.TargetTime * 1.5) {
+                this.SlowFrameHitsInARow++;
+                if (this.SlowFrameHitsInARow >= 3) {
+                    this.RemoveParticle();
                 }
-            }
-            if (ReduceFrameRateIfSlow && this.TimeStop < MinTimeStop) {
-                if (gapTime > this.TargetTime * 1.5) {
-                    this.SlowFrameHitsInARow++;
-                    if (this.SlowFrameHitsInARow >= 5) {
-                        this.DecreaseFrameRate();
-                        this.SlowFrameHitsInARow = 0;
-                    }
-                } else {
-                    this.SlowFrameHitsInARow = 0;
-                }
+            } else {
+                this.SlowFrameHitsInARow = 0;
             }
         }
 
-        this.PastTime = CurrentTime;
+        if (ReduceFrameRateIfSlow && this.TimeStop < MinTimeStop) {
+            if (gapTime > this.TargetTime * 1.5) {
+                this.SlowFrameHitsInARow++;
+                if (this.SlowFrameHitsInARow >= FrameRate/2) {
+                    this.DecreaseFrameRate();
+                    this.SlowFrameHitsInARow = 0;
+                }
+            } else {
+                this.SlowFrameHitsInARow = 0;
+            }
+        }
+        
     }
+
+
     DecreaseFrameRate() {
         if (this.TimeStop == MinTimeStop) {
             return;
@@ -272,12 +287,8 @@ class LandingPageCanvas extends Canvas {
         }
     }
 
-    RandomPointGenerate() {
-        if (this.Time >= this.PointGenerateTimerTracker) {
-            this.PointGenerateTimerTracker = this.Time + pointGenerateTimeout;
-            this.CreateTargets();
-        }
-    }
+    
+    
 
     MoveParticles() {
         let counter = 0;
@@ -320,26 +331,6 @@ class LandingPageCanvas extends Canvas {
             this.Particles[i] = this.CreateParticle();
         }
         garbage = null;
-    }
-    CheckIfParticleCloseAndSlow(particle) {
-        if (FollowMouse) {
-            if (particle.Velocity.GetTotalVelocity() <= respawnSpeedMax) {
-                let distance = Math.sqrt(Math.pow(particle.Location.X - this.TargetPoint.X, 2) + Math.pow(particle.Location.Y - this.TargetPoint.Y, 2));
-                if (respawnRadius >= distance) {
-                    return true;
-                }
-            }
-        } else {
-            for (let i = 0; i < this.Targets.length; i++) {
-                if (particle.Velocity.GetTotalVelocity() <= respawnSpeedMax) {
-                    let distance = Math.sqrt(Math.pow(particle.Location.X - this.Targets[i].X, 2) + Math.pow(particle.Location.Y - this.Targets[i].Y, 2));
-                    if (respawnRadius >= distance) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
     ParticleMove(particle, flipX, flipY) {
@@ -442,6 +433,20 @@ class LandingPageCanvas extends Canvas {
             this.ctx.stroke();
         }
 
+    }
+
+    RandomPointGenerate() {
+        if (this.Time >= this.PointGenerateTimerTracker) {
+            this.PointGenerateTimerTracker = this.Time + pointGenerateTimeout;
+            this.CreateTargets();
+        }
+    }
+
+    CreateTargets() {
+        this.Targets = []
+        for (let i = 0; i < TargetAmount; i++) {
+            this.Targets.push(this.GenerateValidPoint());
+        }
     }
 
     CreateParticles(amount) {
