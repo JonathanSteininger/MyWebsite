@@ -156,7 +156,7 @@ const respawnSpeedMax = 20 / FrameRate;
 
 const PerformanceThreshold = 1.1;
 
-var DeltaTimeActive = true;
+var DeltaTimeActive = false;
 var removeParticlesIfSlow = true;
 var ReduceFrameRateIfSlow = true;
 
