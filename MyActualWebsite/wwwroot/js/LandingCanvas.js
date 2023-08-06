@@ -128,7 +128,7 @@ class Canvas {
         this.Canvas.height = this.Canvas.clientHeight * this.ResolutionScale;
     }
 }
-const FrameRate = 59;
+var FrameRate = 50;
 var CenterBoxCollision = true;
 
 const particleAmount = 600;
@@ -156,6 +156,15 @@ const respawnSpeedMax = 20 / FrameRate;
 
 const PerformanceThreshold = 1.1;
 
+var DeltaTimeActive = false;
+var removeParticlesIfSlow = true;
+var ReduceFrameRateIfSlow = true;
+
+var minParticles = 250;
+
+const MinFrameRate = 30;
+const MinTimeStop = 1000 / (MinFrameRate * TempSpeedUP);
+const MinTarget = 1000 / (MinFrameRate * TempSpeedUP) * PerformanceThreshold;
 
 
 class LandingPageCanvas extends Canvas {
@@ -177,6 +186,7 @@ class LandingPageCanvas extends Canvas {
         this.Loops = 0;
         this.PastTime = Date.now();
         this.mainLoop(this);
+        this.DeltaTimeMultiplier = 1;
     }
     CreateTargets() {
         this.Targets = []
@@ -196,9 +206,14 @@ class LandingPageCanvas extends Canvas {
     }
 
     CheckPerformance() {
+        let CurrentTime = Date.now();
+        let gapTime = CurrentTime - this.PastTime;
+        if (DeltaTimeActive) {
+            this.DeltaTimeMultiplier = gapTime / this.TargetTime;
+        } else if (this.DeltaTimeMultiplier != 1) {
+            this.DeltaTimeMultiplier = 1;
+        }
         if (!this.FastRendering) {
-            let CurrentTime = Date.now();
-            let gapTime = CurrentTime - this.PastTime;
             if (gapTime > this.TargetTime && this.Loops > FrameRate) {
                 this.SlowFrameHitsInARow++;
                 if (this.SlowFrameHitsInARow >= 7) {
@@ -207,23 +222,52 @@ class LandingPageCanvas extends Canvas {
             } else {
                 this.SlowFrameHitsInARow = 0;
             }
-            this.PastTime = CurrentTime;
         } else {
-            let CurrentTime = Date.now();
-            let gapTime = CurrentTime - this.PastTime;
-            if (gapTime > this.TargetTime * 1.5 && this.Loops > 15) {
-                this.SlowFrameHitsInARow++;
-                if (this.SlowFrameHitsInARow >= 3) {
-                    this.RemoveParticle();
+            if (removeParticlesIfSlow) {
+                if (gapTime > this.TargetTime * 1.5) {
+                    this.SlowFrameHitsInARow++;
+                    if (this.SlowFrameHitsInARow >= 3) {
+                        this.RemoveParticle();
+                    }
+                } else {
+                    this.SlowFrameHitsInARow = 0;
                 }
-            } else {
-                this.SlowFrameHitsInARow = 0;
             }
-            this.PastTime = CurrentTime;
+            if (ReduceFrameRateIfSlow && this.TimeStop < MinTimeStop) {
+                if (gapTime > this.TargetTime * 1.5) {
+                    this.SlowFrameHitsInARow++;
+                    if (this.SlowFrameHitsInARow >= 5) {
+                        this.DecreaseFrameRate();
+                        this.SlowFrameHitsInARow = 0;
+                    }
+                } else {
+                    this.SlowFrameHitsInARow = 0;
+                }
+            }
+        }
+
+        this.PastTime = CurrentTime;
+    }
+    DecreaseFrameRate() {
+        if (this.TimeStop == MinTimeStop) {
+            return;
+        }
+        if (this.TimeStop < MinTimeStop) {
+            this.TimeStop = MinTimeStop;
+            this.TargetTime = MinTarget;
+            FrameRate = MinFrameRate;
+        }
+        FrameRate *= 0.9;
+        this.TimeStop *= 0.9;
+        this.TargetTime *= 0.9;
+        if (this.TimeStop < MinTimeStop) {
+            this.TimeStop = MinTimeStop;
+            this.TargetTime = MinTarget;
+            FrameRate = MinFrameRate;
         }
     }
     RemoveParticle() {
-        if (this.Particles.length > 200) {
+        if (this.Particles.length > minParticles) {
             this.Particles.pop();
         }
     }
@@ -314,8 +358,8 @@ class LandingPageCanvas extends Canvas {
                 FallOff = Math.log(Distance) / Distance;
             }
 
-            particle.Velocity.X += V_X_Delta * FallOff;
-            particle.Velocity.Y += V_Y_Delta * FallOff;
+            particle.Velocity.X += V_X_Delta * FallOff * this.DeltaTimeMultiplier;
+            particle.Velocity.Y += V_Y_Delta * FallOff * this.DeltaTimeMultiplier;
         } else {
 
 
@@ -333,8 +377,8 @@ class LandingPageCanvas extends Canvas {
                     FallOff = Math.log(Distance) / Distance;
                 }
 
-                particle.Velocity.X += V_X_Delta * FallOff;
-                particle.Velocity.Y += V_Y_Delta * FallOff;
+                particle.Velocity.X += V_X_Delta * FallOff * this.DeltaTimeMultiplier;
+                particle.Velocity.Y += V_Y_Delta * FallOff * this.DeltaTimeMultiplier;
             }
         }
 
@@ -344,7 +388,8 @@ class LandingPageCanvas extends Canvas {
         if (flipY) {
             particle.Velocity.Y *= -1 * CollisionEnergyLoss;
         }
-        particle.UpdatePos();
+        particle.Location.X += particle.Velocity.X * this.DeltaTimeMultiplier;
+        particle.Location.Y += particle.Velocity.Y * this.DeltaTimeMultiplier;
     }
     
 
