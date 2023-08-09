@@ -19,6 +19,48 @@ window.onload = function () {
 
     PageLoaded();
 }
+
+
+var FrameRate = 50;
+var CenterBoxCollision = true;
+
+const particleAmount = 600;
+const MaxStartSpeed = 150 / FrameRate;
+var lineThickness = 2;
+const particleAcceleration = 1;
+const TrailDistance = 5;
+var CollisionEnergyLoss = 0.5;
+
+var DrawDebug = false;
+
+var FollowMouse = true;
+
+const TargetAmount = 0;
+const GravityStrength = 90 / FrameRate;
+var GravityMultiplier = 1;
+var GravityFallOff = true;
+var GravityFallOffScale = 200;
+var pointGenerateTimeout = 15;
+
+
+const TempSpeedUP = 1;
+
+
+const respawnRadius = 70;
+const respawnSpeedMax = 20 / FrameRate;
+
+const PerformanceThreshold = 1.1;
+
+var DeltaTimeActive = false;
+var removeParticlesIfSlow = true;
+var ReduceFrameRateIfSlow = true;
+
+var minParticles = 250;
+
+const MinFrameRate = 30;
+const MinTimeStop = 1000 / (MinFrameRate * TempSpeedUP);
+const MinTarget = 1000 / (MinFrameRate * TempSpeedUP) * PerformanceThreshold;
+
 function VisibilityChanged() {
     if (document.visibilityState == "visible") {
         PageVisible = true;
@@ -143,43 +185,6 @@ class Canvas {
         this.Canvas.height = this.Canvas.clientHeight * this.ResolutionScale;
     }
 }
-var FrameRate = 50;
-var CenterBoxCollision = true;
-
-const particleAmount = 600;
-const MaxStartSpeed = 150 / FrameRate;
-var lineThickness = 2;
-const particleAcceleration = 1;
-const TrailDistance = 5;
-var CollisionEnergyLoss = 0.5;
-
-var FollowMouse = true;
-
-const TargetAmount = 0;
-const GravityStrength = 90 / FrameRate;
-var GravityMultiplier = 1;
-var GravityFallOff = true;
-var GravityFallOffScale = 200;
-var pointGenerateTimeout = 15;
-
-
-const TempSpeedUP = 1;
-
-
-const respawnRadius = 70;
-const respawnSpeedMax = 20 / FrameRate;
-
-const PerformanceThreshold = 1.1;
-
-var DeltaTimeActive = false;
-var removeParticlesIfSlow = true;
-var ReduceFrameRateIfSlow = true;
-
-var minParticles = 250;
-
-const MinFrameRate = 30;
-const MinTimeStop = 1000 / (MinFrameRate * TempSpeedUP);
-const MinTarget = 1000 / (MinFrameRate * TempSpeedUP) * PerformanceThreshold;
 
 
 
@@ -405,9 +410,7 @@ class LandingPageCanvas extends Canvas {
 
     Draw() {
         this.DrawRect(new Point(0, 0), this.Width, this.Height, "#1A1A1B");
-        
-        this.RenderDebug();
-
+        if (DrawDebug) this.RenderDebug();
         if (this.FastRendering) {
             this.RenderLinesFast();
         } else {
