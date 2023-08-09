@@ -1,4 +1,6 @@
-﻿namespace MyActualWebsite.Models
+﻿using System.Linq.Expressions;
+
+namespace MyActualWebsite.Models
 {
     public class HomeIndexTransferModel
     {

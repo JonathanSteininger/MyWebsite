@@ -16,7 +16,7 @@ namespace MyActualWebsite.Controllers
 
         private ApplicationDbContext _context;
 
-        const string DEFAULT_ICON_PATH = "c.png";
+        const string DEFAULT_ICON_PATH = "Default.png";
 
         private IWebHostEnvironment _webHostEnvironment;
 
@@ -76,6 +76,7 @@ namespace MyActualWebsite.Controllers
                 {
                     StatBar[] bars = await _context.StatBar.Where(w => w.StatBarCatagoryID == catagory.StatBarCatagoryID).Include(s => s.StatBarCatagory).ToArrayAsync();
                     CheckPaths(bars);
+                    Array.Sort(bars, (b, a) => a.Precentage.CompareTo(b.Precentage));
                     transferModel.AddBarSet(bars);
                 }
             }
@@ -139,13 +140,26 @@ namespace MyActualWebsite.Controllers
 
         private void CheckPaths(IEnumerable<StatBar> bars)
         {
+            string[] locations = new string[] { 
+                "Languages",
+                "Programs"
+            };
+            bool flag = true;
             foreach (StatBar bar in bars)
             {
-
-                string wwwrootPath = _webHostEnvironment.WebRootPath;
-                string path = Path.Combine(wwwrootPath, $"Content\\Images\\icons\\{bar.IconPath}");
-                if (System.IO.File.Exists(path)) continue;
-                bar.IconPath = DEFAULT_ICON_PATH;
+                flag = true;
+                foreach(string location in locations)
+                {
+                    string wwwrootPath = _webHostEnvironment.WebRootPath;
+                    string path = Path.Combine(wwwrootPath, $"Content\\Images\\icons\\{location}\\{bar.IconPath}");
+                    if (System.IO.File.Exists(path))
+                    {
+                        bar.IconPath = $"{location}/{bar.IconPath}";
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) bar.IconPath = DEFAULT_ICON_PATH;
             }
         }
 
