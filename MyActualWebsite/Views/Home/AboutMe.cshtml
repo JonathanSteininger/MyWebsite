@@ -2,7 +2,7 @@
 
 <h1 class="text-center text-color-heading" style="margin: 64px auto 164px auto ">About Me</h1>
 
-<div class="d-flex flex-column mx-auto col-lg-10" style="gap: 124px">
+<div class="d-flex flex-column mx-auto col-lg-10" style="gap: 124px; max-width:850px">
 
     <div class=" w-100 bg-secondary border-radius-primary p-3 mx-auto">
         <h3 class="text-color-heading">About Me</h3>
@@ -20,6 +20,13 @@
             </p>
         </div>
     </div>
+
+
+    <div class="mx-auto w-100 bg-secondary border-radius-primary p-3">
+        <h3 class="text-color-heading">Frequently Asked Questions</h3>
+        @await Html.PartialAsync("_FAQPartials/_FAQPartial", Model)
+    </div>
+
     <div class=" w-100 bg-secondary border-radius-primary p-3 mx-auto">
         <h3 class="text-color-heading">Education</h3>
 
@@ -124,10 +131,6 @@
     </div>
 
 
-    <div class="mx-auto w-100 bg-secondary border-radius-primary p-3">
-        <h3 class="text-color-heading">Frequently Asked Questions</h3>
-        @await Html.PartialAsync("_FAQPartials/_FAQPartial", Model)
-    </div>
 
     <div class=" w-100 bg-secondary border-radius-primary p-3 mx-auto">
         <h3 class="text-color-heading">Conclusion</h3>

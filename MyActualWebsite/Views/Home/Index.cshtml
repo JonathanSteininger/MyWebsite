@@ -42,25 +42,21 @@
      
         <div class="col-lg-7 border-radius-primary bg-secondary p-3 mt-primary align-self-end me-lg-5">
             <h3 class="text-color-heading line-height-heading">Education</h3>
+
             <p class="text-color-info line-height-info-small">
-                My education path took an unconventional turn.
-                While pursuing a Diploma in Information Technology at the Southern Institute of Technology Tepukenga, I made a deliberate choice to diverge.
-                Instead, I opted for a personalized route, harnessing the flexibility of online courses to match my pace and preferences.
-                This transition was fueled by a preference for practical, hands-on learning over traditional classroom settings.
-                <br/>
-                <br/>
-                I secured a Certificate in Information Technology and made significant headway in my studies.
-                Level 6 subjects including Advanced Programming, Web Development, and Networking deepened my grasp of essential areas like Object-Oriented Programming, Database Management, API Interaction, Web Development, and Network Setup.
-                My foundation in mathematics and algebra, gained through calculus and physics courses at Southland Boys High School in Invercargill, New Zealand, further enriched my skill set.
-                <br/>
-                <br/>
-                Unveiling my inherent love for technology, I consistently excelled in tech-centered coursework.
-                As my academic journey reached its peak, a strong urge to guide my own learning surfaced.
-                Embracing self-reliance, I embarked on a personal quest to refine my programming skills, discovering profound joy along the way.
+                I currently hold a certificate in Information Technology from the Southern Institute of Technology Tepukenga. Originally going for a diploma in Information Technology, I dropped out midway through year 2 after accepting that the course is too slow for me. Now I am learning on my own through online courses and practising by myself.
+            </p>
+            <p class="text-color-info line-height-info-small">
+                Im confident in my ability to apply my skills in the IT field. During high school at Southland Boy's High School in Invercargill, I refined my skills in algebra and mathematics through calculus and physics, allowing me to confidently use these principles in my programs.
             </p>
         </div>
     </div>
     
+    if(Model.Projects.Count > 0)
+    {   
+        @await Html.PartialAsync("_IndexPartials/_FeaturedProjectsPartial", new object[]{ Model.Projects, "FeaturedBox"})
+    }
+
     @if (Model.BarSetsContainsKey("Program"))
     {
         <div class="col-lg-9 statbar-box shadow-lg border-primary border border-0 start-50 center-visually position-relative px-4 pt-3 pb-1 border-radius-primary bg-secondary mt-primary">
@@ -83,10 +79,6 @@
         </div>
     }
 
-    if(Model.Projects.Count > 0)
-    {   
-        @await Html.PartialAsync("_IndexPartials/_FeaturedProjectsPartial", new object[]{ Model.Projects, "FeaturedBox"})
-    }
     <div class="col-lg-8 mx-auto mb-primary">
         <h1 class="text-color-heading text-center mt-primary mb-5">Contact Me</h1>
         @await Html.PartialAsync("_ContactsPartial/_ContactBoxPartial", new MyActualWebsite.Models.Mail())
