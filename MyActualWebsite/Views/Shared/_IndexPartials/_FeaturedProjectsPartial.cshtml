@@ -11,10 +11,10 @@
                 @await Html.PartialAsync("_IndexPartials/_FeaturedProjectPanelPartial", project);
             }
         </div>
-        <div onclick="DisplayLeft('@Model[1]')" class=" p-4 position-absolute top-50 start-0 mx-5 t-center-v-hover-120 user-select-none" style="width:min-content;  z-index: 3;">
+        <div onclick="DisplayLeft('@Model[1]')" class=" p-4 position-absolute arrowButtonTop start-0 mx-5 center-visually-v user-select-none" style="width:min-content;  z-index: 3;">
             <img src="~/Content/Images/down-arrow.svg" class="t-rotate-90" style="height: 30px; filter: invert(100%)" />
         </div>
-        <div onclick="DisplayRight('@Model[1]')" class=" p-4 position-absolute top-50 end-0 mx-5 t-center-v-hover-120 user-select-none" style="width:min-content; z-index: 3;">
+        <div onclick="DisplayRight('@Model[1]')" class=" p-4 position-absolute arrowButtonTop end-0 mx-5 center-visually-v user-select-none" style="width:min-content; z-index: 3;">
             <img src="~/Content/Images/down-arrow.svg" class="t-rotate-270" style="height: 30px; filter: invert(100%)" />
         </div>
     </div>
