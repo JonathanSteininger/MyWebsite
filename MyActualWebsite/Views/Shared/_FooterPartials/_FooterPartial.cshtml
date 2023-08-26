@@ -8,9 +8,7 @@
         <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="AboutMe">About Me</a>
         <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Portfolio">Portfolio</a>
-        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Experience">Experience</a>
         <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
-        <a class="footer-nav-link" style=" min-width: fit-content" asp-area="" asp-controller="Home" asp-action="FAQ">FAQs</a>
         @if (SignInManager.IsSignedIn(User))
         {
             <a class="footer-nav-link" style=" min-width: fit-content" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>

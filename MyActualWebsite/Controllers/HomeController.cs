@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyActualWebsite.Data;
@@ -38,10 +40,10 @@ namespace MyActualWebsite.Controllers
             }
             if(_context.Project != null)
             {
-                featuredProjects = _context.Project.Where(w => w.Featured)
+                featuredProjects = await _context.Project.Where(w => w.Featured)
                     .Include(w => w.Tags)
                     .ThenInclude(w => w.TagCatagory)
-                    .ToList();
+                    .ToListAsync();
                 featuredProjects.Sort((a, b) => {
                     if (a.EndDate == null && b.EndDate == null)
                     {
@@ -58,7 +60,7 @@ namespace MyActualWebsite.Controllers
             }
             if(_context.Experience != null)
             {
-                experiences = _context.Experience.Where(w => w.Shown).ToList();
+                experiences = await _context.Experience.Where(w => w.Shown).ToListAsync();
                 experiences.Sort((a,b) => {
                     if (a.EndDate == null && b.EndDate == null)
                     {
@@ -72,7 +74,8 @@ namespace MyActualWebsite.Controllers
             HomeIndexTransferModel transferModel = new HomeIndexTransferModel(barsCatagories, featuredProjects, experiences);
             if(_context.StatBar != null && _context.StatBarCatagory != null)
             {
-                foreach(StatBarCatagory catagory in _context.StatBarCatagory)
+                StatBarCatagory[] catagories = await _context.StatBarCatagory.ToArrayAsync();
+                foreach(StatBarCatagory catagory in catagories)
                 {
                     StatBar[] bars = await _context.StatBar.Where(w => w.StatBarCatagoryID == catagory.StatBarCatagoryID).Include(s => s.StatBarCatagory).ToArrayAsync();
                     CheckPaths(bars);
@@ -293,7 +296,34 @@ namespace MyActualWebsite.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var execeptionHandlerPathFeture = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            if (User.IsInRole("Admin"))
+            {
+                return View(
+                    new ErrorViewModel
+                    {
+                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                        ErrorMessage = execeptionHandlerPathFeture.Error.Message,
+                        Source = execeptionHandlerPathFeture.Error.Source,
+                        ErrorPath = execeptionHandlerPathFeture.Path,
+                        StackTrace = execeptionHandlerPathFeture.Error.StackTrace,
+                        InnerException = Convert.ToString(execeptionHandlerPathFeture.Error.InnerException)
+                    }
+                    );
+
+            } 
+            return View(
+                new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier,
+                    ErrorMessage = "There was an error in the server.",
+                    Source = "Hidden",
+                    ErrorPath = "Hidden",
+                    StackTrace = "Hidden",
+                    InnerException = "Hidden" 
+                }
+                );
         }
+        
     }
 }
