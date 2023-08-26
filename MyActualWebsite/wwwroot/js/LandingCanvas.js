@@ -33,14 +33,14 @@ var CollisionEnergyLoss = 0.5;
 
 var DrawDebug = false;
 
-var FollowMouse = true;
+var FollowMouse = false;
 
-const TargetAmount = 0;
+const TargetAmount = 1;
 const GravityStrength = 90 / FrameRate;
 var GravityMultiplier = 1;
 var GravityFallOff = true;
 var GravityFallOffScale = 200;
-var pointGenerateTimeout = 15;
+var pointGenerateTimeout = 2;
 
 
 const TempSpeedUP = 1;
@@ -71,6 +71,7 @@ function VisibilityChanged() {
 }
 var PageVisible = true;
 function MousePressed(evt) {
+    FollowMouse = true;
     GravityMultiplier = -3;
     setTimeout(() => GravityMultiplier = 1, 200);
 }
@@ -78,6 +79,7 @@ function MouseReleased(evt) {
    // GravityMultiplier = 1;
 }
 function MouseMoved(evt) {
+    FollowMouse = true;
     LandingPageCanvasStorage.TargetPoint.X = evt.pageX;
     LandingPageCanvasStorage.TargetPoint.Y = evt.pageY - (LandingPageCanvasStorage.Canvas.getBoundingClientRect().top + window.scrollY);
 }
@@ -193,6 +195,7 @@ class LandingPageCanvas extends Canvas {
     constructor(element, infoBoxElement) {
         super(element);
         this.CenterBox = infoBoxElement;
+        this.TopOffset = 0;
         this.UpdateSizeDrawing();
         this.Particles = [];
         this.Targets = [];
@@ -458,9 +461,11 @@ class LandingPageCanvas extends Canvas {
     }
 
     RandomPointGenerate() {
-        if (this.Time >= this.PointGenerateTimerTracker) {
+        if (this.Time >= this.PointGenerateTimerTracker && !FollowMouse) {
             this.PointGenerateTimerTracker = this.Time + pointGenerateTimeout;
             this.CreateTargets();
+            GravityMultiplier = -3;
+            setTimeout(() => GravityMultiplier = 1, 200);
         }
     }
 
@@ -511,7 +516,7 @@ class LandingPageCanvas extends Canvas {
         return true;
     }
     CheckValidPointEdge(point) {
-        if (point.X < 0 || point.Y < 0) return false;
+        if (point.X < 0 || point.Y < this.TopOffset) return false;
         if (point.X >= this.Width) return false;
         if (point.Y >= this.Height) return false;
         return true;
@@ -519,6 +524,7 @@ class LandingPageCanvas extends Canvas {
 
     UpdateSizeDrawing() {
         super.UpdateSizeDrawing();
+        this.TopOffset = document.getElementById("nav").clientHeight;
         this.BoxLeft = this.CenterBox.offsetLeft;
         this.BoxRight = this.CenterBox.offsetLeft + this.CenterBox.clientWidth;
         this.BoxTop = this.CenterBox.offsetTop;
