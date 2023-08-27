@@ -7,13 +7,13 @@
     @foreach(FAQ faq in Model)
     {
         index++;
-        <div onclick="ToggleClass('Answer-@index','h-max-0'); ToggleClass('Question-@index', ''); ToggleClass('arrow-@index','t-rotate-180');" style="margin-bottom: 2px;" class="hover-link text-color-heading Question-@index bg-primary  px-3 py-3 mt-2 border-radius-primary-question faq-question position-relative">
+        <div onclick="ToggleClass('Answer-@index','h-0'); ToggleClass('arrow-@index','t-rotate-180');" style="margin-bottom: 2px;" class="hover-link text-color-heading Question-@index bg-primary  px-3 py-3 mt-2 border-radius-primary-question faq-question position-relative">
             <div class="float-end" style=" height:20px">
                 <img src="~/Content/Images/down-arrow.svg" class="h-100 arrow-@index" style="filter: invert(88%) sepia(0%) saturate(261%) hue-rotate(212deg) brightness(91%) contrast(99%);">
             </div>
             <p class="m-auto">@faq.Question</p>
         </div>
-        <div class="Answer-@index overflow-hidden h-max-0 border-radius-primary-bottom bg-primary text-color-info" style="margin-left: 2rem; transition: max-height 0.3s; max-height: 50px">
+        <div class="Answer-@index overflow-hidden h-0 border-radius-primary-bottom bg-primary text-color-info" style="margin-left: 2rem; transition: max-height 0.3s linear; max-height: auto">
             <p class="m-auto px-3 py-2 pb-3">@faq.Answer</p>
         </div>
     }
