@@ -3,15 +3,15 @@
     ViewData["Title"] = "Home Page";
 }
 @{
-    <div125, class="position-absolute w-100 start-0 top-0" style="height: 150vh">
+    <div class="position-absolute w-100 start-0 top-0" style="height: 150vh; z-index: -100">
         <div class="position-relative w-100 d-flex align-items-center justify-items-center h-100">
-            <canvas id="LandingPageCanvas" class="position-absolute w-100 start-0 h-100" style="z-index: -2" >
+           <canvas id="LandingPageCanvas" class="position-absolute w-100 start-0 h-100" style="z-index: -99" >
             </canvas>
             @section Scripts
             {
                 <script src="~/js/LandingCanvas.js"></script>
             }
-            <div id="LandingPageInfoBox" class="bg-primary border-radius-primary border border-1 border-primary mx-auto p-3 text-center" style="max-width: 90vw; width: 700px; z-index: -1" >
+            <div id="LandingPageInfoBox" class="bg-primary border-radius-primary border border-1 border-primary mx-auto p-3 text-center" style="max-width: 90vw; width: 700px; z-index: -98; margin-bottom: 50vh" >
                 <h2 class="text-color-info" style="line-height: 64pt; letter-spacing: 2pt;">
                     Hello and Welcome!
                 </h2>
@@ -21,10 +21,9 @@
                 </h5>
             </div>
         </div>
-    </div125, 249, 255>
+    </div>
 
-    <hr class=" opacity-0" style="margin-top: 95vh" />
-    <div class="w-100 d-flex flex-column">
+    <div class="w-100 d-flex flex-column" style="margin-top: 100vh">
         <div class="col-lg-7 border-radius-primary bg-secondary p-3 mt-primary align-self-start ms-lg-5">
             <h3 class="text-color-heading line-height-heading">About Me</h3>
             <img src="~/Content//Images/me.jpeg" class="col-4 text-wrap float-end border-radius-primary m-sm-2" style="max-width: 240px; min-width: 150px" alt="Image of me">
