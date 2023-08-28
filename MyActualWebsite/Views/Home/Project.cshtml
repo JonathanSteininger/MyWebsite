@@ -2,18 +2,5 @@
 
 
 <div class="col-md-11 mx-auto mb-primary py-4">
-    @{
-        if(Model.BodyLength < 2000)
-        {
-            @await Html.PartialAsync("_ProjectPartials/_ProjectPartialSmall", Model)
-            ;
-        }else if (Model.BodyLength < 3500)
-        {
-            @await Html.PartialAsync("_ProjectPartials/_ProjectPartialMedium", Model);
-        }
-        else
-        {
-            @await Html.PartialAsync("_ProjectPartials/_ProjectPartialLarge", Model);
-        }
-    }
+    @await Html.PartialAsync("_ProjectPartials/_ProjectPartialAuto", Model);
 </div>
