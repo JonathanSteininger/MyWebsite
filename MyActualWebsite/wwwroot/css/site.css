@@ -405,6 +405,11 @@ body {
 .line-height-info-large {
 
 }
+.arrowButtonMargin{
+    margin-left: 2.1rem;
+    margin-right: 2.1rem;
+
+}
 .arrowButtonTop{
     top: 50%;
 }
@@ -421,6 +426,11 @@ body {
     .arrowButtonTop{
         top: 50px;
         transform: translateY(-50%) scale(0.7);
+
+    }
+    .arrowButtonMargin{
+        margin-left: 1rem;
+        margin-right: 1rem;
 
     }
 
