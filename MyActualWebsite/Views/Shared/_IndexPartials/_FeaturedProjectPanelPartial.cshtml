@@ -34,22 +34,22 @@
         -->
     </div>
     <p class="text-color-info bg-primary border-radius-primary p-2 my-1">
+        @if(Model.StartDate != null)
+        {
+            <text>
+                Start Date:
+                @Model.StartDate.Value.ToString("d MMMM yyyy")
+            </text>
+            Output.WriteLine("</br>");
+        }
         @if(Model.EndDate != null)
         {
             <text>
                 Completion Date: 
-                @Model.EndDate.Value.ToString("D")
+                @Model.EndDate.Value.ToString("d MMMM yyyy")
             </text>
         }
-        else if(Model.StartDate != null)
-        {
-            <text>
-                Start Date:
-                @Model.StartDate.Value.ToString("D")
-            </text>
-        }
-        else
-        {
+        @if(Model.StartDate == null && Model.EndDate == null){
             <text>No Date</text>
         }
     </p>

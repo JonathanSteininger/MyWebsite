@@ -5,10 +5,10 @@
         <div class="border-radius-primary bg-secondary p-3 w-100 d-flex gap-3 flex-column">
             <h3 class="text-center text-color-heading">@item.CompanyName - @item.Position</h3>
             <div class="d-flex flex-wrap w-100 bg-primary text-color-info border-radius-primary p-2 gap-1 flex-column">
-                <p class="m-0">Start Date: @item.StartDate.ToString("d/M/yyyy")</p>
+                <p class="m-0">Start Date: @item.StartDate.ToString("dd MMMM yyyy")</p>
                 @if(item.EndDate != null)
                 {
-                    string temp = ((DateTime)item.EndDate).ToString("d/M/yyyy");
+                    string temp = ((DateTime)item.EndDate).ToString("dd MMMM yyyy");
                     <p class="m-0">End Date: @temp</p>
                 }
             </div>
