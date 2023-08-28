@@ -71,6 +71,11 @@ function VisibilityChanged() {
 }
 var PageVisible = true;
 function MousePressed(evt) {
+    if (evt.pageY > LandingPageCanvasStorage.Canvas.clientHeight + (LandingPageCanvasStorage.Canvas.getBoundingClientRect().top + window.scrollY)) {
+        if(FollowMouse) LandingPageCanvasStorage.PointGenerateTimerTracker = LandingPageCanvasStorage.Time + pointGenerateTimeout;
+        FollowMouse = false;
+        return;
+    }
     FollowMouse = true;
     GravityMultiplier = -3;
     setTimeout(() => GravityMultiplier = 1, 200);
@@ -79,10 +84,16 @@ function MouseReleased(evt) {
    // GravityMultiplier = 1;
 }
 function MouseMoved(evt) {
+    if (evt.pageY > LandingPageCanvasStorage.Canvas.clientHeight + (LandingPageCanvasStorage.Canvas.getBoundingClientRect().top + window.scrollY)) {
+        if(FollowMouse) LandingPageCanvasStorage.PointGenerateTimerTracker = LandingPageCanvasStorage.Time + pointGenerateTimeout;
+        FollowMouse = false;
+        return;
+    }
     FollowMouse = true;
     LandingPageCanvasStorage.TargetPoint.X = evt.pageX;
     LandingPageCanvasStorage.TargetPoint.Y = evt.pageY - (LandingPageCanvasStorage.Canvas.getBoundingClientRect().top + window.scrollY);
 }
+
 
 function UpdateCanvasSize() {
     LandingPageCanvasStorage.UpdateSizeDrawing();
